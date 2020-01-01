@@ -1,0 +1,111 @@
+#博客版本信息
+blog:
+  version: 1.0.0 beta
+  author: 不会敲代码的小白
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  #关闭自动context /
+  application:
+    name: blog
+#  jmx:
+#    enabled: false
+  #设置redis
+  #设置连接池
+  datasource:
+    #配置多数据源
+    slave:
+      jdbc-url: jdbc:mysql://localhost:3306/my_blog_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      username: root
+      password: ren123
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      type: com.zaxxer.hikari.HikariDataSource
+      hikari:
+        minimum-idle: 5
+        max-lifetime: 1800000
+        connection-timeout: 30000
+        auto-commit: true
+        pool-name: DatebookHikariCP
+        maximum-pool-size: 15
+        connection-test-query: SELECT 1
+    master:
+      jdbc-url: jdbc:mysql://localhost:3306/my_blog_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+      username: root
+      password: ren123
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      type: com.zaxxer.hikari.HikariDataSource
+      hikari:
+        minimum-idle: 5
+        max-lifetime: 1800000
+        connection-timeout: 30000
+        auto-commit: true
+        pool-name: DatabllkHikariCP
+        maximum-pool-size: 15
+        connection-test-query: SELECT 1
+  #redis
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    host: 127.0.0.1
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）如果没有配置密码就不要写这个属性了
+    password: ren123
+    #连接池
+    lettuce:
+      pool:
+        #连接池最大连接数（使用负值表示没有限制）
+        max-active: 8
+        #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 60000
+        #连接池中的最大空闲连接
+        max-idle: 8
+        #连接池中的最小空闲连接
+        min-idle: 0
+        #超时时间
+    timeout: 10000
+  cache:
+    redis:
+      time-to-live: 30000
+
+
+
+#设置模板引擎
+thymeleaf:
+  mode: NekoHTML
+  #热部署文件，页面不产生缓存，及时更新
+  cache: false
+  prefix: classpath:/templates
+  suffix: .html
+  encoding: UTF-8
+  enabled: true
+#设置mybatis
+
+mybatis:
+  mapper-path: classpath:mapper/*.xml
+#设置端口
+server:
+  port: 80
+  servlet:
+    context-path: /
+  error:
+    path: error/error_404
+
+#设置线程池
+thread:
+  core-pool-size: 20
+  max-pool-size: 200
+  allow-coreThread-timeOut: true
+  queue-capacity: 200
+  keep-alive-seconds: 500
+#文件上传路径
+file:
+  file-path: /opt/deploy/upload/
+#百度文本审核
+baidu:
+  content:
+    sensor:
+      app: 18131202
+      apikey: T1TAQcoANVtGgibseCATCblY
+      secretkey: HmgAhWXV3Ao1GRHtBsqKI4PAswlQzMim

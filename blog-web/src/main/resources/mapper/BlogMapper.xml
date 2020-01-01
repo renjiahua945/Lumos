@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.javafan.blog.repository.BlogMapper">
+    <resultMap id="BaseResultMap" type="club.javafan.blog.domain.Blog">
+        <!--@mbg.generated-->
+        <!--@Table tb_blog-->
+        <id column="blog_id" jdbcType="BIGINT" property="blogId"/>
+        <result column="blog_title" jdbcType="VARCHAR" property="blogTitle"/>
+        <result column="blog_sub_url" jdbcType="VARCHAR" property="blogSubUrl"/>
+        <result column="blog_cover_image" jdbcType="VARCHAR" property="blogCoverImage"/>
+        <result column="blog_content" jdbcType="LONGVARCHAR" property="blogContent"/>
+        <result column="blog_category_id" jdbcType="INTEGER" property="blogCategoryId"/>
+        <result column="blog_category_name" jdbcType="VARCHAR" property="blogCategoryName"/>
+        <result column="blog_tags" jdbcType="VARCHAR" property="blogTags"/>
+        <result column="blog_status" jdbcType="TINYINT" property="blogStatus"/>
+        <result column="blog_views" jdbcType="BIGINT" property="blogViews"/>
+        <result column="enable_comment" jdbcType="TINYINT" property="enableComment"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <!--@mbg.generated-->
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <!--@mbg.generated-->
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        blog_id, blog_title, blog_sub_url, blog_cover_image, blog_content, blog_category_id,
+        blog_category_name, blog_tags, blog_status, blog_views, enable_comment, is_deleted,
+        create_time, update_time
+    </sql>
+    <select id="selectByExample" parameterType="club.javafan.blog.domain.example.BlogExample" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from tb_blog
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null and start != null">
+            limit #{start}#{limit,jdbcType=INTEGER}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from tb_blog
+        where blog_id = #{blogId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from tb_blog
+        where blog_id = #{blogId,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="club.javafan.blog.domain.example.BlogExample">
+        <!--@mbg.generated-->
+        delete from tb_blog
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="blog_id" keyProperty="blogId" parameterType="club.javafan.blog.domain.Blog"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into tb_blog (blog_title, blog_sub_url, blog_cover_image,
+        blog_content, blog_category_id, blog_category_name,
+        blog_tags, blog_status, blog_views,
+        enable_comment, is_deleted, create_time,
+        update_time)
+        values (#{blogTitle,jdbcType=VARCHAR}, #{blogSubUrl,jdbcType=VARCHAR}, #{blogCoverImage,jdbcType=VARCHAR},
+        #{blogContent,jdbcType=LONGVARCHAR}, #{blogCategoryId,jdbcType=INTEGER}, #{blogCategoryName,jdbcType=VARCHAR},
+        #{blogTags,jdbcType=VARCHAR}, #{blogStatus,jdbcType=TINYINT}, #{blogViews,jdbcType=BIGINT},
+        #{enableComment,jdbcType=TINYINT}, #{isDeleted,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="blog_id" keyProperty="blogId" parameterType="club.javafan.blog.domain.Blog"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into tb_blog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="blogTitle != null">
+                blog_title,
+            </if>
+            <if test="blogSubUrl != null">
+                blog_sub_url,
+            </if>
+            <if test="blogCoverImage != null">
+                blog_cover_image,
+            </if>
+            <if test="blogContent != null">
+                blog_content,
+            </if>
+            <if test="blogCategoryId != null">
+                blog_category_id,
+            </if>
+            <if test="blogCategoryName != null">
+                blog_category_name,
+            </if>
+            <if test="blogTags != null">
+                blog_tags,
+            </if>
+            <if test="blogStatus != null">
+                blog_status,
+            </if>
+            <if test="blogViews != null">
+                blog_views,
+            </if>
+            <if test="enableComment != null">
+                enable_comment,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="blogTitle != null">
+                #{blogTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="blogSubUrl != null">
+                #{blogSubUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="blogCoverImage != null">
+                #{blogCoverImage,jdbcType=VARCHAR},
+            </if>
+            <if test="blogContent != null">
+                #{blogContent,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="blogCategoryId != null">
+                #{blogCategoryId,jdbcType=INTEGER},
+            </if>
+            <if test="blogCategoryName != null">
+                #{blogCategoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="blogTags != null">
+                #{blogTags,jdbcType=VARCHAR},
+            </if>
+            <if test="blogStatus != null">
+                #{blogStatus,jdbcType=TINYINT},
+            </if>
+            <if test="blogViews != null">
+                #{blogViews,jdbcType=BIGINT},
+            </if>
+            <if test="enableComment != null">
+                #{enableComment,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="club.javafan.blog.domain.example.BlogExample"
+            resultType="java.lang.Long">
+        <!--@mbg.generated-->
+        select count(*) from tb_blog
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        <!--@mbg.generated-->
+        update tb_blog
+        <set>
+            <if test="record.blogId != null">
+                blog_id = #{record.blogId,jdbcType=BIGINT},
+            </if>
+            <if test="record.blogTitle != null">
+                blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="record.blogSubUrl != null">
+                blog_sub_url = #{record.blogSubUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.blogCoverImage != null">
+                blog_cover_image = #{record.blogCoverImage,jdbcType=VARCHAR},
+            </if>
+            <if test="record.blogContent != null">
+                blog_content = #{record.blogContent,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.blogCategoryId != null">
+                blog_category_id = #{record.blogCategoryId,jdbcType=INTEGER},
+            </if>
+            <if test="record.blogCategoryName != null">
+                blog_category_name = #{record.blogCategoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.blogTags != null">
+                blog_tags = #{record.blogTags,jdbcType=VARCHAR},
+            </if>
+            <if test="record.blogStatus != null">
+                blog_status = #{record.blogStatus,jdbcType=TINYINT},
+            </if>
+            <if test="record.blogViews != null">
+                blog_views = #{record.blogViews,jdbcType=BIGINT},
+            </if>
+            <if test="record.enableComment != null">
+                enable_comment = #{record.enableComment,jdbcType=TINYINT},
+            </if>
+            <if test="record.isDeleted != null">
+                is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        <!--@mbg.generated-->
+        update tb_blog
+        set blog_id = #{record.blogId,jdbcType=BIGINT},
+        blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+        blog_sub_url = #{record.blogSubUrl,jdbcType=VARCHAR},
+        blog_cover_image = #{record.blogCoverImage,jdbcType=VARCHAR},
+        blog_content = #{record.blogContent,jdbcType=LONGVARCHAR},
+        blog_category_id = #{record.blogCategoryId,jdbcType=INTEGER},
+        blog_category_name = #{record.blogCategoryName,jdbcType=VARCHAR},
+        blog_tags = #{record.blogTags,jdbcType=VARCHAR},
+        blog_status = #{record.blogStatus,jdbcType=TINYINT},
+        blog_views = #{record.blogViews,jdbcType=BIGINT},
+        enable_comment = #{record.enableComment,jdbcType=TINYINT},
+        is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="club.javafan.blog.domain.Blog">
+        <!--@mbg.generated-->
+        update tb_blog
+        <set>
+            <if test="blogTitle != null">
+                blog_title = #{blogTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="blogSubUrl != null">
+                blog_sub_url = #{blogSubUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="blogCoverImage != null">
+                blog_cover_image = #{blogCoverImage,jdbcType=VARCHAR},
+            </if>
+            <if test="blogContent != null">
+                blog_content = #{blogContent,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="blogCategoryId != null">
+                blog_category_id = #{blogCategoryId,jdbcType=INTEGER},
+            </if>
+            <if test="blogCategoryName != null">
+                blog_category_name = #{blogCategoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="blogTags != null">
+                blog_tags = #{blogTags,jdbcType=VARCHAR},
+            </if>
+            <if test="blogStatus != null">
+                blog_status = #{blogStatus,jdbcType=TINYINT},
+            </if>
+            <if test="blogViews != null">
+                blog_views = #{blogViews,jdbcType=BIGINT},
+            </if>
+            <if test="enableComment != null">
+                enable_comment = #{enableComment,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where blog_id = #{blogId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="club.javafan.blog.domain.Blog">
+        <!--@mbg.generated-->
+        update tb_blog
+        set blog_title = #{blogTitle,jdbcType=VARCHAR},
+        blog_sub_url = #{blogSubUrl,jdbcType=VARCHAR},
+        blog_cover_image = #{blogCoverImage,jdbcType=VARCHAR},
+        blog_content = #{blogContent,jdbcType=LONGVARCHAR},
+        blog_category_id = #{blogCategoryId,jdbcType=INTEGER},
+        blog_category_name = #{blogCategoryName,jdbcType=VARCHAR},
+        blog_tags = #{blogTags,jdbcType=VARCHAR},
+        blog_status = #{blogStatus,jdbcType=TINYINT},
+        blog_views = #{blogViews,jdbcType=BIGINT},
+        enable_comment = #{enableComment,jdbcType=TINYINT},
+        is_deleted = #{isDeleted,jdbcType=TINYINT},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where blog_id = #{blogId,jdbcType=BIGINT}
+    </update>
+    <select id="findBlogList" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_blog
+        where is_deleted=0
+        <if test="keyword!=null">
+            AND (blog_title like CONCAT('%',#{keyword},'%' ) or blog_category_name like CONCAT('%',#{keyword},'%' ))
+        </if>
+        <if test="blogStatus!=null">
+            AND blog_status = #{blogStatus}
+        </if>
+        <if test="blogCategoryId!=null">
+            AND blog_category_id = #{blogCategoryId}
+        </if>
+        order by blog_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <select id="getTotalBlogs" parameterType="Map" resultType="int">
+        select count(*) from tb_blog
+        where is_deleted=0
+        <if test="keyword!=null">
+            AND (blog_title like CONCAT('%',#{keyword},'%' ) or blog_category_name like CONCAT('%',#{keyword},'%' ))
+        </if>
+        <if test="blogStatus!=null">
+            AND blog_status = #{blogStatus}
+        </if>
+        <if test="blogCategoryId!=null">
+            AND blog_category_id = #{blogCategoryId}
+        </if>
+    </select>
+    <update id="deleteBatch">
+        update tb_blog
+        set is_deleted=1 where blog_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <select id="getTotalBlogsByTagId" parameterType="Map" resultType="int">
+        select count(*)
+        from tb_blog
+        where  blog_id IN (SELECT blog_id FROM tb_blog_tag_relation WHERE tag_id = #{tagId})
+        AND blog_status =1 AND is_deleted=0
+    </select>
+
+    <select id="getBlogsPageByTagId" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_blog
+        where blog_id IN (SELECT blog_id FROM tb_blog_tag_relation WHERE tag_id = #{tagId})
+        AND blog_status =1 AND is_deleted=0
+        order by blog_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <update id="updateBlogCategorys">
+        update tb_blog
+        set blog_category_id = #{categoryId,jdbcType=INTEGER},
+        blog_category_name = #{categoryName,jdbcType=VARCHAR}
+        where blog_category_id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and is_deleted =0
+    </update>
+</mapper>

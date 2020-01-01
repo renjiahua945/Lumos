@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.javafan.blog.repository.LinkMapper">
+  <resultMap id="BaseResultMap" type="club.javafan.blog.domain.BlogLink">
+    <!--@mbg.generated-->
+    <!--@Table tb_link-->
+    <id column="link_id" jdbcType="INTEGER" property="linkId" />
+    <result column="link_type" jdbcType="TINYINT" property="linkType" />
+    <result column="link_name" jdbcType="VARCHAR" property="linkName" />
+    <result column="link_url" jdbcType="VARCHAR" property="linkUrl" />
+    <result column="link_description" jdbcType="VARCHAR" property="linkDescription" />
+    <result column="link_rank" jdbcType="INTEGER" property="linkRank" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    link_id, link_type, link_name, link_url, link_description, link_rank, is_deleted, 
+    create_time
+  </sql>
+  <select id="selectByExample" parameterType="club.javafan.blog.domain.example.LinkExample" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_link
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from tb_link
+    where link_id = #{linkId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from tb_link
+    where link_id = #{linkId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="club.javafan.blog.domain.example.LinkExample">
+    <!--@mbg.generated-->
+    delete from tb_link
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="link_id" keyProperty="linkId" parameterType="club.javafan.blog.domain.BlogLink" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into tb_link (link_type, link_name, link_url, 
+      link_description, link_rank, is_deleted, 
+      create_time)
+    values (#{linkType,jdbcType=TINYINT}, #{linkName,jdbcType=VARCHAR}, #{linkUrl,jdbcType=VARCHAR}, 
+      #{linkDescription,jdbcType=VARCHAR}, #{linkRank,jdbcType=INTEGER}, #{isDeleted,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="link_id" keyProperty="linkId" parameterType="club.javafan.blog.domain.BlogLink" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into tb_link
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="linkType != null">
+        link_type,
+      </if>
+      <if test="linkName != null">
+        link_name,
+      </if>
+      <if test="linkUrl != null">
+        link_url,
+      </if>
+      <if test="linkDescription != null">
+        link_description,
+      </if>
+      <if test="linkRank != null">
+        link_rank,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="linkType != null">
+        #{linkType,jdbcType=TINYINT},
+      </if>
+      <if test="linkName != null">
+        #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkUrl != null">
+        #{linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="linkDescription != null">
+        #{linkDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="linkRank != null">
+        #{linkRank,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="club.javafan.blog.domain.example.LinkExample" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select count(*) from tb_link
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--@mbg.generated-->
+    update tb_link
+    <set>
+      <if test="record.linkId != null">
+        link_id = #{record.linkId,jdbcType=INTEGER},
+      </if>
+      <if test="record.linkType != null">
+        link_type = #{record.linkType,jdbcType=TINYINT},
+      </if>
+      <if test="record.linkName != null">
+        link_name = #{record.linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkUrl != null">
+        link_url = #{record.linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkDescription != null">
+        link_description = #{record.linkDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkRank != null">
+        link_rank = #{record.linkRank,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--@mbg.generated-->
+    update tb_link
+    set link_id = #{record.linkId,jdbcType=INTEGER},
+      link_type = #{record.linkType,jdbcType=TINYINT},
+      link_name = #{record.linkName,jdbcType=VARCHAR},
+      link_url = #{record.linkUrl,jdbcType=VARCHAR},
+      link_description = #{record.linkDescription,jdbcType=VARCHAR},
+      link_rank = #{record.linkRank,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="club.javafan.blog.domain.BlogLink">
+    <!--@mbg.generated-->
+    update tb_link
+    <set>
+      <if test="linkType != null">
+        link_type = #{linkType,jdbcType=TINYINT},
+      </if>
+      <if test="linkName != null">
+        link_name = #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkUrl != null">
+        link_url = #{linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="linkDescription != null">
+        link_description = #{linkDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="linkRank != null">
+        link_rank = #{linkRank,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where link_id = #{linkId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="club.javafan.blog.domain.BlogLink">
+    <!--@mbg.generated-->
+    update tb_link
+    set link_type = #{linkType,jdbcType=TINYINT},
+      link_name = #{linkName,jdbcType=VARCHAR},
+      link_url = #{linkUrl,jdbcType=VARCHAR},
+      link_description = #{linkDescription,jdbcType=VARCHAR},
+      link_rank = #{linkRank,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where link_id = #{linkId,jdbcType=INTEGER}
+  </update>
+  <select id="findLinkList" parameterType="Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_link
+    where is_deleted=0
+    order by link_id desc
+    <if test="start!=null and limit!=null">
+      limit #{start},#{limit}
+    </if>
+  </select>
+  <select id="getTotalLinks" parameterType="Map" resultType="int">
+    select count(*)  from tb_link
+    where is_deleted=0
+  </select>
+  <update id="deleteBatch">
+    update tb_link
+    set is_deleted=1 where link_id in
+    <foreach item="id" collection="array" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </update>
+</mapper>

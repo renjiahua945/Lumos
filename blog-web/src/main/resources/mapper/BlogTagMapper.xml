@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.javafan.blog.repository.BlogTagMapper">
+    <resultMap id="BaseResultMap" type="club.javafan.blog.domain.BlogTag">
+        <!--@mbg.generated-->
+        <!--@Table tb_blog_tag-->
+        <id column="tag_id" jdbcType="INTEGER" property="tagId"/>
+        <result column="tag_name" jdbcType="VARCHAR" property="tagName"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <resultMap id="BaseCountResultMap" type="club.javafan.blog.domain.BlogTagCount">
+        <id column="tag_id" jdbcType="INTEGER" property="tagId"/>
+        <result column="tag_count" jdbcType="INTEGER" property="tagCount"/>
+        <result column="tag_name" jdbcType="VARCHAR" property="tagName"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <!--@mbg.generated-->
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <!--@mbg.generated-->
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        tag_id, tag_name, is_deleted, create_time
+    </sql>
+    <select id="selectByExample" parameterType="club.javafan.blog.domain.example.BlogTagExample"
+            resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from tb_blog_tag
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from tb_blog_tag
+        where tag_id = #{tagId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from tb_blog_tag
+        where tag_id = #{tagId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="club.javafan.blog.domain.example.BlogTagExample">
+        <!--@mbg.generated-->
+        delete from tb_blog_tag
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="tag_id" keyProperty="tagId" parameterType="club.javafan.blog.domain.BlogTag"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into tb_blog_tag (tag_name, is_deleted, create_time
+        )
+        values (#{tagName,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="tag_id" keyProperty="tagId" parameterType="club.javafan.blog.domain.BlogTag"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into tb_blog_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tagName != null">
+                tag_name,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tagName != null">
+                #{tagName,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="club.javafan.blog.domain.example.BlogTagExample"
+            resultType="java.lang.Long">
+        <!--@mbg.generated-->
+        select count(*) from tb_blog_tag
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        <!--@mbg.generated-->
+        update tb_blog_tag
+        <set>
+            <if test="record.tagId != null">
+                tag_id = #{record.tagId,jdbcType=INTEGER},
+            </if>
+            <if test="record.tagName != null">
+                tag_name = #{record.tagName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isDeleted != null">
+                is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        <!--@mbg.generated-->
+        update tb_blog_tag
+        set tag_id = #{record.tagId,jdbcType=INTEGER},
+        tag_name = #{record.tagName,jdbcType=VARCHAR},
+        is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="club.javafan.blog.domain.BlogTag">
+        <!--@mbg.generated-->
+        update tb_blog_tag
+        <set>
+            <if test="tagName != null">
+                tag_name = #{tagName,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where tag_id = #{tagId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="club.javafan.blog.domain.BlogTag">
+        <!--@mbg.generated-->
+        update tb_blog_tag
+        set tag_name = #{tagName,jdbcType=VARCHAR},
+        is_deleted = #{isDeleted,jdbcType=TINYINT},
+        create_time = #{createTime,jdbcType=TIMESTAMP}
+        where tag_id = #{tagId,jdbcType=INTEGER}
+    </update>
+    <insert id="batchInsertBlogTag" parameterType="java.util.List" useGeneratedKeys="true"
+            keyProperty="tagId">
+        INSERT into tb_blog_tag(tag_name)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.tagName,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <select id="findTagList" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_blog_tag
+        where is_deleted=0
+        order by tag_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <select id="getTotalTags" parameterType="Map" resultType="int">
+        select count(*)
+        from tb_blog_tag
+        where is_deleted = 0
+    </select>
+
+    <update id="deleteBatch">
+        update tb_blog_tag
+        set is_deleted=1 where tag_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <select id="getTagCount" resultMap="BaseCountResultMap">
+        SELECT t_r.*,t.tag_name
+        FROM
+            (SELECT r.tag_id,r.tag_count
+             FROM
+                 (SELECT tag_id,COUNT(*) AS tag_count
+                  FROM
+                      (SELECT tr.tag_id
+                       FROM tb_blog_tag_relation tr
+                                LEFT JOIN tb_blog b ON tr.blog_id = b.blog_id
+                       WHERE b.is_deleted = 0) trb
+                  GROUP BY tag_id) r
+             ORDER BY tag_count DESC LIMIT 20) AS t_r
+                LEFT JOIN tb_blog_tag t ON t_r.tag_id = t.tag_id
+        WHERE t.is_deleted = 0
+    </select>
+</mapper>
