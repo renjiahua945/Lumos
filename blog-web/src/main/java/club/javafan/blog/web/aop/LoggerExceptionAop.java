@@ -1,11 +1,14 @@
 package club.javafan.blog.web.aop;
 
+import club.javafan.blog.common.util.DateUtils;
+import club.javafan.blog.common.util.RedisUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static club.javafan.blog.common.constant.RedisKeyConstant.CS_PAGE_VIEW;
+import static club.javafan.blog.common.constant.RedisKeyConstant.EXCEPTION_AMOUNT;
 
 /**
  * @author 不会敲代码的小白(博客)
@@ -23,25 +29,34 @@ import java.util.stream.Stream;
 @Aspect
 @Component
 public class LoggerExceptionAop {
-
+    /**
+     * redis 工具类
+     */
+    @Autowired
+    private RedisUtil redisUtil;
+    /**
+     * 日志
+     */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Pointcut(value = "execution(public * club.javafan.blog.service.impl.*.*(..))")
     private void servicePointCut() {
     }
 
+    @Pointcut(value = "execution(public * club.javafan.blog.common.mail.impl.*.*(..))")
+    private void mailPointCut() {
+    }
+
     @Pointcut(value = "execution(public * club.javafan.blog.web.controller..*.*(..))")
     private void controllerPoint() {
     }
 
-    @Before(value = "controllerPoint()||servicePointCut()")
+    @Before(value = "controllerPoint()||servicePointCut()||mailPointCut()")
     public void before(JoinPoint joinPoint) {
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = joinPoint.getSignature().getName();
         StringBuilder log = new StringBuilder();
-        log.append("club.javafan.blog: ")
-                .append(className)
-                .append("@")
+        log.append(className).append("@")
                 .append(methodName)
                 .append(" , params: ");
         Object[] args = joinPoint.getArgs();
@@ -59,13 +74,17 @@ public class LoggerExceptionAop {
         logger.info("club.javafan.blog return result: " + result);
     }
 
-    @AfterThrowing(value = "controllerPoint()||servicePointCut()", throwing = "e")
+    @AfterThrowing(value = "controllerPoint()||servicePointCut()||mailPointCut()", throwing = "e")
     public void afterThrowing(Throwable e) {
+        //统计今日异常数
+        redisUtil.incr(EXCEPTION_AMOUNT + DateUtils.getToday());
         logger.error("club.javafan.blog error : " + e.getMessage(), e);
     }
 
-    @Around(value = "controllerPoint()||servicePointCut()")
+    @Around(value = "controllerPoint()||servicePointCut()||mailPointCut()")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        //统计今日访问次数
+        redisUtil.incr(CS_PAGE_VIEW + DateUtils.getToday());
         String className = proceedingJoinPoint.getTarget().getClass().getName();
         String methodName = proceedingJoinPoint.getSignature().getName();
         Long begin = System.currentTimeMillis();

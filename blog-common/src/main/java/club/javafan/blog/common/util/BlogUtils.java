@@ -1,12 +1,14 @@
 package club.javafan.blog.common.util;
 
 import java.net.URI;
+
 /**
  * @author 不会敲代码的小白(博客)
  * @date 2019/12/28 20:52
  * @desc 博客工具类
  */
 public class BlogUtils {
+
     /**
      * 获取URI
      *
@@ -19,4 +21,5 @@ public class BlogUtils {
                 , uri.getHost(), uri.getPort(), null, null, null);
         return effectiveURI;
     }
+
 }

@@ -1,8 +1,9 @@
-package club.javafan.blog.configs.threadpool;
+package club.javafan.blog.common.threadpool;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
@@ -13,6 +14,7 @@ import java.util.concurrent.Executor;
  * @desc 创建线程池(队列满了使用默认策略抛出异常)
  */
 @Configuration
+@EnableAsync
 public class ThreadTaskExecutorConfig {
     @Value("${thread.core-pool-size}")
     private Integer coreSize;
@@ -35,6 +37,7 @@ public class ThreadTaskExecutorConfig {
         executor.setCorePoolSize(coreSize);
         executor.setMaxPoolSize(maxSize);
         executor.setAllowCoreThreadTimeOut(allowTimeOut);
+        executor.setThreadNamePrefix("schedule-mail-post-pool-");
         executor.setQueueCapacity(queueCapacity);
         executor.setKeepAliveSeconds(keepAlive);
         executor.initialize();

@@ -19,6 +19,12 @@
         </dependency>
         <dependency>
             <groupId>club.javafan</groupId>
+            <artifactId>blog-worker</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>club.javafan</groupId>
             <artifactId>blog-configs</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
@@ -26,7 +32,7 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>9.0.29</version>
+            <version>9.0.30</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

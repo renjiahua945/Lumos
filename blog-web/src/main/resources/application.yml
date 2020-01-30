@@ -68,7 +68,24 @@ spring:
   cache:
     redis:
       time-to-live: 30000
-
+  #邮件发送设置
+  mail:
+    default-encoding: utf-8
+    to: 1406628376@qq.com
+    subject: 博客日报
+    host: smtp.exmail.qq.com
+    username: coder@javafan.club
+    password: 9qVQ6Cjxr8a4JTT5
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+      mail.smtp.socketFactory.fallback: false
+      mail.smtp.socketFactory.port: 465
+  output:
+    ansi:
+      #设置彩色输出
+      enabled: always
+#日志设置
 
 
 #设置模板引擎
@@ -109,3 +126,4 @@ baidu:
       app: 18131202
       apikey: T1TAQcoANVtGgibseCATCblY
       secretkey: HmgAhWXV3Ao1GRHtBsqKI4PAswlQzMim
+

@@ -130,10 +130,20 @@ public class RedisUtil {
      * @return
      */
     public long incr(String key, long delta){
-        if(delta<0){
+        if (delta < 0) {
             throw new RuntimeException("递增因子必须大于0");
         }
         return redisTemplate.opsForValue().increment(key, delta);
+    }
+
+    /**
+     * 默认递增因子1
+     *
+     * @param key
+     * @return
+     */
+    public long incr(String key) {
+        return incr(key, 1);
     }
 
     /**

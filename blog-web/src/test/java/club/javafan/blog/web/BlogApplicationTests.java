@@ -1,19 +1,16 @@
 package club.javafan.blog.web;
 
+import club.javafan.blog.common.mail.MailService;
 import club.javafan.blog.common.util.RedisUtil;
-import club.javafan.blog.domain.Blog;
-import club.javafan.blog.domain.example.BlogExample;
 import club.javafan.blog.repository.BlogMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.List;
-
-import static club.javafan.blog.common.constant.RedisKeyConstant.REDIS_DEMO_PRE;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,18 +24,23 @@ public class BlogApplicationTests {
     private String key;
     @Value("${mybatis.mapper-path}")
     private String MAPPER_PATH;
-
+    @Autowired
+    private MailService mailService;
     @Test
     public void contextLoads() {
-        BlogExample example = new BlogExample();
-        List<Blog> blogs = blogMapper.selectByExample(example);
-
-        System.out.println(blogs);
-        redisUtil.set(REDIS_DEMO_PRE,"hello");
-        String s = (String) redisUtil.get(REDIS_DEMO_PRE);
-        System.out.println(s);
-//        System.out.println(MAPPER_PATH);
-//        AipContentCensorBuilder.judgeText("草泥马");
+//        try {
+//            mailService.sendSimpleMail("35673847@qq.com","您的验证码是","134131");
+//            System.out.println("SUCCESS");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        //避免为0为空 加一
+//        long all = redisUtil.incr(RedisKeyConstant.CS_PAGE_VIEW + DateUtils.getYestoday());
+//        Object o = redisUtil.get(RedisKeyConstant.EXCEPTION_AMOUNT + DateUtils.getYestoday());
+//        long exception = Objects.isNull(o) ? 0 : (long)o;
+//        double rate = exception / (all * 1.0);
+//        String s = String.format("%.2f", rate) + "%";
+//        System.out.println(s);
     }
 
 
