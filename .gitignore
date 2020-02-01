@@ -1,0 +1,6 @@
+#git 代码提交忽略文件
+*.iml
+.idea
+out
+gen
+*.class
