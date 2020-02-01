@@ -44,7 +44,7 @@ public class MybatisConfig {
         // 默认数据源
         dynamicDataSource.setDefaultTargetDataSource(masterDataSource);
         // 配置多数据源
-        Map<Object, Object> dataSourceMap = new HashMap();
+        Map<Object, Object> dataSourceMap = new HashMap(2);
         dataSourceMap.put(MASTER, masterDataSource);
         dataSourceMap.put(SLAVE, slaveDataSource);
         dynamicDataSource.setTargetDataSources(dataSourceMap);

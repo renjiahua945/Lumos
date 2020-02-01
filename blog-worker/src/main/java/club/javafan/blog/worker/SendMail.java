@@ -68,7 +68,7 @@ public class SendMail {
     @Scheduled(cron = "0 0 18 * * ?")
     @Async("threadTaskExecutor")
     public void sendMailScheduled() throws MessagingException {
-        Map<String, Object> valueMap = new HashMap<>();
+        Map<String, Object> valueMap = new HashMap<>(3);
         valueMap.put("memory", SystemUtil.getMemoryRate());
         valueMap.put("exception", getExceptionRate());
         valueMap.put("all", getPassView());

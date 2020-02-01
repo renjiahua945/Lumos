@@ -52,7 +52,8 @@ public class AipContentCensorBuilder {
             sensorResult.setDesc(desc);
             return sensorResult;
         }
-        public SensorResult SuccessResult(String desc){
+
+        public SensorResult successResult(String desc) {
             SensorResult sensorResult = new SensorResult();
             sensorResult.setCode(0);
             sensorResult.setDesc(desc);
@@ -65,7 +66,7 @@ public class AipContentCensorBuilder {
         //0表示非违禁，1表示违禁，2表示建议人工复审
         JSONObject result = jsonObject.getJSONObject("result");
         if (Objects.isNull(jsonObject) || Objects.isNull(result)|| result.getInt("spam") == 0){
-            return new SensorResult().SuccessResult("需要人工审核");
+            return new SensorResult().successResult("需要人工审核");
         }
         return new SensorResult().failResult("失败！");
 

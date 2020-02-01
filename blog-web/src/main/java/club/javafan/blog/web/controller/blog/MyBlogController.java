@@ -274,7 +274,7 @@ public class MyBlogController {
         BlogComment comment = new BlogComment();
         comment.setBlogId(blogId);
         AipContentCensorBuilder.SensorResult sensorResult = AipContentCensorBuilder.judgeText(commentator);
-        if (sensorResult.getCode() != NumberUtils.INTEGER_ZERO) {
+        if (!sensorResult.getCode().equals(NumberUtils.INTEGER_ZERO)) {
             return ResponseResult.successResult().setData(false);
         }
         comment.setCommentator(commentator);
@@ -283,7 +283,7 @@ public class MyBlogController {
             comment.setWebsiteUrl(websiteUrl);
         }
         AipContentCensorBuilder.SensorResult results = AipContentCensorBuilder.judgeText(commentBody);
-        if (results.getCode() != NumberUtils.INTEGER_ZERO) {
+        if (!results.getCode().equals(NumberUtils.INTEGER_ZERO)) {
             return ResponseResult.successResult().setData(false);
         }
         comment.setCommentBody(commentBody);

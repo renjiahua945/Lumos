@@ -15,6 +15,7 @@ public class FilterConfig implements WebMvcConfigurer {
     @Autowired
     private AdminLoginInterceptor adminLoginInterceptor;
 
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加一个拦截器，拦截以/admin为前缀的url路径
         registry.addInterceptor(adminLoginInterceptor).addPathPatterns("/admin/**")
@@ -22,6 +23,7 @@ public class FilterConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/admin/plugins/**");
     }
 
+    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/upload/**").addResourceLocations("file:" + FILE_PATH);
     }

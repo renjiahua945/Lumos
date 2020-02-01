@@ -30,4 +30,11 @@ public class DataSourceContextHolder {
     public static void set(DataSourceEnum dataSourceEnum) {
         context.set(dataSourceEnum);
     }
+
+    /**
+     * 移除
+     */
+    public static void remove() {
+        context.remove();
+    }
 }

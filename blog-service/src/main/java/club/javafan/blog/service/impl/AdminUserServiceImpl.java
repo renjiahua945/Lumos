@@ -30,7 +30,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public AdminUser login(String userName, String password) {
-        String passwordMd5 = MD5Util.MD5Encode(password, "UTF-8");
+        String passwordMd5 = MD5Util.md5Encode(password, "UTF-8");
         System.out.println(passwordMd5);
         AdminUserExample example = new AdminUserExample();
         example.createCriteria().
@@ -54,8 +54,8 @@ public class AdminUserServiceImpl implements AdminUserService {
         AdminUser adminUser = adminUserMapper.selectByPrimaryKey(loginUserId);
         //当前用户非空才可以进行更改
         if (Objects.nonNull(adminUser)) {
-            String originalPasswordMd5 = MD5Util.MD5Encode(originalPassword, "UTF-8");
-            String newPasswordMd5 = MD5Util.MD5Encode(newPassword, "UTF-8");
+            String originalPasswordMd5 = MD5Util.md5Encode(originalPassword, "UTF-8");
+            String newPasswordMd5 = MD5Util.md5Encode(newPassword, "UTF-8");
             String loginPassword = adminUser.getLoginPassword();
             //比较原密码是否正确
             if (originalPasswordMd5.equals(loginPassword)) {
