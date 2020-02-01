@@ -85,7 +85,7 @@ spring:
     ansi:
       #设置彩色输出
       enabled: always
-#日志设置
+
 
 
 #设置模板引擎
@@ -103,12 +103,18 @@ mybatis:
   mapper-path: classpath:mapper/*.xml
 #设置端口
 server:
-  port: 80
   servlet:
     context-path: /
   error:
     path: error/error_404
-
+  ssl:
+    key-store: classpath:jks/blog.javafan.club.jks
+    key-store-password: ren123
+    key-store-type: JKS
+    key-alias: was
+  port: 443
+http:
+  port: 80
 #设置线程池
 thread:
   core-pool-size: 20

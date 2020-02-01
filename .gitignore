@@ -1,6 +1,12 @@
 #git 代码提交忽略文件
 *.iml
-.idea
-out
-gen
+.idea/*
+target/
 *.class
+*.log
+# Package Files #
+*.jar
+*.war
+*.zip
+*.tar.gz
+*.rar
