@@ -23,4 +23,12 @@ public class SimpleBlogListVO implements Serializable {
     public void setBlogTitle(String blogTitle) {
         this.blogTitle = blogTitle;
     }
+
+    @Override
+    public String toString() {
+        return "SimpleBlogListVO{" +
+                "blogId=" + blogId +
+                ", blogTitle='" + blogTitle + '\'' +
+                '}';
+    }
 }

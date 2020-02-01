@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!--suppress ALL-->
 <html lang="zh">
     <head>
         <meta charset="utf-8" />
@@ -7,28 +7,28 @@
         <link rel="stylesheet" href="../css/editormd.css" />
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
         <style>
-            /* Custom Editor.md theme css example */
+            /* Custom Editor.md THEME css example */
             /*
-            .editormd-theme-dark {
+            .editormd-THEME-dark {
                 border-color: #1a1a17;
                 
             }
             
-            .editormd-theme-dark .editormd-toolbar {
+            .editormd-THEME-dark .editormd-toolbar {
                 background: #1A1A17;
                 border-color: #1a1a17;
             }
             
-            .editormd-theme-dark .editormd-menu > li > a {
+            .editormd-THEME-dark .editormd-menu > li > a {
                 color: #777;
                 border-color: #1a1a17;
             }
             
-            .editormd-theme-dark .editormd-menu > li.divider {
+            .editormd-THEME-dark .editormd-menu > li.divider {
                 border-right: 1px solid #111;
             }
             
-            .editormd-theme-dark .editormd-menu > li > a:hover, .editormd-menu > li > a.active {
+            .editormd-THEME-dark .editormd-menu > li > a:hover, .editormd-menu > li > a.active {
                 border-color: #333;
                 background: #333;
             }*/
@@ -149,8 +149,8 @@ editor.setPreviewTheme('theme-name');
                 {                    
                     var theme    = themes[i];
                     var selected = (localStorage[lsKey] == theme) ? " selected=\"selected\"" : "";
-                    
-                    select.append("<option value=\"" + theme + "\"" + selected + ">" + theme + "</option>");
+
+                    select.append("<option value=\"amaze\"" + selected + ">amaze</option>");
                 }
                 
                 select.bind("change", function(){
@@ -175,16 +175,16 @@ editor.setPreviewTheme('theme-name');
                 testEditor = editormd("test-editormd", {
                     width        : "90%",
                     height       : 720,
-                    
-                    // Editor.md theme, default or dark, change at v1.5.0
-                    // You can also custom css class .editormd-preview-theme-xxxx
+
+                    // Editor.md THEME, default or dark, change at v1.5.0
+                    // You can also custom css class .editormd-preview-THEME-xxxx
                     theme        : (localStorage.theme) ? localStorage.theme : "dark",
-                    
-                    // Preview container theme, added v1.5.0
-                    // You can also custom css class .editormd-preview-theme-xxxx
-                    previewTheme : (localStorage.previewTheme) ? localStorage.previewTheme : "dark", 
-                    
-                    // Added @v1.5.0 & after version is CodeMirror (editor area) theme
+
+                    // Preview container THEME, added v1.5.0
+                    // You can also custom css class .editormd-preview-THEME-xxxx
+                    previewTheme : (localStorage.previewTheme) ? localStorage.previewTheme : "dark",
+
+                    // Added @v1.5.0 & after version is CodeMirror (editor area) THEME
                     editorTheme  : (localStorage.editorTheme) ? localStorage.editorTheme : "pastel-on-dark", 
                     path         : '../lib/'
                 });
@@ -194,8 +194,8 @@ editor.setPreviewTheme('theme-name');
                 });
                 
                 themeSelect("editor-area-theme-select", editormd.editorThemes, "editorTheme", function($this, theme) {
-                    testEditor.setCodeMirrorTheme(theme); 
-                    // or testEditor.setEditorTheme(theme);
+                    testEditor.setCodeMirrorTheme(theme);
+                    // or testEditor.setEditorTheme(THEME);
                 });
                 
                 themeSelect("preview-area-theme-select", editormd.previewThemes, "previewTheme", function($this, theme) {

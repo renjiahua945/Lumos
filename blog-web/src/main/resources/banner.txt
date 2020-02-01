@@ -16,4 +16,4 @@ ${AnsiColor.BRIGHT_YELLOW}
  ${AnsiColor.YELLOW}
                 不会敲代码的小白的博客，点击预览==> https://blog.javafan.club
                 微博：不会敲代码的小白，留言反馈==> https://weibo.com/codeview。
-                或者在github上提交isue ==>  https://github.com/renjiahua945。
+                或者在github上提交isue ==>  https://github.com/renjiahua945/blog/issues。

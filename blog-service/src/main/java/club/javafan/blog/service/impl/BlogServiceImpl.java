@@ -181,7 +181,7 @@ public class BlogServiceImpl implements BlogService {
         List<SimpleBlogListVO> simpleBlogListVOS = new ArrayList<>();
         BlogExample example = new BlogExample();
         if (type == INTEGER_ONE) {
-            example.setOrderByClause("blog_id desc");
+            example.setOrderByClause("update_time desc");
         }
         if (type == INTEGER_ZERO) {
             example.setOrderByClause("blog_views desc");
@@ -194,7 +194,7 @@ public class BlogServiceImpl implements BlogService {
         if (!CollectionUtils.isEmpty(blogs)) {
             blogs.stream().forEach(blog -> {
                 SimpleBlogListVO simpleBlogListVO = new SimpleBlogListVO();
-                BeanUtils.copyProperties(blog, simpleBlogListVOS);
+                BeanUtils.copyProperties(blog, simpleBlogListVO);
                 simpleBlogListVOS.add(simpleBlogListVO);
             });
         }
