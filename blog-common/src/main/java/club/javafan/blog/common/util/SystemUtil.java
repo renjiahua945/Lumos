@@ -57,7 +57,7 @@ public class SystemUtil {
                 continue;
             }
             Long ex = pastDaysExceptionAmount.get(i);
-            double re = ex / past * DOUBLE_ONE;
+            double re = ex / (past * DOUBLE_ONE) * 100;
             String s = String.format("%.2f", re);
             res.add(Double.parseDouble(s));
         }

@@ -2,6 +2,7 @@ package club.javafan.blog.worker;
 
 import club.javafan.blog.common.mail.MailService;
 import club.javafan.blog.common.util.SystemUtil;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +48,9 @@ public class SendMail {
      */
     @Value("${spring.mail.to}")
     private String to;
+
+    @Value("#{'${spring.mail.cc}'.split(',')}")
+    private String[] cc;
     /**
      * 邮件主题
      */
@@ -59,16 +63,18 @@ public class SendMail {
     private SystemUtil systemUtil;
 
     /**
-     * 定时发送博客日报(每天18点) 注意cron 必须是6位
+     * 定时发送博客日报(每天18点) 注意cron 必须是6、7位
      *
      * @throws MessagingException
      */
     @Scheduled(cron = "0 0 18 * * ?")
+    //TODO:测试 记得删除
+    @Scheduled(fixedRate = 1000000)
     @Async("threadTaskExecutor")
     public void sendMailScheduled() throws MessagingException {
         Map<String, Object> valueMap = new HashMap<>(5);
         //获取今日及一个一个月前的日期
-        List<String> dates = systemUtil.getDate(Calendar.MONTH);
+        List<String> dates = systemUtil.getDate(Calendar.DAY_OF_WEEK_IN_MONTH);
         List<String> pageKeys = systemUtil.genKey(CS_PAGE_VIEW, dates);
         //获取这段日期的执行次数
         List<Long> pastDaysPageAmount = systemUtil.getPastDaysAmount(pageKeys);
@@ -86,10 +92,11 @@ public class SendMail {
     }
 
     private void doSendHtmlMail(Map<String, Object> valueMap) throws MessagingException {
+        System.out.println(JSONObject.toJSONString(cc));
         Context context = new Context();
         context.setVariables(valueMap);
         String content = this.templateEngine.process("mail", context);
-        mailService.sendHtmlMail(to, subject, content);
+        mailService.sendHtmlMail(to, subject, content, cc);
     }
 
 }

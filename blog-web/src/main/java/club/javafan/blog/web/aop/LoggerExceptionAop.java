@@ -47,11 +47,15 @@ public class LoggerExceptionAop {
     private void mailPointCut() {
     }
 
+    @Pointcut(value = "execution(public * club.javafan.blog.worker.*.*(..))")
+    private void sendMailPointCut() {
+    }
+
     @Pointcut(value = "execution(public * club.javafan.blog.web.controller..*.*(..))")
     private void controllerPoint() {
     }
 
-    @Before(value = "controllerPoint()||servicePointCut()||mailPointCut()")
+    @Before(value = "controllerPoint()||servicePointCut()||mailPointCut()||sendMailPointCut()")
     public void before(JoinPoint joinPoint) {
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = joinPoint.getSignature().getName();
@@ -68,20 +72,20 @@ public class LoggerExceptionAop {
         logger.info(log.toString());
     }
 
-    @AfterReturning(value = "controllerPoint()||servicePointCut()", returning = "returnObj")
+    @AfterReturning(value = "controllerPoint()||servicePointCut()||sendMailPointCut()", returning = "returnObj")
     public void afterReturn(Object returnObj) {
         String result = JSONObject.toJSONString(returnObj);
         logger.info("club.javafan.blog return result: {}", result);
     }
 
-    @AfterThrowing(value = "controllerPoint()||servicePointCut()||mailPointCut()", throwing = "e")
+    @AfterThrowing(value = "controllerPoint()||servicePointCut()||mailPointCut()||sendMailPointCut()", throwing = "e")
     public void afterThrowing(Throwable e) {
         //统计今日异常数
         redisUtil.incr(EXCEPTION_AMOUNT + DateUtils.getToday());
         logger.error("club.javafan.blog error : {}", e);
     }
 
-    @Around(value = "controllerPoint()||servicePointCut()||mailPointCut()")
+    @Around(value = "controllerPoint()||servicePointCut()||mailPointCut()||sendMailPointCut()")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         //统计今日执行的总次数
         redisUtil.incr(CS_PAGE_VIEW + DateUtils.getToday());

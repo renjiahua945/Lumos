@@ -72,6 +72,8 @@ spring:
   mail:
     default-encoding: utf-8
     to: 1406628376@qq.com
+    #抄送列表 ,分隔
+    cc: 1067861305@qq.com,35673847@qq.com
     subject: 博客日报
     host: smtp.exmail.qq.com
     username: coder@javafan.club
@@ -85,8 +87,6 @@ spring:
     ansi:
       #设置彩色输出
       enabled: always
-
-
 
 #设置模板引擎
 thymeleaf:
