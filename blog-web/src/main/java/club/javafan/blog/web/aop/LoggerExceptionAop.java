@@ -71,19 +71,19 @@ public class LoggerExceptionAop {
     @AfterReturning(value = "controllerPoint()||servicePointCut()", returning = "returnObj")
     public void afterReturn(Object returnObj) {
         String result = JSONObject.toJSONString(returnObj);
-        logger.info("club.javafan.blog return result: " + result);
+        logger.info("club.javafan.blog return result: {}", result);
     }
 
     @AfterThrowing(value = "controllerPoint()||servicePointCut()||mailPointCut()", throwing = "e")
     public void afterThrowing(Throwable e) {
         //统计今日异常数
         redisUtil.incr(EXCEPTION_AMOUNT + DateUtils.getToday());
-        logger.error("club.javafan.blog error : " + e.getMessage(), e);
+        logger.error("club.javafan.blog error : {}", e);
     }
 
     @Around(value = "controllerPoint()||servicePointCut()||mailPointCut()")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        //统计今日访问次数
+        //统计今日执行的总次数
         redisUtil.incr(CS_PAGE_VIEW + DateUtils.getToday());
         String className = proceedingJoinPoint.getTarget().getClass().getName();
         String methodName = proceedingJoinPoint.getSignature().getName();

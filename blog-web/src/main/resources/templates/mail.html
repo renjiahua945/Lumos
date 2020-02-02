@@ -1,14 +1,12 @@
 <!DOCTYPE html><!--suppress ALL-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-</head>
 <body>
 <div>不会敲代码的小白您好：</div>
-<div>
-    <p>昨日博客访问量为:<span th:text="${all}" style="color:red;"/></p>
-    <p>昨日博客内存使用率为:<span th:text="${memory}" style="color:red;"/></p>
-    <p>昨日博客异常率为:<span th:text="${exception}" style="color:red;"/></p>
-</div>
+<ul>
+    <li>
+        博客调用量为：<span th:text="${}"></span>
+    </li>
+</ul>
+
 </body>
 </html>

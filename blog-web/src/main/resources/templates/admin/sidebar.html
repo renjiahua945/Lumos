@@ -34,6 +34,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a th:href="@{/admin/blogs/monitor}" th:class="${path}=='monitor'?'nav-link active':'nav-link'">
+                        <i class="nav-icon fa fa fa-pencil-square-o"></i>
+                        <p>
+                            博客监控
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a th:href="@{/admin/blogs/edit}" th:class="${path}=='edit'?'nav-link active':'nav-link'">
                         <i class="nav-icon fa fa fa-pencil-square-o"></i>
                         <p>
