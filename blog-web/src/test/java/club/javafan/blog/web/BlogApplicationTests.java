@@ -28,6 +28,7 @@ public class BlogApplicationTests {
     private MailService mailService;
     @Test
     public void contextLoads() {
+        redisUtil.get("dadad");
 //        try {
 //            mailService.sendSimpleMail("35673847@qq.com","您的验证码是","134131");
 //            System.out.println("SUCCESS");
