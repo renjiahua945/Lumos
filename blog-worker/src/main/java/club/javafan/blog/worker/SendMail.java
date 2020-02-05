@@ -1,9 +1,6 @@
 package club.javafan.blog.worker;
 
-import club.javafan.blog.common.constant.RedisKeyConstant;
 import club.javafan.blog.common.mail.MailService;
-import club.javafan.blog.common.util.DateUtils;
-import club.javafan.blog.common.util.RedisUtil;
 import club.javafan.blog.common.util.SystemUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,12 +13,13 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static club.javafan.blog.common.constant.RedisKeyConstant.CS_PAGE_VIEW;
-import static java.util.Objects.isNull;
-import static org.apache.commons.lang3.math.NumberUtils.*;
+import static club.javafan.blog.common.constant.RedisKeyConstant.EXCEPTION_AMOUNT;
 
 
 /**
@@ -49,6 +47,9 @@ public class SendMail {
      */
     @Value("${spring.mail.to}")
     private String to;
+
+    @Value("#{'${spring.mail.cc}'.split(',')}")
+    private String[] cc;
     /**
      * 邮件主题
      */
@@ -58,54 +59,46 @@ public class SendMail {
      * redis 工具类
      */
     @Autowired
-    private RedisUtil redisUtil;
+    private SystemUtil systemUtil;
 
     /**
-     * 定时发送博客日报(每天18点) 注意cron 必须是6位
+     * 定时发送博客日报(每天18点) 注意cron 必须是6、7位
      *
      * @throws MessagingException
      */
     @Scheduled(cron = "0 0 18 * * ?")
     @Async("threadTaskExecutor")
     public void sendMailScheduled() throws MessagingException {
-        Map<String, Object> valueMap = new HashMap<>(3);
+        Map<String, Object> valueMap = new HashMap<>(5);
+        //获取今日及一个一个月前的日期
+        List<String> dates = systemUtil.getDate(Calendar.DAY_OF_WEEK_IN_MONTH);
+        List<String> pageKeys = systemUtil.genKey(CS_PAGE_VIEW, dates);
+        //获取这段日期的执行次数
+        List<Long> pastDaysPageAmount = systemUtil.getPastDaysAmount(pageKeys);
+        List<String> exKeys = systemUtil.genKey(EXCEPTION_AMOUNT, dates);
+        //获取这段日期的异常次数
+        List<Long> pastDaysExceptionAmount = systemUtil.getPastDaysAmount(exKeys);
+        //获取系统的现在占用率
         valueMap.put("memory", SystemUtil.getMemoryRate());
-        valueMap.put("exception", getExceptionRate());
-        valueMap.put("all", getPassView());
+        //获取系统的异常率
+        valueMap.put("exceptionRate", systemUtil.getExceptionRate(pastDaysPageAmount, pastDaysExceptionAmount));
+        valueMap.put("pageData", pastDaysPageAmount);
+        valueMap.put("exceptionData", pastDaysExceptionAmount);
+        valueMap.put("indexDate", dates);
         doSendHtmlMail(valueMap);
     }
 
+    /**
+     * 发送模板邮件
+     *
+     * @param valueMap 模板邮件的值
+     * @throws MessagingException
+     */
     private void doSendHtmlMail(Map<String, Object> valueMap) throws MessagingException {
         Context context = new Context();
         context.setVariables(valueMap);
         String content = this.templateEngine.process("mail", context);
-        mailService.sendHtmlMail(to, subject, content);
+        mailService.sendHtmlMail(to, subject, content, cc);
     }
 
-    /**
-     * 获取昨日的异常率
-     *
-     * @author 不会敲代码的小白
-     * @createDate 2020/1/30
-     */
-    private String getExceptionRate() {
-        //避免为0为空 加一
-        Object o1 = redisUtil.get(CS_PAGE_VIEW + DateUtils.getYestoday());
-        long all = isNull(o1) ? LONG_ONE : Long.parseLong(o1.toString());
-        Object o = redisUtil.get(RedisKeyConstant.EXCEPTION_AMOUNT + DateUtils.getYestoday());
-        long exception = isNull(o) ? LONG_ZERO : Long.parseLong(o1.toString());
-        double rate = exception / (all * DOUBLE_ONE);
-        return String.format("%.2f", rate) + "%";
-    }
-
-    /**
-     * 获取昨天的总访问量
-     *
-     * @return
-     */
-    private long getPassView() {
-        Object o1 = redisUtil.get(CS_PAGE_VIEW + DateUtils.getYestoday());
-        long all = isNull(o1) ? LONG_ONE : Long.parseLong(o1.toString());
-        return all;
-    }
 }

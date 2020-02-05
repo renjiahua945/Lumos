@@ -1,6 +1,7 @@
 package club.javafan.blog.common.mail.impl;
 
 import club.javafan.blog.common.mail.MailService;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -32,7 +33,7 @@ public class MailServiceImpl implements MailService {
     private JavaMailSender mailSender;
 
     @Override
-    public void sendSimpleMail(String to, String subject, String content) {
+    public void sendSimpleMail(String to, String subject, String content, String[] cc) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject(subject);
@@ -42,15 +43,15 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendHtmlMail(String to, String subject, String content) throws MessagingException {
+    public void sendHtmlMail(String to, String subject, String content, String[] cc) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = buildHelper(to, subject, content, message);
+        buildHelper(to, subject, content, message, cc);
         mailSender.send(message);
     }
 
 
     @Override
-    public void sendAttachmentMail(String to, String subject, String content, String filePath) throws MessagingException {
+    public void sendAttachmentMail(String to, String subject, String content, String filePath, String[] cc) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = buildHelper(to, subject, content, message);
         FileSystemResource file = new FileSystemResource(new File(filePath));
@@ -62,7 +63,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendInlineResourceMail(String to, String subject, String content, String rscPath, String rscId) throws MessagingException {
+    public void sendInlineResourceMail(String to, String subject, String content, String rscPath, String rscId, String[] cc) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = buildHelper(to, subject, content, message);
         FileSystemResource res = new FileSystemResource(new File(rscPath));
@@ -72,12 +73,40 @@ public class MailServiceImpl implements MailService {
 
     }
 
-    private MimeMessageHelper buildHelper(String to, String subject, String content, MimeMessage message) throws MessagingException {
+    /**
+     * 构建MimeMessageHelper
+     *
+     * @param to      给谁发送
+     * @param subject 主题
+     * @param content 内容
+     * @param message MimeMessage
+     * @param cc      抄送
+     * @return MimeMessageHelper
+     * @throws MessagingException
+     */
+    private MimeMessageHelper buildHelper(String to, String subject, String content, MimeMessage message, String[] cc) throws MessagingException {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         message.setFrom("不会敲代码的小白" + "<" + from + ">");
         helper.setTo(to);
+        if (ArrayUtils.isNotEmpty(cc)) {
+            helper.setCc(cc);
+        }
         helper.setSubject(subject);
         helper.setText(content, true);
         return helper;
+    }
+
+    /**
+     * 构建MimeMessageHelper
+     *
+     * @param to      给谁发送
+     * @param subject 主题
+     * @param content 内容
+     * @param message MimeMessage
+     * @return MimeMessageHelper
+     * @throws MessagingException
+     */
+    private MimeMessageHelper buildHelper(String to, String subject, String content, MimeMessage message) throws MessagingException {
+        return buildHelper(to, subject, content, message,null);
     }
 }

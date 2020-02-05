@@ -8,10 +8,11 @@ import club.javafan.blog.service.LinkService;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
+
+import static java.util.Objects.isNull;
 
 /**
  * @author 不会敲代码的小白(博客)
@@ -26,15 +27,16 @@ public class LinkController {
     private LinkService linkService;
 
     @GetMapping("/links")
-    public String linkPage(HttpServletRequest request) {
-        request.setAttribute("path", "links");
-        return "admin/link";
+    public ModelAndView linkPage() {
+        ModelAndView modelAndView = new ModelAndView("admin/link");
+        modelAndView.addObject("path", "links");
+        return modelAndView;
     }
 
     @GetMapping("/links/list")
     @ResponseBody
     public ResponseResult list(@RequestParam Integer page,@RequestParam Integer limit) {
-        if (Objects.isNull(page) || Objects.isNull(limit)){
+        if (isNull(page) || isNull(limit)) {
             return ResponseResult.failResult("参数错误！");
         }
         PageQueryUtil pageUtil = new PageQueryUtil(page,limit);
@@ -42,9 +44,7 @@ public class LinkController {
         return ResponseResult.successResult().setData(blogLinkPage);
     }
 
-    /**
-     * 友链添加
-     */
+
     @RequestMapping(value = "/links/save", method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult save(@RequestParam("linkType") Integer linkType,
@@ -52,7 +52,8 @@ public class LinkController {
                        @RequestParam("linkUrl") String linkUrl,
                        @RequestParam("linkRank") Integer linkRank,
                        @RequestParam("linkDescription") String linkDescription) {
-        if (linkType == null || linkType < 0 || linkRank == null || linkRank < 0 || StringUtils.isEmpty(linkName) || StringUtils.isEmpty(linkName) || StringUtils.isEmpty(linkUrl) || StringUtils.isEmpty(linkDescription)) {
+        if (isNull(linkType) || linkType < 0 || linkRank == null || linkRank < 0 || StringUtils.isEmpty(linkName)
+                || StringUtils.isEmpty(linkName) || StringUtils.isEmpty(linkUrl) || StringUtils.isEmpty(linkDescription)) {
             return ResponseResult.failResult("参数异常！");
         }
         BlogLink link = new BlogLink();
@@ -90,7 +91,8 @@ public class LinkController {
         if (tempLink == null) {
             return ResponseResult.failResult("无数据！");
         }
-        if (linkType == null || linkType < 0 || linkRank == null || linkRank < 0 || StringUtils.isEmpty(linkName) || StringUtils.isEmpty(linkName) || StringUtils.isEmpty(linkUrl) || StringUtils.isEmpty(linkDescription)) {
+        if (linkType == null || linkType < 0 || linkRank == null || linkRank < 0 || StringUtils.isEmpty(linkName)
+                || StringUtils.isEmpty(linkName) || StringUtils.isEmpty(linkUrl) || StringUtils.isEmpty(linkDescription)) {
             return ResponseResult.failResult("参数异常！");
         }
         tempLink.setLinkType(linkType.byteValue());
@@ -101,9 +103,6 @@ public class LinkController {
         return ResponseResult.successResult().setData(tempLink);
     }
 
-    /**
-     * 友链删除
-     */
     @RequestMapping(value = "/links/delete", method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult delete(@RequestBody Integer[] ids) {

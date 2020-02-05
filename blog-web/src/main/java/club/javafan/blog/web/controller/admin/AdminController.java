@@ -7,11 +7,13 @@ import club.javafan.blog.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Objects;
+
+import static java.util.Objects.isNull;
 
 /**
  * @author 不会敲代码的小白(博客)
@@ -37,69 +39,73 @@ public class AdminController {
 
 
     @GetMapping({"/login"})
-    public String login() {
-        return "admin/login";
+    public ModelAndView login() {
+        return new ModelAndView("admin/login");
     }
 
     @GetMapping({"/test"})
-    public String test() {
-        return "admin/test";
+    public ModelAndView test() {
+        return new ModelAndView("admin/test");
     }
 
 
     @GetMapping({"", "/", "/index", "/index.html"})
-    public String index(HttpServletRequest request) {
-        request.setAttribute("path", "index");
-        request.setAttribute("categoryCount", categoryService.getTotalCategories());
-        request.setAttribute("blogCount", blogService.getTotalBlogs());
-        request.setAttribute("linkCount", linkService.getTotalLinks());
-        request.setAttribute("tagCount", tagService.getTotalTags());
-        request.setAttribute("commentCount", commentService.getTotalComments());
-        request.setAttribute("path", "index");
-        return "admin/index";
+    public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView("admin/index");
+        modelAndView.addObject("path", "index");
+        modelAndView.addObject("categoryCount", categoryService.getTotalCategories());
+        modelAndView.addObject("blogCount", blogService.getTotalBlogs());
+        modelAndView.addObject("linkCount", linkService.getTotalLinks());
+        modelAndView.addObject("tagCount", tagService.getTotalTags());
+        modelAndView.addObject("commentCount", commentService.getTotalComments());
+        modelAndView.addObject("path", "index");
+        return modelAndView;
     }
 
     @PostMapping(value = "/login")
-    public String login(@RequestParam("userName") String userName,
-                        @RequestParam("password") String password,
-                        @RequestParam("verifyCode") String verifyCode,
-                        HttpSession session) {
+    public ModelAndView login(@RequestParam("userName") String userName,
+                              @RequestParam("password") String password,
+                              @RequestParam("verifyCode") String verifyCode,
+                              HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView("admin/login");
         if (StringUtils.isEmpty(verifyCode)) {
-            session.setAttribute("errorMsg", "验证码不能为空");
-            return "admin/login";
+            session.setAttribute("errorMsg", "验证码不能为空！");
+            return modelAndView;
         }
         if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
-            session.setAttribute("errorMsg", "用户名或密码不能为空");
-            return "admin/login";
+            session.setAttribute("errorMsg", "用户名或密码不能为空！");
+            return modelAndView;
         }
         String kaptchaCode = session.getAttribute("verifyCode") + "";
         System.out.println(kaptchaCode);
         if (StringUtils.isEmpty(kaptchaCode) || !verifyCode.equals(kaptchaCode)) {
-            session.setAttribute("errorMsg", "验证码错误");
-            return "admin/login";
+            session.setAttribute("errorMsg", "验证码错误！");
+            return modelAndView;
         }
         AdminUser adminUser = adminUserService.login(userName, password);
-        if (adminUser != null) {
+        if (isNull(adminUser)) {
             session.setAttribute("loginUser", adminUser.getNickName());
             session.setAttribute("loginUserId", adminUser.getAdminUserId());
-            return "redirect:/admin/index";
+            return new ModelAndView("redirect:/admin/index");
         }
-        session.setAttribute("errorMsg", "登陆失败");
-        return "admin/login";
+        session.setAttribute("errorMsg", "登录失败！");
+        return modelAndView;
 
     }
 
     @GetMapping("/profile")
-    public String profile(HttpServletRequest request) {
+    public ModelAndView profile(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView("admin/login");
         Integer loginUserId = (int) request.getSession().getAttribute("loginUserId");
         AdminUser adminUser = adminUserService.getUserDetailById(loginUserId);
-        if (Objects.isNull(adminUser)) {
-            return "admin/login";
+        if (isNull(adminUser)) {
+            return modelAndView;
         }
-        request.setAttribute("path", "profile");
-        request.setAttribute("loginUserName", adminUser.getLoginUserName());
-        request.setAttribute("nickName", adminUser.getNickName());
-        return "admin/profile";
+        modelAndView.setViewName("admin/profile");
+        modelAndView.addObject("path", "profile");
+        modelAndView.addObject("loginUserName", adminUser.getLoginUserName());
+        modelAndView.addObject("nickName", adminUser.getNickName());
+        return modelAndView;
     }
 
     @PostMapping("/profile/password")
@@ -129,7 +135,7 @@ public class AdminController {
                              @RequestParam("loginUserName") String loginUserName,
                              @RequestParam("nickName") String nickName) {
         Integer loginUserId = (Integer) request.getSession().getAttribute("loginUserId");
-        if (StringUtils.isEmpty(loginUserName) || StringUtils.isEmpty(nickName) || Objects.isNull(loginUserId)) {
+        if (StringUtils.isEmpty(loginUserName) || StringUtils.isEmpty(nickName) || isNull(loginUserId)) {
             return ResponseResult.failResult("参数不能为空");
         }
         ResponseResult responseResult = adminUserService.updateName(loginUserId, loginUserName, nickName);
@@ -137,10 +143,10 @@ public class AdminController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
+    public ModelAndView logout(HttpServletRequest request) {
         request.getSession().removeAttribute("loginUserId");
         request.getSession().removeAttribute("loginUser");
         request.getSession().removeAttribute("errorMsg");
-        return "admin/login";
+        return new ModelAndView("admin/login");
     }
 }

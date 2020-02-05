@@ -14,13 +14,10 @@ public class RedisKeyConstant {
     @RedisKey(desc = "redis key demo", structure = STRING)
     public static final String REDIS_DEMO_PRE = "redis_demo_pre";
 
-    @RedisKey(desc = "controller与service的总访问次数", structure = STRING)
+    @RedisKey(desc = "一天controller与service的总访问次数，例如：cs_page_view_2020-02-02", structure = STRING)
     public static final String CS_PAGE_VIEW = "cs_page_view_";
 
-    @RedisKey(desc = "异常量", structure = STRING)
+    @RedisKey(desc = "一天异常总量，例如:exception_amount_2020-02-02", structure = STRING)
     public static final String EXCEPTION_AMOUNT = "exception_amount_";
-
-    @RedisKey(desc = "统计次数的key", structure = STRING)
-    public static final String STATISTICS = "statistics";
 
 }

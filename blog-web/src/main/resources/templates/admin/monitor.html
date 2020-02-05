@@ -1,0 +1,137 @@
+<!DOCTYPE html><!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:replace="admin/header::header-fragment"></header>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- 引入页面头header-fragment -->
+    <div th:replace="admin/header::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="admin/sidebar::sidebar-fragment(${path})"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card-header">
+                    <h3 class="card-title">博客监控</h3>
+                </div> <!-- /.card-body -->
+                <div class="row" style="margin-top: 40px;border-top:0px;">
+                    <div class="col-lg-4 col-6">
+                        <!-- small box -->
+                        <div class="small-box">
+                            <div id="main" style="width: 480px;height:360px;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- 引入页脚footer-fragment -->
+    <div th:replace="admin/footer::footer-fragment"></div>
+</div>
+<script crossorigin="anonymous" integrity="sha384-RPqk+IZGGuMAN/gBBbPKRtfXRISl/vFqiT13cXlm2vHZtd+xZ7ugm9sDxXDb2Ylk"
+        src="https://lib.baomitu.com/echarts/4.6.0/echarts.min.js"></script>
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/admin/plugins/jQueryUI/jquery-ui.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
+<script charset="UTF-8" th:inline="javascript">
+    /*<![CDATA[*/
+
+    var exceptionRate = [[${exceptionRate}]]
+    var pageData = [[${pageData}]]
+    var exceptionData = [[${exceptionData}]]
+    var indexDates = [[${indexDate}]]
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    /*]]>*/
+
+    // 指定图表的配置项和数据
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data: ['异常量', '调用量', '异常率']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: indexDates,
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '数值',
+                min: 0,
+                // max: 250,
+                interval: 100,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            {
+                type: 'value',
+                name: '异常率',
+                min: 0.0,
+                max: 100.0,
+                interval: 10.0,
+                axisLabel: {
+                    formatter: '{value} %'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '异常量',
+                type: 'bar',
+                data: exceptionData
+            },
+            {
+                name: '调用量',
+                type: 'bar',
+                data: pageData
+            },
+            {
+                name: '异常率',
+                type: 'line',
+                yAxisIndex: 1,
+                data: exceptionRate
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+</body>
+</html>

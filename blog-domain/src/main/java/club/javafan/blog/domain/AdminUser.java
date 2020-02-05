@@ -10,12 +10,12 @@ public class AdminUser {
     private Integer adminUserId;
 
     /**
-    * 管理员登陆名称
+     * 管理员登录名称
     */
     private String loginUserName;
 
     /**
-    * 管理员登陆密码
+     * 管理员登录密码
     */
     private String loginPassword;
 
@@ -25,7 +25,7 @@ public class AdminUser {
     private String nickName;
 
     /**
-    * 是否锁定 0未锁定 1已锁定无法登陆
+     * 是否锁定 0未锁定 1已锁定无法登录
     */
     private Byte locked;
 }

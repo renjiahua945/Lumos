@@ -1,14 +1,56 @@
 <!DOCTYPE html><!--suppress ALL-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-</head>
 <body>
-<div>不会敲代码的小白您好：</div>
-<div>
-    <p>昨日博客访问量为:<span th:text="${all}" style="color:red;"/></p>
-    <p>昨日博客内存使用率为:<span th:text="${memory}" style="color:red;"/></p>
-    <p>昨日博客异常率为:<span th:text="${exception}" style="color:red;"/></p>
-</div>
+<div><span><strong>不会敲代码的小白</strong></span>,您好</div>
+<h3>
+    博客一个星期的运行报告
+</h3>
+<style>
+    table tr {
+        font-size: 12px;
+    }
+
+    table tr:first-child {
+        font-weight: bold;
+        font-size: 14px;
+        color: #fff;
+        background-color: #333;
+    }
+
+    table tr:last-child {
+        font-weight: bold;
+        font-size: 14px;
+        background-color: #aaa;
+    }
+
+    table {
+        border-collapse: collapse;
+    / / 重点在这里 border-right: 1 px solid #ccc;
+        border-bottom: 1px solid #ccc;
+    }
+
+    table td {
+        padding: 5px;
+        border-left: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+    }
+</style>
+<table border="1" cellpadding="0">
+    <tr>
+        <td th:each="date:${indexDate}"><span th:text="${date}"></span></td>
+    </tr>
+    <tr>
+        <td th:each="page:${pageData}"><span th:text="${page}"></span></td>
+    </tr>
+    <tr>
+        <td th:each="es:${exceptionData}"><span th:text="${es}"></span></td>
+    </tr>
+    <tr>
+        <td th:each="rate:${exceptionRate}"><span th:utext="${rate} + '%'"></span></td>
+    </tr>
+</table>
+<p>
+    系统内存占用率<span th:text="${memory}" style="color: red"></span>
+</p>
 </body>
 </html>
