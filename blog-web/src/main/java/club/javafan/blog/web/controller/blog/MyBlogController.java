@@ -128,7 +128,7 @@ public class MyBlogController {
      */
     @GetMapping({"/tag/{tagName}/{page}"})
     public ModelAndView tag(@PathVariable("tagName") String tagName, @PathVariable("page") Integer page) {
-        ModelAndView modelAndView = new ModelAndView("log/amaze/list");
+        ModelAndView modelAndView = new ModelAndView("blog/amaze/list");
         PageResult blogPageResult = blogService.getBlogsPageByTag(tagName, page);
         modelAndView.addObject("blogPageResult", blogPageResult);
         modelAndView.addObject("pageName", "标签");

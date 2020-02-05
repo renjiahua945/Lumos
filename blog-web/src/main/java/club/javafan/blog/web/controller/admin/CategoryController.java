@@ -8,9 +8,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 /**
@@ -26,9 +26,10 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/categories")
-    public String categoryPage(HttpServletRequest request) {
-        request.setAttribute("path", "categories");
-        return "admin/category";
+    public ModelAndView categoryPage() {
+        ModelAndView modelAndView = new ModelAndView("admin/category");
+        modelAndView.addObject("path", "categories");
+        return modelAndView;
     }
 
     /**

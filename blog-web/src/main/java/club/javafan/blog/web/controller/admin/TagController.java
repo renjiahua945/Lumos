@@ -9,9 +9,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author 不会敲代码的小白(博客)
@@ -26,9 +26,10 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping("/tags")
-    public String tagPage(HttpServletRequest request) {
-        request.setAttribute("path", "tags");
-        return "admin/tag";
+    public ModelAndView tagPage() {
+        ModelAndView modelAndView = new ModelAndView("admin/tag");
+        modelAndView.addObject("path", "tags");
+        return modelAndView;
     }
 
     @GetMapping("/tags/list")

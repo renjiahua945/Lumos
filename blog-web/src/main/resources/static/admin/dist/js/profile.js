@@ -57,7 +57,7 @@ $(function () {
 function validUserNameForUpdate(userName, nickName) {
     if (isNull(userName) || userName.trim().length < 1) {
         $('#updateUserName-info').css("display", "block");
-        $('#updateUserName-info').html("请输入登陆名称！");
+        $('#updateUserName-info').html("请输入登录名称！");
         return false;
     }
     if (isNull(nickName) || nickName.trim().length < 1) {

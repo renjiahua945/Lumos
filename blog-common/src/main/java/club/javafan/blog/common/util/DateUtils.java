@@ -1,8 +1,11 @@
 package club.javafan.blog.common.util;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 日期工具类
@@ -31,6 +34,36 @@ public class DateUtils {
         cal.add(Calendar.DATE, -1);
         Date time = cal.getTime();
         return new SimpleDateFormat("yyyy-MM-dd").format(time);
+    }
+
+    /**
+     * 获取当前日期前一个月、前一星期的日期集合
+     *
+     * @param type Calendar.MONTH(前一个月)
+     *             Calendar.DAY_OF_MONTH(本月开始的日期)
+     *             Calendar.DAY_OF_WEEK_IN_MONTH(含今天前一星期)
+     * @return
+     */
+    public static List<String> getRecentMonthDates(int type) {
+        Calendar begin = Calendar.getInstance();
+        begin.setTime(new Date());
+        // 月份，星期，工作日
+        begin.add(type, -1);
+        // 日期加1
+        begin.add(Calendar.DATE, +1);
+        Date result = begin.getTime();
+        Calendar end = Calendar.getInstance();
+        Long startTime = begin.getTimeInMillis();
+        Long endTime = end.getTimeInMillis();
+        List dates = new ArrayList<>();
+        while (startTime <= endTime) {
+            Date d = new Date(startTime);
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            dates.add(df.format(d));
+            begin.add(Calendar.DATE, +1);
+            startTime = begin.getTimeInMillis();
+        }
+        return dates;
     }
 
     /**

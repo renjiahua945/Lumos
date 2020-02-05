@@ -5,9 +5,9 @@ import club.javafan.blog.service.ConfigService;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author 不会敲代码的小白(博客)
@@ -22,10 +22,11 @@ public class ConfigurationController {
     private ConfigService configService;
 
     @GetMapping("/configurations")
-    public String list(HttpServletRequest request) {
-        request.setAttribute("path", "configurations");
-        request.setAttribute("configurations", configService.getAllConfigs());
-        return "admin/configuration";
+    public ModelAndView list() {
+        ModelAndView modelAndView = new ModelAndView("admin/configuration");
+        modelAndView.addObject("path", "configurations");
+        modelAndView.addObject("configurations", configService.getAllConfigs());
+        return modelAndView;
     }
 
     @PostMapping("/configurations/website")

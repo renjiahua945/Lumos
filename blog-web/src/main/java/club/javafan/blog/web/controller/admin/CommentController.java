@@ -8,10 +8,10 @@ import club.javafan.blog.service.CommentService;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
- import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 /**
@@ -81,9 +81,10 @@ public class CommentController {
     }
 
     @GetMapping("/comments")
-    public String list(HttpServletRequest request) {
-        request.setAttribute("path", "comments");
-        return "admin/comment";
+    public ModelAndView list() {
+        ModelAndView modelAndView = new ModelAndView("admin/comment");
+        modelAndView.addObject("path", "comments");
+        return modelAndView;
     }
 
 
