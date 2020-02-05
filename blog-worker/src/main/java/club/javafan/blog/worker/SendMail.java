@@ -2,7 +2,6 @@ package club.javafan.blog.worker;
 
 import club.javafan.blog.common.mail.MailService;
 import club.javafan.blog.common.util.SystemUtil;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -68,8 +67,6 @@ public class SendMail {
      * @throws MessagingException
      */
     @Scheduled(cron = "0 0 18 * * ?")
-    //TODO:测试 记得删除
-    @Scheduled(fixedRate = 1000000)
     @Async("threadTaskExecutor")
     public void sendMailScheduled() throws MessagingException {
         Map<String, Object> valueMap = new HashMap<>(5);
@@ -91,8 +88,13 @@ public class SendMail {
         doSendHtmlMail(valueMap);
     }
 
+    /**
+     * 发送模板邮件
+     *
+     * @param valueMap 模板邮件的值
+     * @throws MessagingException
+     */
     private void doSendHtmlMail(Map<String, Object> valueMap) throws MessagingException {
-        System.out.println(JSONObject.toJSONString(cc));
         Context context = new Context();
         context.setVariables(valueMap);
         String content = this.templateEngine.process("mail", context);

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +27,9 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
+
+import static java.util.Objects.isNull;
 
 /**
  * @author 不会敲代码的小白(博客)
@@ -67,28 +69,32 @@ public class BlogController {
 
 
     @GetMapping("/blogs")
-    public String list(HttpServletRequest request) {
-        request.setAttribute("path", "blogs");
-        return "admin/blog";
+    public ModelAndView list() {
+        ModelAndView modelAndView = new ModelAndView("admin/blog");
+        modelAndView.addObject("path", "blogs");
+        return modelAndView;
     }
 
     @GetMapping("/blogs/edit")
-    public String edit(HttpServletRequest request) {
-        request.setAttribute("path", "edit");
-        request.setAttribute("categories", categoryService.getAllCategories());
-        return "admin/edit";
+    public ModelAndView edit() {
+        ModelAndView modelAndView = new ModelAndView("admin/edit");
+        modelAndView.addObject("path", "edit");
+        modelAndView.addObject("categories", categoryService.getAllCategories());
+        return modelAndView;
     }
 
     @GetMapping("/blogs/edit/{blogId}")
-    public String edit(HttpServletRequest request, @PathVariable("blogId") Long blogId) {
-        request.setAttribute("path", "edit");
+    public ModelAndView edit(@PathVariable("blogId") Long blogId) {
+        ModelAndView modelAndView = new ModelAndView("error/error_400");
+        modelAndView.addObject("path", "edit");
         Blog blog = blogService.getBlogById(blogId);
-        if (blog == null) {
-            return "error/error_400";
+        if (isNull(blog)) {
+            return modelAndView;
         }
-        request.setAttribute("blog", blog);
-        request.setAttribute("categories", categoryService.getAllCategories());
-        return "admin/edit";
+        modelAndView.addObject("blog", blog);
+        modelAndView.addObject("categories", categoryService.getAllCategories());
+        modelAndView.setViewName("admin/edit");
+        return modelAndView;
     }
 
     @PostMapping("/blogs/save")
@@ -106,7 +112,7 @@ public class BlogController {
     @PostMapping("/blogs/update")
     @ResponseBody
     public ResponseResult update(@RequestParam Blog blog) {
-        if (Objects.isNull(blog.getBlogId())){
+        if (isNull(blog.getBlogId())) {
             return ResponseResult.failResult("失败，该文章不存在！");
         }
         ResponseResult result = checkBlogParams(blog);

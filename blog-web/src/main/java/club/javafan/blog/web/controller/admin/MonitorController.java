@@ -27,10 +27,15 @@ public class MonitorController {
     @RequestMapping("/blogs/monitor")
     public ModelAndView doMonitor() {
         ModelAndView modelAndView = new ModelAndView("admin/monitor");
+        //获取最近一个月的日期
         List<String> indexDate = systemUtil.getDate(Calendar.MONTH);
+        //生成最近一个月的key
         List<String> pKeys = systemUtil.genKey(CS_PAGE_VIEW, indexDate);
+        //获取最近一个月的访问量
         List<Long> pastDaysPageAmount = systemUtil.getPastDaysAmount(pKeys);
+        //获取最近一个与的异常key
         List<String> exceptionKeys = systemUtil.genKey(EXCEPTION_AMOUNT, indexDate);
+        //获取过去一个月的异常数
         List<Long> pastDaysExceptionAmount = systemUtil.getPastDaysAmount(exceptionKeys);
         modelAndView.addObject("exceptionRate", systemUtil.getExceptionRate(pastDaysPageAmount, pastDaysExceptionAmount));
         modelAndView.addObject("pageData", pastDaysPageAmount);

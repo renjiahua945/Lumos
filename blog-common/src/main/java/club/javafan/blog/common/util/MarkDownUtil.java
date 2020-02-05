@@ -10,6 +10,8 @@ import org.springframework.util.StringUtils;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+
 /**
  * @author 不会敲代码的小白(博客)
  * @date 2019/12/11 21:41
@@ -24,7 +26,7 @@ public class MarkDownUtil {
      */
     public static String mdToHtml(String markdownString) {
         if (StringUtils.isEmpty(markdownString)) {
-            return "";
+            return EMPTY;
         }
         List<Extension> extensions = Arrays.asList(TablesExtension.create());
         Parser parser = Parser.builder().extensions(extensions).build();
