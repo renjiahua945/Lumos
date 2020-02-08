@@ -2,6 +2,9 @@ package club.javafan.blog.web.controller.admin;
 
 
 import club.javafan.blog.common.Result.ResponseResult;
+import club.javafan.blog.common.constant.RedisKeyConstant;
+import club.javafan.blog.common.util.MD5Util;
+import club.javafan.blog.common.util.RedisUtil;
 import club.javafan.blog.domain.AdminUser;
 import club.javafan.blog.service.*;
 import org.springframework.stereotype.Controller;
@@ -10,10 +13,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
+import static club.javafan.blog.common.constant.CommonConstant.COOKIES;
+import static club.javafan.blog.common.constant.CommonConstant.LOGIN_USER_NAME;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 /**
  * @author 不会敲代码的小白(博客)
@@ -36,7 +45,8 @@ public class AdminController {
     private TagService tagService;
     @Resource
     private CommentService commentService;
-
+    @Resource
+    private RedisUtil redisUtil;
 
     @GetMapping({"/login"})
     public ModelAndView login() {
@@ -66,7 +76,9 @@ public class AdminController {
     public ModelAndView login(@RequestParam("userName") String userName,
                               @RequestParam("password") String password,
                               @RequestParam("verifyCode") String verifyCode,
-                              HttpSession session) {
+                              HttpSession session,
+                              HttpServletResponse response,
+                              HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("admin/login");
         if (StringUtils.isEmpty(verifyCode)) {
             session.setAttribute("errorMsg", "验证码不能为空！");
@@ -83,7 +95,8 @@ public class AdminController {
             return modelAndView;
         }
         AdminUser adminUser = adminUserService.login(userName, password);
-        if (isNull(adminUser)) {
+        if (nonNull(adminUser)) {
+            setCookies(adminUser, response);
             session.setAttribute("loginUser", adminUser.getNickName());
             session.setAttribute("loginUserId", adminUser.getAdminUserId());
             return new ModelAndView("redirect:/admin/index");
@@ -92,6 +105,7 @@ public class AdminController {
         return modelAndView;
 
     }
+
 
     @GetMapping("/profile")
     public ModelAndView profile(HttpServletRequest request) {
@@ -143,10 +157,35 @@ public class AdminController {
     }
 
     @GetMapping("/logout")
-    public ModelAndView logout(HttpServletRequest request) {
+    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().removeAttribute("loginUserId");
         request.getSession().removeAttribute("loginUser");
         request.getSession().removeAttribute("errorMsg");
+        Cookie cookie = new Cookie(COOKIES, "");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return new ModelAndView("admin/login");
+    }
+
+    /**
+     * 设置登录的cookies
+     *
+     * @param adminUser 用户
+     * @param response  res
+     */
+    private void setCookies(AdminUser adminUser, HttpServletResponse response) {
+        //加密
+        String origin = adminUser.getLoginUserName() + adminUser.getAdminUserId() + adminUser.getLoginPassword() + new Date();
+        String md5 = MD5Util.md5Encode(origin, "UTF-8");
+        redisUtil.set(RedisKeyConstant.BLOG_SESSION + adminUser.getLoginUserName(), md5, 30 * 60);
+        Cookie cookie = new Cookie(COOKIES, md5);
+        //设置有效时间半个小时
+        cookie.setMaxAge(30 * 60);
+        //设置为true 避免抓包
+        cookie.setHttpOnly(true);
+        Cookie useCookie = new Cookie(LOGIN_USER_NAME, adminUser.getLoginUserName());
+        useCookie.setMaxAge(30 * 60);
+        response.addCookie(cookie);
+        response.addCookie(useCookie);
     }
 }
