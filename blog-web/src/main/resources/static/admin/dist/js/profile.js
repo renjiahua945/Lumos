@@ -12,10 +12,10 @@ $(function () {
                 url: "/admin/profile/name",
                 data: params,
                 success: function (r) {
-                    if (r == 'success') {
-                        alert('修改成功');
+                    if (r.code == 0) {
+                        alert(r.desc);
                     } else {
-                        alert('修改失败');
+                        alert(r.desc);
                         $("#updateUserNameButton").prop("disabled",false);
                     }
                 }
@@ -37,10 +37,10 @@ $(function () {
                 data: params,
                 success: function (r) {
                     if (r.code == 0) {
-                        alert('修改成功');
+                        alert(r.desc);
                         window.location.href = '/admin/login';
                     } else {
-                        alert('修改失败');
+                        alert(r.desc);
                         $("#updatePasswordButton").attr("disabled",false);
                     }
                 }

@@ -3,6 +3,7 @@ package club.javafan.blog.web.controller.admin;
 
 import club.javafan.blog.common.Result.ResponseResult;
 import club.javafan.blog.common.constant.RedisKeyConstant;
+import club.javafan.blog.common.util.CookiesUtil;
 import club.javafan.blog.common.util.MD5Util;
 import club.javafan.blog.common.util.RedisUtil;
 import club.javafan.blog.domain.AdminUser;
@@ -81,27 +82,26 @@ public class AdminController {
                               HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("admin/login");
         if (StringUtils.isEmpty(verifyCode)) {
-            session.setAttribute("errorMsg", "验证码不能为空！");
+            modelAndView.addObject("errorMsg", "验证码不能为空！");
             return modelAndView;
         }
         if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
-            session.setAttribute("errorMsg", "用户名或密码不能为空！");
+            modelAndView.addObject("errorMsg", "用户名或密码不能为空！");
             return modelAndView;
         }
         String kaptchaCode = session.getAttribute("verifyCode") + "";
         System.out.println(kaptchaCode);
         if (StringUtils.isEmpty(kaptchaCode) || !verifyCode.equals(kaptchaCode)) {
-            session.setAttribute("errorMsg", "验证码错误！");
+            modelAndView.addObject("errorMsg", "验证码错误！");
             return modelAndView;
         }
         AdminUser adminUser = adminUserService.login(userName, password);
         if (nonNull(adminUser)) {
             setCookies(adminUser, response);
-            session.setAttribute("loginUser", adminUser.getNickName());
-            session.setAttribute("loginUserId", adminUser.getAdminUserId());
+            modelAndView.addObject("adminUser", adminUser);
             return new ModelAndView("redirect:/admin/index");
         }
-        session.setAttribute("errorMsg", "登录失败！");
+        modelAndView.addObject("errorMsg", "登录失败！");
         return modelAndView;
 
     }
@@ -110,8 +110,11 @@ public class AdminController {
     @GetMapping("/profile")
     public ModelAndView profile(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("admin/login");
-        Integer loginUserId = (int) request.getSession().getAttribute("loginUserId");
-        AdminUser adminUser = adminUserService.getUserDetailById(loginUserId);
+        Cookie cookie = CookiesUtil.getCookie(LOGIN_USER_NAME, request.getCookies());
+        if (isNull(cookie)) {
+            return modelAndView;
+        }
+        AdminUser adminUser = adminUserService.getUserDetailByUserName(cookie.getValue());
         if (isNull(adminUser)) {
             return modelAndView;
         }
@@ -130,17 +133,17 @@ public class AdminController {
         if (StringUtils.isEmpty(originalPassword) || StringUtils.isEmpty(newPassword)) {
             return ResponseResult.failResult("参数不能为空");
         }
-        Integer loginUserId = (Integer) request.getSession().getAttribute("loginUserId");
-        ResponseResult responseResult = adminUserService.updatePassword(loginUserId,
-                originalPassword, newPassword);
-        if (responseResult.isSuccess()) {
-            //修改成功后清空session中的数据，前端控制跳转至登录页
-            request.getSession().removeAttribute("loginUserId");
-            request.getSession().removeAttribute("loginUser");
-            request.getSession().removeAttribute("errorMsg");
-            return responseResult;
+        Cookie cookie = CookiesUtil.getCookie(LOGIN_USER_NAME, request.getCookies());
+        if (isNull(cookie)) {
+            return ResponseResult.failResult("修改失败！");
         }
-        return ResponseResult.failResult("修改失败！");
+        AdminUser adminUser = adminUserService.getUserDetailByUserName(cookie.getValue());
+        if (isNull(adminUser)) {
+            return ResponseResult.failResult("修改失败！");
+        }
+        ResponseResult responseResult = adminUserService.updatePassword(adminUser.getAdminUserId(),
+                originalPassword, newPassword);
+        return responseResult;
     }
 
     @PostMapping("/profile/name")
@@ -148,22 +151,26 @@ public class AdminController {
     public ResponseResult nameUpdate(HttpServletRequest request,
                              @RequestParam("loginUserName") String loginUserName,
                              @RequestParam("nickName") String nickName) {
-        Integer loginUserId = (Integer) request.getSession().getAttribute("loginUserId");
-        if (StringUtils.isEmpty(loginUserName) || StringUtils.isEmpty(nickName) || isNull(loginUserId)) {
+        Cookie cookie = CookiesUtil.getCookie(LOGIN_USER_NAME, request.getCookies());
+        if (isNull(cookie)) {
+            return ResponseResult.failResult("修改失败！");
+        }
+        AdminUser adminUser = adminUserService.getUserDetailByUserName(cookie.getValue());
+        if (StringUtils.isEmpty(loginUserName) || StringUtils.isEmpty(nickName) || isNull(adminUser)) {
             return ResponseResult.failResult("参数不能为空");
         }
-        ResponseResult responseResult = adminUserService.updateName(loginUserId, loginUserName, nickName);
+        ResponseResult responseResult = adminUserService.updateName(adminUser.getAdminUserId(), loginUserName, nickName);
         return responseResult;
     }
 
     @GetMapping("/logout")
-    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
-        request.getSession().removeAttribute("loginUserId");
-        request.getSession().removeAttribute("loginUser");
-        request.getSession().removeAttribute("errorMsg");
+    public ModelAndView logout(HttpServletResponse response) {
         Cookie cookie = new Cookie(COOKIES, "");
         cookie.setMaxAge(0);
+        Cookie useCookie = new Cookie(LOGIN_USER_NAME, "");
+        useCookie.setMaxAge(0);
         response.addCookie(cookie);
+        response.addCookie(useCookie);
         return new ModelAndView("admin/login");
     }
 

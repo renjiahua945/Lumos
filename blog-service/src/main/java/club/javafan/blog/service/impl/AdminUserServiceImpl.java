@@ -48,6 +48,17 @@ public class AdminUserServiceImpl implements AdminUserService {
         return adminUserMapper.selectByPrimaryKey(loginUserId);
     }
 
+    @Override
+    public AdminUser getUserDetailByUserName(String loginName) {
+        AdminUserExample example = new AdminUserExample();
+        example.createCriteria().andLoginUserNameEqualTo(loginName);
+        List<AdminUser> adminUsers = adminUserMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(adminUsers)) {
+            return null;
+        }
+        return adminUsers.get(INTEGER_ZERO);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ResponseResult updatePassword(Integer loginUserId, String originalPassword, String newPassword) {
@@ -60,7 +71,7 @@ public class AdminUserServiceImpl implements AdminUserService {
             //比较原密码是否正确
             if (originalPasswordMd5.equals(loginPassword)) {
                 //原密码和新设置的密码相同返回false
-                if (loginPassword.equals(newPassword)) {
+                if (loginPassword.equals(newPasswordMd5)) {
                     return ResponseResult.failResult("新密码不能和原密码相同！");
                 }
                 //设置新密码并修改

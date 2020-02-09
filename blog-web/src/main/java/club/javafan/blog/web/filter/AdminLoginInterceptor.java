@@ -26,16 +26,17 @@ public class AdminLoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         String uri = request.getRequestURI();
         if (!uri.startsWith("/admin")) {
+            response.sendRedirect(request.getContextPath() + "/admin/login");
             return false;
         }
         Cookie useCookies = CookiesUtil.getCookie(LOGIN_USER_NAME, request.getCookies());
         if (isNull(useCookies) || isNull(useCookies.getValue())) {
+            response.sendRedirect(request.getContextPath() + "/admin/login");
             return false;
         }
         Cookie cookie = CookiesUtil.getCookie(COOKIES, request.getCookies());
         String sessionId = (String) redisUtil.get(RedisKeyConstant.BLOG_SESSION + useCookies.getValue());
         if (isNull(cookie) || StringUtils.isEmpty(sessionId) || !sessionId.equals(cookie.getValue())) {
-            request.getSession().setAttribute("errorMsg", "请重新登录！");
             response.sendRedirect(request.getContextPath() + "/admin/login");
             return false;
         } else {

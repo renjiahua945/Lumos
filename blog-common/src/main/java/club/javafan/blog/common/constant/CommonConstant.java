@@ -15,5 +15,5 @@ public class CommonConstant {
     /**
      * 登录用户名cookie
      */
-    public static final String LOGIN_USER_NAME = "loginUserName";
+    public static final String LOGIN_USER_NAME = "LOGINUSERNAME";
 }
