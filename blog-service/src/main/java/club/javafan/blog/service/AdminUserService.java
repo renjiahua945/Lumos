@@ -17,6 +17,14 @@ public interface AdminUserService {
     AdminUser getUserDetailById(Integer loginUserId);
 
     /**
+     * 根据登录用户名获取用户信息
+     *
+     * @param loginName
+     * @return
+     */
+    AdminUser getUserDetailByUserName(String loginName);
+
+    /**
      * 修改当前登录用户的密码
      *
      * @param loginUserId

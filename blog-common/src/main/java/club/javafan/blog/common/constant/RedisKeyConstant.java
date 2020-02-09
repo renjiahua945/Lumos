@@ -20,4 +20,7 @@ public class RedisKeyConstant {
     @RedisKey(desc = "一天异常总量，例如:exception_amount_2020-02-02", structure = STRING)
     public static final String EXCEPTION_AMOUNT = "exception_amount_";
 
+    @RedisKey(desc = "存放用户sessionId,过期时间30分钟", structure = STRING)
+    public static final String BLOG_SESSION = "blog_session_";
+
 }
