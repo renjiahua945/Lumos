@@ -1,6 +1,6 @@
 <!DOCTYPE html><!--suppress ALL-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="side-fragment" class="am-u-lg-4 am-u-sm-12 am-u-lg-offset-0 am-u-sm-offset-0 sidebar-container">
+<div th:fragment="side-fragment" class="am-u-lg-4 am-u-sm-12 am-u-lg-offset-0 am-u-sm-offset-0 sidebar-container" style="background-color: #ffffff;">
     <section>
         <section>
             <div class="sidebar-header">
@@ -13,7 +13,7 @@
                     <div class="search-input">
                         <input type="text" name="keyword" id="searchbox" placeholder="输入关键字搜索">
                         <button type="submit" class="search-submit" onclick="search()"></button>
-                        <div>
+                    </div>
                 </form>
             </div>
         </section>
@@ -71,5 +71,6 @@
                 </ul>
             </main>
         </section>
+    </section>
 </div>
 </html>

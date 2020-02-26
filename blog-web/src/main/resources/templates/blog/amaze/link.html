@@ -1,7 +1,7 @@
 <!DOCTYPE html><!--suppress ALL-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="blog/amaze/header::head-fragment"></head>
-<body id="blog">
+<body id="blog" style="background-color: #f7f4ed;">
 <div th:replace="blog/amaze/header::nav-fragment"></div>
 <div th:replace="blog/amaze/header::header-fragment"></div>
 <div class="am-g am-g-fixed blog-fixed">
@@ -54,19 +54,23 @@
                     </ul>
                 </div>
             </th:block>
-            <h2 id="个人链接">链接须知</h2>
-            <p>欢迎互换友链 ^_^ 不过请确定贵站可以正常运营.</p>
-            <p>我的邮箱是
-                <th:block th:text="${configurations.get('yourEmail')}"></th:block>
-                , 格式要求如下:
-            </p>
-            <ul>
-                <li>网站名称：不会敲代码的小白</li>
-                <li>网站链接：http://blog.javafan.club</li>
-                <li>网站描述：不会敲代码的小白的个人博客</li>
-            </ul>
 
-            <p>请保证自己的链接长期有效,不然可能会被清理.</p>
+            <div id="source" style="display: none;">
+                <h2 id="个人链接">链接须知</h2>
+                <p>欢迎互换友链 ^_^ 不过请确定贵站可以正常运营.</p>
+                <p>我的邮箱是
+                    <th:block th:text="${configurations.get('yourEmail')}"></th:block>
+                    , 格式要求如下:
+                </p>
+                <ul>
+                    <li>网站名称：不会敲代码的小白</li>
+                    <li>网站链接：http://blog.javafan.club</li>
+                    <li>网站描述：不会敲代码的小白的个人博客</li>
+                </ul>
+                <p>请保证自己的链接长期有效,不然可能会被清理.</p>
+            </div>
+
+            <div id="output" style="width: auto; display: inline-block; float:left; "> </div>
 
         </main>
     </div>
@@ -74,4 +78,133 @@
 <!-- 引入页脚footer-fragment -->
 <footer th:replace="blog/amaze/footer::footer-fragment"></footer>
 </body>
+
+<!--点击事件-->
+<script>
+    $(function() {
+        var a_idx = 0,
+            b_idx = 0;
+        c_idx = 0;
+        jQuery(document).ready(function($) {
+            $("body").click(function(e) {
+                var a = new Array("mysql", "idea", "redis", "thymeleaf", "amaze", "java", "echart", "chrome", "springboot", "mybatis", "localhost", "443"),
+                    b = new Array("#09ebfc", "#ff6651", "#ffb351", "#51ff65", "#5197ff", "#a551ff", "#ff51f7", "#ff518e", "#ff5163", "#efff51"),
+                    c = new Array("12", "12", "12", "12", "12", "12", "12", "12", "12", "12");
+                var $i = $("<span/>").text(a[a_idx]);
+                a_idx = (a_idx + 1) % a.length;
+                b_idx = (b_idx + 1) % b.length;
+                c_idx = (c_idx + 1) % c.length;
+                var x = e.pageX,
+                    y = e.pageY;
+                $i.css({
+                    "z-index": 999,
+                    "top": y - 20,
+                    "left": x,
+                    "position": "absolute",
+                    "font-weight": "bold",
+                    "font-size": c[c_idx] + "px",
+                    "color": b[b_idx]
+                });
+                $("body").append($i);
+                $i.animate({
+                    "top": y - 180,
+                    "opacity": 0
+                }, 1500, function() {
+                    $i.remove();
+                });
+            });
+        });
+        var _hmt = _hmt || [];
+    })
+</script>
+
+<!--逐字打印-->
+<script type="text/javascript">
+        class Typing {
+            constructor(opts) {
+                this.opts = opts || {};
+                this.source = opts.source;
+                this.output = opts.output;
+                this.delay = opts.delay || 60;
+                this.chain = {
+                    parent: null,
+                    dom: this.output,
+                    val: []
+                };
+                if (!(typeof this.opts.done === 'function')) this.opts.done = function () {
+                };
+            }
+
+            init() {
+                //初始化函数
+                this.chain.val = this.convert(this.source, this.chain.val);
+            }
+
+            convert(dom, arr) {
+                //将dom节点的子节点转换成数组，
+                let children = Array.from(dom.childNodes)
+                for (let i = 0; i < children.length; i++) {
+                    let node = children[i]
+                    if (node.nodeType === 3) {
+                        arr = arr.concat(node.nodeValue.split(''))   //将字符串转换成字符串数组，后面打印时才会一个一个的打印
+                    } else if (node.nodeType === 1) {
+                        let val = []
+                        val = this.convert(node, val)
+                        arr.push({
+                            'dom': node,
+                            'val': val
+                        })
+                    }
+                }
+                return arr
+            }
+
+            print(dom, val, callback) {
+                setTimeout(function () {
+                    dom.appendChild(document.createTextNode(val));
+                    callback();
+                }, this.delay);
+            }
+
+            play(ele) {
+                //当打印最后一个字符时，动画完毕，执行done
+                if (!ele.val.length) {
+                    if (ele.parent) this.play(ele.parent);
+                    else this.opts.done();
+                    return;
+                }
+                let current = ele.val.shift()  //获取第一个元素，同时删除数组中的第一个元素
+                if (typeof current === 'string') {
+                    this.print(ele.dom, current, () => {
+                        this.play(ele); //继续打印下一个字符
+                    })
+                } else {
+                    let dom = current.dom.cloneNode() //克隆节点，不克隆节点的子节点，所以不用加参数true
+                    ele.dom.appendChild(dom)
+                    this.play({
+                        parent: ele,
+                        dom,
+                        val: current.val
+                    })
+                }
+            }
+
+            start() {
+                this.init();
+                this.play(this.chain);
+            }
+        }
+</script>
+
+<!--逐字打印调用-->
+<script type="text/javascript">
+    let source = document.getElementById('source')
+    let output = document.getElementById('output')
+    let typing = new Typing({
+        source,
+        output
+    })
+    typing.start();
+</script>
+
 </html>

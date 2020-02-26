@@ -1,6 +1,6 @@
 <!DOCTYPE html><!--suppress ALL-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="blog-list-fragment" class="am-u-lg-8 am-u-sm-12">
+<div th:fragment="blog-list-fragment" class="am-u-lg-8 am-u-sm-12" style="background-color: #ffffff;">
     <main class="articles-list">
         <div>
             <th:block th:if="${null != blogPageResult}">
@@ -40,11 +40,12 @@
                             <div class="clearfix topic-footer">
                                 <span class="pull-left time mobile_time">2018-01</span>
                             </div>
+                        </div>
                     </article>
                 </th:block>
             </th:block>
             <th:block th:if="${null != blogPageResult}">
-                <ul class="am-pagination">
+                <ul class="am-pagination" style="margin-top:5%; margin-left:auto; margin-right: auto;">
                     <li th:class="${blogPageResult.currPage==1}?'disabled' : 'am-pagination-prev'"><a
                             th:href="@{${blogPageResult.currPage==1}?'##':'/page/' + ${blogPageResult.currPage-1}}">&laquo;</a>
                     </li>

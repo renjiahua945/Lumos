@@ -10,6 +10,19 @@
     <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
     <!-- highlight -->
     <link rel="stylesheet" th:href="@{/blog/plugins/highlight/styles/paraiso-light.css}">
+    <!--音乐播放器-->
+    <link href="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.js"></script>
+    <style>
+        .demo{
+            width:360px;
+            margin:auto auto 10px auto;
+        }
+        .demo p{
+            padding:10px 0;
+        }
+
+    </style>
     <style>
         .hljs {
             background: none;
@@ -28,10 +41,9 @@
     </style>
 
 </head>
-<body>
+<body style="background-color: #f8f4ed;">
 <div th:replace="blog/amaze/header::nav-fragment"></div>
-<header th:fragment="header-fragment" class="intro-header"
-        th:style="'background-image:url(' + @{/blog/amaze/images/header.jpg} + ');'">
+<header style="padding-top: 8%;">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -40,14 +52,14 @@
                     <span class="meta">
                         <th:block th:text="${#dates.format(blogDetailVO.createTime, 'yyyy-MM-dd')}"></th:block> &nbsp;
                             <div class="comments-view" style="display: inline-block">
-                                <a href="#comments" class="article-comments"><th:block
+                                <a href="#comments" class="article-comments" style="color: #000000;"><th:block
                                         th:text="${blogDetailVO.commentCount}"></th:block>条评论</a> &nbsp;
                                 <th:block th:text="${blogDetailVO.blogViews}"></th:block>浏览
                             </div>
                             </span>
                     <div class="tags post-tags">
                         <th:block th:each="tag : ${blogDetailVO.blogTags}">
-                            <a class="tag" rel="tag" th:href="@{'/tag/' + ${tag}}">
+                            <a class="tag" rel="tag" th:href="@{'/tag/' + ${tag}}" style="color: #000000;">
                                 <th:block th:text="${tag}"></th:block>
                             </a>&nbsp;
                         </th:block>
@@ -55,7 +67,43 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="demo">
+        <p><strong>自制音乐播放器</strong></p>
+        <div id="player1">
+            <pre class="aplayer-lrc-content">
+                [00:00.00] 作曲 : 林一峰
+                [00:01.00] 作词 : 易家扬
+                [00:24.898]听见 冬天的离开
+                [00:29.697]我在某年某月 醒过来
+                [00:34.768]我想 我等 我期待
+                [00:40.598]未来却不能因此安排
+                [00:53.398]阴天 傍晚 车窗外
+                [00:58.758]未来有一个人在等待
+                [01:04.298]向左向右向前看
+                [01:09.599]爱要拐几个弯才来
+                [01:14.369]我遇见谁 会有怎样的对白
+                [01:19.638]我等的人 他在多远的未来
+                [01:24.839]我听见风来自地铁和人海
+                [01:30.399]我排着队 拿着爱的号码牌
+                [01:56.388]阴天 傍晚 车窗外
+                [02:02.298]未来有一个人在等待
+                [02:06.650]向左向右向前看
+                [02:12.000]爱要拐几个弯才来
+                [02:16.980]我遇见谁 会有怎样的对白
+                [02:22.289]我等的人 他在多远的未来
+                [02:27.989]我听见风来自地铁和人海
+                [02:32.688]我排着队 拿着爱的号码牌
+                [02:43.380]我往前飞 飞过一片时间海
+                [02:48.298]我们也曾在爱情里受伤害
+                [02:53.689]我看着路 梦的入口有点窄
+                [02:58.748]我遇见你是最美丽的意外
+                [03:05.888]总有一天 我的谜底会揭开
+            </pre>
+        </div>
+    </div>
 </header>
+
 <div class="container">
     <div class="am-g am-g-fixed blog-fixed">
         <div class="am-u-lg-12 am-u-sm-12">
@@ -143,47 +191,31 @@
         <aside class="create-comment" id="create-comment">
             <hr>
             <h2><i class="fa fa-pencil"></i> 添加评论</h2>
-            <table id="commentForm" class="form">
-                <tbody>
-                <tr>
-                    <td>
-                        <input type="hidden" id="blogId" name="blogId" th:value="${blogDetailVO.blogId}"></input>
-                        <input type="text" name="commentator" id="commentator" placeholder="(*必填)怎么称呼你?">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="email" name="email" id="email" placeholder="(*必填)你的联系邮箱">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="text" name="websiteUrl" id="websiteUrl" placeholder="你的网站地址(可不填)">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input style="width:50%" type="text" name="verifyCode" id="verifyCode"
+
+            <div style="width: 36%; float: right; z-index: -1;">
+                <img src="/blog/amaze/images/envelope.png">
+            </div>
+
+            <div id="commentForm" class="form" style="width: 60%;">
+                <input type="hidden" id="blogId" name="blogId" th:value="${blogDetailVO.blogId}"></input>
+                <input type="text" name="commentator" id="commentator" placeholder="(*必填)怎么称呼你?">
+
+                <input type="email" name="email" id="email" placeholder="(*必填)你的联系邮箱">
+
+                <input type="text" name="websiteUrl" id="websiteUrl" placeholder="你的网站地址(可不填)">
+
+                <input style="width:50%" type="text" name="verifyCode" id="verifyCode"
                                placeholder="(*必填)请输入验证码">&nbsp;&nbsp;
-                        <img alt="单击图片刷新！" class="pointer" style="margin-top: 15px; border-radius: 25px;"
-                             th:src="@{/common/kaptcha}"
-                             onclick="this.src='/common/kaptcha?d='+new Date()*1">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <textarea rows="5" name="commentBody" id="commentBody" placeholder="(*必填)请输入你的评论"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="center">
-                        <button id="commentSubmit" type="submit"
-                                class="submit am-btn am-btn-primary">提交
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+
+                <img alt="单击图片刷新！" class="pointer" style="margin-top: 1%; border-radius: 49%; width:auto;" th:src="@{/common/kaptcha}"
+                     onclick="this.src='/common/kaptcha?d='+new Date()*1">
+
+                <textarea rows="5" name="commentBody" id="commentBody" placeholder="(*必填)请输入你的评论"></textarea>
+
+                <button id="commentSubmit" type="submit" class="submit am-btn am-btn-primary"
+                        style="margin-left: 45%;">提交</button>
+            </div>
+
         </aside>
     </th:block>
     <p class="back-top" id="back-top" style="display:none"><a href="#top"><span></span></a></p>
@@ -220,5 +252,22 @@
 
         $('article h1, article h2, article h3, article h4, article h5').find('a').removeAttr('target')
     })
+</script>
+
+<script>
+    var ap = new APlayer
+    ({
+        element: document.getElementById('player1'),
+        narrow: false,
+        autoplay: true,
+        showlrc: true,
+        music: {
+            title: '遇见',
+            author: '孙燕姿',
+            url: 'http://music.163.com/song/media/outer/url?id=287035.mp3',
+            pic: 'http://y.gtimg.cn/music/photo_new/T002R300x300M000002ehzTm0TxXC2.jpg'
+        }
+    });
+    ap.init();
 </script>
 </html>

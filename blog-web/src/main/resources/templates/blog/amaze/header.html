@@ -9,54 +9,39 @@
     <meta http-equiv="Window-target" content="_top"/>
     <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
 </head>
-<nav th:fragment="nav-fragment" class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-for="toggle-items">
-                <span class="sr-only"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/" th:text="${configurations.get('websiteName')}">
-            </a>
-        </div>
-        <div class="navbar-collapse" style="display: none;" id="toggle-items" >
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a th:href="@{/index}">主页</a>
-                </li>
-                <li>
-                    <a th:href="@{/link}">友链</a>
-                </li>
-                <li>
-                    <a th:href="@{/about}">关于</a>
-                </li>
-                <li>
-                    <a href="https://github.com/renjiahua945/blog/blog">GitHub</a>
-                </li>
-            </ul>
-        </div>
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
+<nav th:fragment="nav-fragment" class="navbar navbar-default navbar-custom am-topbar-fixed-top am-topbar">
+    <div style="background-color: #ffffff;">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll am-link-muted" style="height: 15%;">
+                <button type="button" class="navbar-toggle" data-for="toggle-items">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="color:#000000;" href="/" th:text="${configurations.get('websiteName')}">
+                </a>
+            </div>
+
+            <div class="navbar-collapse" id="toggle-items" >
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a th:href="@{/index}">主页</a>
+                        <a style="color:#000000;" th:href="@{/index}">主页</a>
                     </li>
                     <li>
-                        <a th:href="@{/link}">友链</a>
+                        <a style="color:#000000;" th:href="@{/link}">友链</a>
                     </li>
                     <li>
-                        <a th:href="@{/about}">关于</a>
+                        <a style="color:#000000;" th:href="@{/about}">关于</a>
                     </li>
                     <li>
-                        <a href="https://github.com/renjiahua945/blog">GitHub</a>
+                        <a style="color:#000000;" href="https://github.com/renjiahua945/blog/blog">GitHub</a>
                     </li>
                 </ul>
             </div>
-        </div>
-        <!-- /.navbar-collapse -->
+    </div>
+
         <script th:src="@{/blog/default/js/jquery.min.js}"></script>
         <script>
             $(function () {
@@ -68,18 +53,8 @@
     </div>
     <!-- /.container -->
 </nav>
-<header th:fragment="header-fragment" class="intro-header"
-        th:style="'background-image:url(' + @{/blog/amaze/images/it.jpg} + ');'">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-          <span class="subheading">
-              多元多yong的IT社区，您的忠实记录者
-          </span>
-                </div>
-            </div>
-        </div>
-    </div>
+<header th:fragment="header-fragment">
+    <div style="height: 10%; padding-top:2%;">&nbsp;</div>
 </header>
+
 </html>
