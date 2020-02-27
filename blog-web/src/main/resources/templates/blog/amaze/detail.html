@@ -8,12 +8,16 @@
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" th:href="@{${configurations.get('websiteIcon')}}"/>
     <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
+    <link rel="stylesheet" th:href="@{/blog/amaze/css/amazeui.css}">
     <!-- highlight -->
     <link rel="stylesheet" th:href="@{/blog/plugins/highlight/styles/paraiso-light.css}">
     <!--音乐播放器-->
     <link href="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.js"></script>
-    <style>
+    <!--jquery-->
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <!--音乐播放器-->
+    <style type="text/css">
         .demo{
             width:360px;
             margin:auto auto 10px auto;
@@ -21,27 +25,9 @@
         .demo p{
             padding:10px 0;
         }
-
     </style>
-    <style>
-        .hljs {
-            background: none;
-        }
-        pre code {
-            white-space: pre;
-        }
-
-        blockquote {
-            border-left: 4px solid #42b983;
-            padding: 10px 0px 10px 15px;
-            color: #777;
-            background-color: rgba(66, 185, 131, .1);
-            max-width: 890px;
-        }
-    </style>
-
 </head>
-<body style="background-color: #f8f4ed;">
+<body style="background-color: #f8f4ed; margin:0;">
 <div th:replace="blog/amaze/header::nav-fragment"></div>
 <header style="padding-top: 8%;">
     <div class="container">
@@ -56,7 +42,7 @@
                                         th:text="${blogDetailVO.commentCount}"></th:block>条评论</a> &nbsp;
                                 <th:block th:text="${blogDetailVO.blogViews}"></th:block>浏览
                             </div>
-                            </span>
+                    </span>
                     <div class="tags post-tags">
                         <th:block th:each="tag : ${blogDetailVO.blogTags}">
                             <a class="tag" rel="tag" th:href="@{'/tag/' + ${tag}}" style="color: #000000;">
@@ -69,7 +55,6 @@
         </div>
     </div>
     <div class="demo">
-        <p><strong>自制音乐播放器</strong></p>
         <div id="player1">
             <pre class="aplayer-lrc-content">
                 [00:00.00] 作曲 : 林一峰
@@ -129,10 +114,10 @@
                             <span class="date">
                                        评论时间：<th:block
                                     th:text="${#dates.format(comment.commentCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></th:block>
-                                    </span>
+                            </span>
                         </div>
                     </header>
-                    <div class="body">
+                    <div style="margin-left:9%; margin-top:1%;">
                         <th:block th:text="${comment.commentBody}"></th:block>
                     </div>
                 </article>
@@ -157,68 +142,48 @@
                 </th:block>
             </th:block>
         </th:block>
-        <th:block th:if="${null != commentPageResult}">
-            <ul class="am-pagination">
-                <li th:class="${commentPageResult.currPage==1}?'disabled' : ''"><a
-                        th:href="@{${commentPageResult.currPage==1}?'##':'/blog/'+${blogDetailVO.blogId}+'?commentPage=' + ${commentPageResult.currPage-1}+'#comments'}">&laquo;</a>
-                </li>
-                <li th:if="${commentPageResult.currPage-3 >=1}"><a
-                        th:href="@{'/blog/'+${blogDetailVO.blogId}+'?commentPage=' + ${commentPageResult.currPage-3}+'#comments'}"
-                        th:text="${commentPageResult.currPage -3}">1</a></li>
-                <li th:if="${commentPageResult.currPage-2 >=1}"><a
-                        th:href="@{'/blog/'+${blogDetailVO.blogId}+'?commentPage=' + ${commentPageResult.currPage-2}+'#comments'}"
-                        th:text="${commentPageResult.currPage -2}">1</a></li>
-                <li th:if="${commentPageResult.currPage-1 >=1}"><a
-                        th:href="@{'/blog/'+${blogDetailVO.blogId}+'?commentPage=' + ${commentPageResult.currPage-1}+'#comments'}"
-                        th:text="${commentPageResult.currPage -1}">1</a></li>
-                <li class="active"><a href="#" th:text="${commentPageResult.currPage}">1</a></li>
-                <li th:if="${commentPageResult.currPage+1 <=commentPageResult.totalPage}"><a
-                        th:href="@{'/blog/'+${blogDetailVO.blogId}+'?commentPage=' + ${commentPageResult.currPage+1}+'#comments'}"
-                        th:text="${commentPageResult.currPage +1}">1</a></li>
-                <li th:if="${commentPageResult.currPage+2 <=commentPageResult.totalPage}"><a
-                        th:href="@{'/blog/'+${blogDetailVO.blogId}+'?commentPage=' + ${commentPageResult.currPage+2}+'#comments'}"
-                        th:text="${commentPageResult.currPage +2}">1</a></li>
-                <li th:if="${commentPageResult.currPage+3 <=commentPageResult.totalPage}"><a
-                        th:href="@{'/blog/'+${blogDetailVO.blogId}+'?commentPage=' + ${commentPageResult.currPage+3}+'#comments'}"
-                        th:text="${commentPageResult.currPage +3}">1</a></li>
-                <li th:class="${commentPageResult.currPage==commentPageResult.totalPage}?'disabled' : ''"><a
-                        th:href="@{${commentPageResult.currPage==commentPageResult.totalPage}?'##' : '/blog/'+${blogDetailVO.blogId}+'?commentPage=' + ${commentPageResult.currPage+1}+'#comments'}">&raquo;</a>
-                </li>
-            </ul>
-        </th:block>
+
     </aside>
     <th:block th:if="${blogDetailVO.enableComment==0}">
         <aside class="create-comment" id="create-comment">
             <hr>
             <h2><i class="fa fa-pencil"></i> 添加评论</h2>
 
-            <div style="width: 36%; float: right; z-index: -1;">
-                <img src="/blog/amaze/images/envelope.png">
-            </div>
-
-            <div id="commentForm" class="form" style="width: 60%;">
+            <div id="commentForm" class="form" style="width:auto; margin:0 auto; text-align: center;">
                 <input type="hidden" id="blogId" name="blogId" th:value="${blogDetailVO.blogId}"></input>
-                <input type="text" name="commentator" id="commentator" placeholder="(*必填)怎么称呼你?">
 
-                <input type="email" name="email" id="email" placeholder="(*必填)你的联系邮箱">
-
-                <input type="text" name="websiteUrl" id="websiteUrl" placeholder="你的网站地址(可不填)">
-
+                <!--横向表单-->
+                <div class="am-form-inline" role="form" style="display: inline-block;">
+                    <!--头像-->
+                    <div class="am-form-group">
+                        <img id="idPic" class="am-img-thumbnail" src="/blog/default/img/avatar.png" style="width:60%; border-radius: 50%;">
+                    </div>
+                    <!--QQ号-->
+                    <div class="am-form-group">
+                        <input  id="qqNum" type="email" class="am-form-field" placeholder="qq号">
+                    </div>
+                    <!--昵称-->
+                    <div class="am-form-group">
+                        <input  id="commentator" type="text" class="am-form-field" placeholder="qq昵称">
+                    </div>
+                    <!--邮箱-->
+                    <div class="am-form-group">
+                        <input  id="email" type="email" class="am-form-field" placeholder="电子邮箱">
+                    </div>
+                </div>
+                <!--评论-->
+                <textarea rows="5" name="commentBody" id="commentBody" style="width: 65%;" placeholder="请输入您的评论"></textarea>
+                <!--图片验证-->
                 <input style="width:50%" type="text" name="verifyCode" id="verifyCode"
-                               placeholder="(*必填)请输入验证码">&nbsp;&nbsp;
-
-                <img alt="单击图片刷新！" class="pointer" style="margin-top: 1%; border-radius: 49%; width:auto;" th:src="@{/common/kaptcha}"
+                       placeholder="Verification Code">&nbsp;&nbsp;
+                <img alt="单击图片刷新！" class="pointer" th:src="@{/common/kaptcha}"
                      onclick="this.src='/common/kaptcha?d='+new Date()*1">
-
-                <textarea rows="5" name="commentBody" id="commentBody" placeholder="(*必填)请输入你的评论"></textarea>
-
-                <button id="commentSubmit" type="submit" class="submit am-btn am-btn-primary"
-                        style="margin-left: 45%;">提交</button>
+                <br/>
+                <!--提交-->
+                <button id="commentSubmit" type="submit" class="submit am-btn am-btn-primary">提交</button>
             </div>
-
         </aside>
     </th:block>
-    <p class="back-top" id="back-top" style="display:none"><a href="#top"><span></span></a></p>
 </div>
 <footer th:replace="blog/amaze/footer::footer-fragment"></footer>
 </body>
@@ -226,34 +191,8 @@
 <script th:src="@{/blog/plugins/highlight/highlight.pack.js}"></script>
 <script th:src="@{/blog/plugins/comment/valid.js}"></script>
 <script th:src="@{/blog/plugins/comment/comment.js}"></script>
-<!-- sweetalert -->
-<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
-<script>
-    $(function () {
-        $("#back-top").hide();
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 300) {
-                $('#back-top').fadeIn();
-            } else {
-                $('#back-top').fadeOut();
-            }
-        });
-        // scroll body to 0px on click
-        $('#back-top a').click(function () {
-            $('body,html').animate({
-                scrollTop: 0
-            }, 800);
-            return false;
-        });
 
-        $('pre code').each(function (i, block) {
-            hljs.highlightBlock(block);
-        });
-
-        $('article h1, article h2, article h3, article h4, article h5').find('a').removeAttr('target')
-    })
-</script>
-
+<!--音乐播放器-->
 <script>
     var ap = new APlayer
     ({
@@ -270,4 +209,17 @@
     });
     ap.init();
 </script>
+
+<!--评论区异步刷新-->
+<script type="text/javascript">
+    var qqNum=document.getElementById('qqNum');
+    qqNum.onmouseout=function(){
+        var qqnum = qqNum.value;
+        var idpic=document.getElementById("idPic");
+        document.getElementById("email").value=qqnum+"@qq.com";
+        idpic.src="/blog/amaze/images/testimg.jpg";
+        document.getElementById("commentator").value="不一样的烟火";
+    }
+</script>
+
 </html>

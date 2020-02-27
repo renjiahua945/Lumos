@@ -6,7 +6,7 @@
             <th:block th:if="${null != blogPageResult}">
                 <th:block th:each="blog,iterStat : ${blogPageResult.list}">
                     <article class="am-g blog-entry-article">
-                        <div class="am-u-lg-6 am-u-lg-12 am-u-sm-12 blog-entry-text post-preview">
+                        <div class="am-u-lg-6 am-u-lg-12 am-u-sm-12 blog-entry-text post-preview" style="margin-top: 5%;">
                             <div class="topic-header">
                                 <div class="pull-left">
                                     <div class="blog-flex-center">
@@ -19,10 +19,10 @@
                                                th:text="${configurations.get('yourName')}">13</a>
                                             <span class="in">in</span>
                                             <span class="category-name">
-                                <a class="category-name" rel="tag" th:href="@{'/category/' + ${blog.blogCategoryName}}"
-                                   th:utext="${blog.blogCategoryName}">
-                                    </a>
-                            </span>
+                                                <a class="category-name" rel="tag" th:href="@{'/category/' + ${blog.blogCategoryName}}"
+                                                   th:utext="${blog.blogCategoryName}">
+                                                    </a>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
