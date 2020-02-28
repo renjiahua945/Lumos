@@ -10,3 +10,12 @@ target/
 *.zip
 *.tar.gz
 *.rar
+/.idea
+/*.iml
+/blog-common/*.iml
+/blog-configs/*.iml
+/blog-repository/*.iml
+/blog-domain/*.iml
+/blog-service/*.iml
+/blog-web/*.iml
+/blog-worker/*.iml
