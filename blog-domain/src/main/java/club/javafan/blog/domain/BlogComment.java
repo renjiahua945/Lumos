@@ -25,7 +25,18 @@ public class BlogComment {
     * 评论人的邮箱
     */
     private String email;
-
+    /**
+     * 评论人qq号
+     */
+    private String qNumber;
+    /**
+     * 评论人昵称
+     */
+    private String nickName;
+    /**
+     *  评论人头像
+     */
+    private String headImg;
     /**
     * 网址
     */

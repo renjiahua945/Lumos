@@ -1,49 +1,64 @@
+function qqfun(){
+    var qNumber = $('#qqNum').val();
+    if (qNumber) {
+        $.ajax({
+            type:'post',
+            url: "/blog/comment/getUserInfo",
+            data:{"qq":qNumber},
+            success:function (res) {
+                if (res) {
+                    console.log(res)
+                    $('#email').val(res.qemail)
+                    $('#commentator').val(res.nickName)
+                    $('#idPic').attr("src", res.headImage)
+                }
+            }
+        })
+    }
+}
+
 $('#commentSubmit').click(function () {
     var blogId = $('#blogId').val();
     var verifyCode = $('#verifyCode').val();
-    var commentator = $('#commentator').val();
+    var nickName = $('#commentator').val();
     var email = $('#email').val();
+    var qNumber = $('#qqNum').val();
+    var headImg = $('#idPic').attr("src");
     var websiteUrl = $('#websiteUrl').val();
     var commentBody = $('#commentBody').val();
-    if (isNull(blogId)) {
+    if (blogId) {
         swal("参数异常", {
             icon: "warning",
         });
         return;
     }
-    if (isNull(commentator)) {
+    if (nickName) {
         swal("请输入你的称呼", {
             icon: "warning",
         });
         return;
     }
-    if (isNull(email)) {
+    if (email) {
         swal("请输入你的邮箱", {
             icon: "warning",
         });
         return;
     }
-    if (isNull(verifyCode)) {
+    if (qNumber) {
+        swal("请输入你的QQ号", {
+            icon: "warning",
+        });
+        return;
+    }
+    if (verifyCode) {
         swal("请输入验证码", {
             icon: "warning",
         });
         return;
     }
-    if (!validCN_ENString2_100(commentator)) {
-        swal("请输入符合规范的名称(不要输入特殊字符)", {
-            icon: "warning",
-        });
-        return;
-    }
-    if (!validCN_ENString2_100(commentBody)) {
-        swal("请输入符合规范的评论内容(不要输入特殊字符)", {
-            icon: "warning",
-        });
-        return;
-    }
     var data = {
-        "blogId": blogId, "verifyCode": verifyCode, "commentator": commentator,
-        "email": email, "websiteUrl": websiteUrl, "commentBody": commentBody
+        "blogId": blogId, "verifyCode": verifyCode, "nickName": commentator,"headImg":headImg,
+        "qNumber":qNumber, "email": email, "websiteUrl": websiteUrl, "commentBody": commentBody
     };
     console.log(data);
     $.ajax({

@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -241,7 +242,8 @@ public class MyBlogController {
     @ResponseBody
     public ResponseResult comment(HttpServletRequest request, HttpSession session,
                                   @RequestParam Long blogId, @RequestParam String verifyCode,
-                                  @RequestParam String commentator, @RequestParam String email,
+                                  @RequestParam String email, @RequestParam String qNumber,
+                                  @RequestParam String nickName, @RequestParam String headImg,
                                   @RequestParam String websiteUrl, @RequestParam String commentBody) {
         if (StringUtils.isEmpty(verifyCode)) {
             return ResponseResult.failResult("验证码不能为空");
@@ -260,14 +262,20 @@ public class MyBlogController {
         if (null == blogId || blogId < 0) {
             return ResponseResult.failResult("非法请求");
         }
-        if (StringUtils.isEmpty(commentator)) {
-            return ResponseResult.failResult("请输入称呼");
-        }
         if (StringUtils.isEmpty(email)) {
             return ResponseResult.failResult("请输入邮箱地址");
         }
         if (!PatternUtil.isEmail(email)) {
             return ResponseResult.failResult("请输入正确的邮箱地址");
+        }
+        if (nickName.trim().length() > 50) {
+            return ResponseResult.failResult("昵称非法");
+        }
+        if (qNumber.trim().length() > 20) {
+            return ResponseResult.failResult("qq号非法");
+        }
+        if (headImg.trim().length() > 200 || !PatternUtil.isURL(headImg)) {
+            return ResponseResult.failResult("头像非法");
         }
         if (StringUtils.isEmpty(commentBody)) {
             return ResponseResult.failResult("请输入评论内容");
@@ -277,20 +285,19 @@ public class MyBlogController {
         }
         BlogComment comment = new BlogComment();
         comment.setBlogId(blogId);
-        AipContentCensorBuilder.SensorResult sensorResult = AipContentCensorBuilder.judgeText(commentator);
-        if (!sensorResult.getCode().equals(NumberUtils.INTEGER_ZERO)) {
-            return ResponseResult.successResult().setData(false);
-        }
-        comment.setCommentator(commentator);
         comment.setEmail(email);
+        comment.setQNumber(qNumber);
+        comment.setNickName(nickName);
+        comment.setHeadImg(headImg);
         if (PatternUtil.isURL(websiteUrl)) {
             comment.setWebsiteUrl(websiteUrl);
         }
-        AipContentCensorBuilder.SensorResult results = AipContentCensorBuilder.judgeText(commentBody);
+        comment.setCommentBody(commentBody);
+        comment.setCommentCreateTime(new Date());
+        AipContentCensorBuilder.SensorResult results = AipContentCensorBuilder.judgeText(comment.toString());
         if (!results.getCode().equals(NumberUtils.INTEGER_ZERO)) {
             return ResponseResult.successResult().setData(false);
         }
-        comment.setCommentBody(commentBody);
         Boolean aBoolean = commentService.addComment(comment);
         return ResponseResult.successResult().setData(aBoolean);
     }
@@ -313,7 +320,7 @@ public class MyBlogController {
         modelAndView.addObject("configurations", configService.getAllConfigs());
         return modelAndView;
     }
-    @RequestMapping("/getUserInfo")
+    @RequestMapping("/blog/comment/getUserInfo")
     @ResponseBody
     public QQUserInfoVO getUserInfo(@RequestParam String qq) throws Exception {
         QQUserInfoVO qqUserInfo = this.qqUserInfo.getQQUserInfo(qq);

@@ -8,6 +8,9 @@
     <result column="blog_id" jdbcType="BIGINT" property="blogId" />
     <result column="commentator" jdbcType="VARCHAR" property="commentator" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="q_number" jdbcType="VARCHAR" property="qNumber" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="head_img" jdbcType="VARCHAR" property="headImg" />
     <result column="website_url" jdbcType="VARCHAR" property="websiteUrl" />
     <result column="comment_body" jdbcType="VARCHAR" property="commentBody" />
     <result column="comment_create_time" jdbcType="TIMESTAMP" property="commentCreateTime" />
@@ -118,7 +121,7 @@
   </delete>
   <insert id="insert" keyColumn="comment_id" keyProperty="commentId" parameterType="club.javafan.blog.domain.BlogComment" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into tb_blog_comment (blog_id, commentator, email, 
+    insert into tb_blog_comment (blog_id, commentator, email,q_number,nick_name,head_img,
       website_url, comment_body, comment_create_time, 
       commentator_ip, reply_body, reply_create_time, 
       comment_status, is_deleted)
@@ -139,6 +142,15 @@
       </if>
       <if test="email != null">
         email,
+      </if>
+      <if test="email != null">
+        q_number,
+      </if>
+      <if test="email != null">
+        nick_name,
+      </if>
+      <if test="email != null">
+        head_img,
       </if>
       <if test="websiteUrl != null">
         website_url,
@@ -174,6 +186,15 @@
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qNumber != null">
+        #{qNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="headImg != null">
+        #{headImg,jdbcType=VARCHAR},
       </if>
       <if test="websiteUrl != null">
         #{websiteUrl,jdbcType=VARCHAR},
@@ -224,6 +245,15 @@
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
       </if>
+      <if test="record.qNumber != null">
+        q_number = #{record.qNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickName != null">
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.headImg != null">
+        head_img = #{record.headImg,jdbcType=VARCHAR},
+      </if>
       <if test="record.websiteUrl != null">
         website_url = #{record.websiteUrl,jdbcType=VARCHAR},
       </if>
@@ -260,6 +290,9 @@
       blog_id = #{record.blogId,jdbcType=BIGINT},
       commentator = #{record.commentator,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
+      q_number = #{record.qNumber,jdbcType=VARCHAR},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      head_img = #{record.headImg,jdbcType=VARCHAR},
       website_url = #{record.websiteUrl,jdbcType=VARCHAR},
       comment_body = #{record.commentBody,jdbcType=VARCHAR},
       comment_create_time = #{record.commentCreateTime,jdbcType=TIMESTAMP},
@@ -284,6 +317,15 @@
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qNumber != null">
+        q_number = #{qNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="headImg != null">
+        head_img = #{headImg,jdbcType=VARCHAR},
       </if>
       <if test="websiteUrl != null">
         website_url = #{websiteUrl,jdbcType=VARCHAR},
@@ -318,6 +360,9 @@
     set blog_id = #{blogId,jdbcType=BIGINT},
       commentator = #{commentator,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
+      q_number = #{qNumber,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      head_img = #{headImg,jdbcType=VARCHAR},
       website_url = #{websiteUrl,jdbcType=VARCHAR},
       comment_body = #{commentBody,jdbcType=VARCHAR},
       comment_create_time = #{commentCreateTime,jdbcType=TIMESTAMP},

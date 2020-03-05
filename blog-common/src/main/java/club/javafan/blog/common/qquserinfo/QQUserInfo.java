@@ -52,7 +52,8 @@ public class QQUserInfo {
                 if (jsonArray.isEmpty()) {
                     return null;
                 }
-                qqUserInfoVO.setHeadImage((String) jsonArray.get(0));
+                String headUrl = (String) jsonArray.get(0);
+                qqUserInfoVO.setHeadImage(headUrl);
                 qqUserInfoVO.setNickName((String) jsonArray.get(6));
                 qqUserInfoVO.setQNumber(qq);
                 qqUserInfoVO.setQEmail(qq + "@qq.com");
