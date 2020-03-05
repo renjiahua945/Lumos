@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ZERO;
 
 /**
- * @author 不会敲代码的小白(博客)
+ * @author 敲代码的长腿毛欧巴(博客)
  * @date 2019/12/25 21:07
  * @desc 博客配置类
  */
@@ -28,18 +28,18 @@ public class ConfigServiceImpl implements ConfigService {
     private ConfigMapper configMapper;
 
     public static final String WEBSITE_NAME = "个人博客";
-    public static final String WEBSITE_DESC = "不会敲代码的小白是SpringBoot2+Thymeleaf+Mybatis建造的个人博客网站.SpringBoot实战博客源码.个人博客搭建";
+    public static final String WEBSITE_DESC = "敲代码的长腿毛欧巴是SpringBoot2+Thymeleaf+Mybatis建造的个人博客网站.SpringBoot实战博客源码.个人博客搭建";
     public static final String WEBSITE_LOGO = "/admin/dist/img/logo2.png";
     public static final String WEBSITE_ICON = "/admin/dist/img/favicon.png";
 
     public static final String AVATAR = "/admin/dist/img/13.png";
     public static final String EMAIL = "renjiahua945@vip.qq.com";
-    public static final String NAME = "不会敲代码的小白";
+    public static final String NAME = "敲代码的长腿毛欧巴";
 
     public static final String ABOUT = "世上本没有bug,写的人多了也便成了bug";
     public static final String ICP = "冀ICP备 xxxxxx-x号";
-    public static final String COPY_RIGHT = "@2020 不会敲代码的小白";
-    public static final String POWER_BY = "不会敲代码的小白";
+    public static final String COPY_RIGHT = "@2020 敲代码的长腿毛欧巴";
+    public static final String POWER_BY = "敲代码的长腿毛欧巴";
     public static final String POWER_BY_URL = "##";
 
     @Override

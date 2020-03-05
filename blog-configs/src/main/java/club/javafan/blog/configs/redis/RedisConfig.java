@@ -29,7 +29,7 @@ import java.time.Duration;
  * 启用缓存，这个注解很重要；
  * 继承CachingConfigurerSupport，为了自定义生成KEY的策略。可以不继承
  * 。
- * @author 不会敲代码的小白
+ * @author 敲代码的长腿毛欧巴
  * @createDate 2019/12/31
 */
 @SuppressWarnings("ALL")

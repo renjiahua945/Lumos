@@ -10,7 +10,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.context.annotation.Bean;
 
 /**
- * @author 不会敲代码的小白
+ * @author 敲代码的长腿毛欧巴
  * @date 2020/2/1
  * @desc tomcat配置(SpringBoot 内置tomcat 需要调优)
  */

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import static club.javafan.blog.domain.enums.DataSourceEnum.MASTER;
 import static club.javafan.blog.domain.enums.DataSourceEnum.SLAVE;
 /**
- * @author 不会敲代码的小白(博客)
+ * @author 敲代码的长腿毛欧巴(博客)
  * @date 2019/12/8 10:29
  * @desc 动态数据源切面
  */

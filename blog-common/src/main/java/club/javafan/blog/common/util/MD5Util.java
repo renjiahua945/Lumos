@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 /**
  *  MD5 util
  *
- * @author 不会敲代码的小白
+ * @author 敲代码的长腿毛欧巴
  * @createDate 2020/1/1
 */
 public class MD5Util {

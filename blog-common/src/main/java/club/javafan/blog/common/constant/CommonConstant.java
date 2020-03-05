@@ -3,7 +3,7 @@ package club.javafan.blog.common.constant;
 /**
  * 通用字符串常量
  *
- * @author 不会敲代码的小白
+ * @author 敲代码的长腿毛欧巴
  * @date 2020/2/8
  */
 

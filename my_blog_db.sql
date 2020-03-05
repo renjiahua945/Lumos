@@ -33,7 +33,7 @@ CREATE TABLE `tb_admin_user`  (
 -- ----------------------------
 -- Records of tb_admin_user
 -- ----------------------------
-INSERT INTO `tb_admin_user` VALUES (1, 'renjiahua', '027d3922dd6fa2060d6a9c1bbf69e122', '不会敲代码的小白', 0);
+INSERT INTO `tb_admin_user` VALUES (1, 'renjiahua', '027d3922dd6fa2060d6a9c1bbf69e122', '敲代码的长腿毛欧巴', 0);
 
 -- ----------------------------
 -- Table structure for tb_blog
@@ -131,17 +131,17 @@ CREATE TABLE `tb_config`  (
 -- Records of tb_config
 -- ----------------------------
 INSERT INTO `tb_config` VALUES ('footerAbout', 'bug', '2018-11-11 20:33:23', '2020-01-01 02:16:49');
-INSERT INTO `tb_config` VALUES ('footerCopyRight', '2020 不会敲代码的小白', '2018-11-11 20:33:31', '2020-01-01 02:16:49');
+INSERT INTO `tb_config` VALUES ('footerCopyRight', '2020 敲代码的长腿毛欧巴', '2018-11-11 20:33:31', '2020-01-01 02:16:49');
 INSERT INTO `tb_config` VALUES ('footerICP', '冀 xxxxxx', '2018-11-11 20:33:27', '2020-01-01 02:16:49');
 INSERT INTO `tb_config` VALUES ('footerPoweredBy', 'https://github.com/renjiahua945', '2018-11-11 20:33:36', '2020-01-01 02:16:49');
 INSERT INTO `tb_config` VALUES ('footerPoweredByURL', 'https://github.com/renjiahua945', '2018-11-11 20:33:39', '2020-01-01 02:16:49');
-INSERT INTO `tb_config` VALUES ('websiteDescription', '不会敲代码的小白的博客是SpringBoot2+Thymeleaf+Mybatis建造的个人博客网站.SpringBoot实战博客源码', '2018-11-11 20:33:04', '2020-01-01 02:47:13');
+INSERT INTO `tb_config` VALUES ('websiteDescription', '敲代码的长腿毛欧巴的博客是SpringBoot2+Thymeleaf+Mybatis建造的个人博客网站.SpringBoot实战博客源码', '2018-11-11 20:33:04', '2020-01-01 02:47:13');
 INSERT INTO `tb_config` VALUES ('websiteIcon', '/admin/dist/img/favicon.png', '2018-11-11 20:33:11', '2020-01-01 02:47:13');
 INSERT INTO `tb_config` VALUES ('websiteLogo', '/admin/dist/img/logo2.png', '2018-11-11 20:33:08', '2020-01-01 02:47:13');
-INSERT INTO `tb_config` VALUES ('websiteName', '不会敲代码的小白的博客', '2018-11-11 20:33:01', '2020-01-01 02:47:13');
+INSERT INTO `tb_config` VALUES ('websiteName', '敲代码的长腿毛欧巴的博客', '2018-11-11 20:33:01', '2020-01-01 02:47:13');
 INSERT INTO `tb_config` VALUES ('yourAvatar', '/admin/dist/img/13.png', '2018-11-11 20:33:14', '2020-01-01 02:15:56');
 INSERT INTO `tb_config` VALUES ('yourEmail', 'renjiahua945@vip.qq.com', '2018-11-11 20:33:17', '2020-01-01 02:15:56');
-INSERT INTO `tb_config` VALUES ('yourName', '不会敲代码的小白', '2018-11-11 20:33:20', '2020-01-01 02:15:56');
+INSERT INTO `tb_config` VALUES ('yourName', '敲代码的长腿毛欧巴', '2018-11-11 20:33:20', '2020-01-01 02:15:56');
 
 -- ----------------------------
 -- Table structure for tb_link

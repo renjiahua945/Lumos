@@ -1,6 +1,8 @@
 package club.javafan.blog.web;
 
+import club.javafan.blog.common.constant.RedisKeyConstant;
 import club.javafan.blog.common.mail.MailService;
+import club.javafan.blog.common.util.DateUtils;
 import club.javafan.blog.common.util.RedisUtil;
 import club.javafan.blog.repository.BlogMapper;
 import org.junit.Test;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,19 +32,14 @@ public class BlogApplicationTests {
     @Test
     public void contextLoads() {
         redisUtil.get("dadad");
-//        try {
-//            mailService.sendSimpleMail("35673847@qq.com","您的验证码是","134131");
-//            System.out.println("SUCCESS");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
         //避免为0为空 加一
-//        long all = redisUtil.incr(RedisKeyConstant.CS_PAGE_VIEW + DateUtils.getYestoday());
-//        Object o = redisUtil.get(RedisKeyConstant.EXCEPTION_AMOUNT + DateUtils.getYestoday());
-//        long exception = Objects.isNull(o) ? 0 : (long)o;
-//        double rate = exception / (all * 1.0);
-//        String s = String.format("%.2f", rate) + "%";
-//        System.out.println(s);
+        long all = redisUtil.incr(RedisKeyConstant.CS_PAGE_VIEW + DateUtils.getYestoday());
+        Object o = redisUtil.get(RedisKeyConstant.EXCEPTION_AMOUNT + DateUtils.getYestoday());
+        long exception = Objects.isNull(o) ? 0 : (long)o;
+        double rate = exception / (all * 1.0);
+        String s = String.format("%.2f", rate) + "%";
+        System.out.println(s);
     }
 
 

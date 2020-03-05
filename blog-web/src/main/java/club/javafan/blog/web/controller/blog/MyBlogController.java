@@ -2,15 +2,18 @@ package club.javafan.blog.web.controller.blog;
 
 
 import club.javafan.blog.common.Result.ResponseResult;
+import club.javafan.blog.common.qquserinfo.QQUserInfo;
 import club.javafan.blog.common.sennsor.AipContentCensorBuilder;
 import club.javafan.blog.common.util.PageResult;
 import club.javafan.blog.common.util.PatternUtil;
 import club.javafan.blog.domain.BlogComment;
 import club.javafan.blog.domain.BlogLink;
 import club.javafan.blog.domain.vo.BlogDetailVO;
+import club.javafan.blog.domain.vo.QQUserInfoVO;
 import club.javafan.blog.domain.vo.SimpleBlogListVO;
 import club.javafan.blog.service.*;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +29,7 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 /**
- * @author 不会敲代码的小白(博客)
+ * @author 敲代码的长腿毛欧巴(博客)
  * @date 2019/12/30 23:41
  * @desc 博客
  */
@@ -44,7 +47,8 @@ public class MyBlogController {
     private ConfigService configService;
     @Resource
     private CategoryService categoryService;
-
+    @Resource
+    private QQUserInfo qqUserInfo;
     /**
      * 首页
      *
@@ -308,5 +312,11 @@ public class MyBlogController {
         modelAndView.addObject("pageName", subUrl);
         modelAndView.addObject("configurations", configService.getAllConfigs());
         return modelAndView;
+    }
+    @RequestMapping("/getUserInfo")
+    @ResponseBody
+    public QQUserInfoVO getUserInfo(@RequestParam String qq) throws Exception {
+        QQUserInfoVO qqUserInfo = this.qqUserInfo.getQQUserInfo(qq);
+        return qqUserInfo;
     }
 }

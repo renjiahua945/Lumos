@@ -3,7 +3,7 @@ package club.javafan.blog.common.util;
 import java.util.HashMap;
 
 /**
- * @author 不会敲代码的小白(博客)
+ * @author 敲代码的长腿毛欧巴(博客)
  * @date 2019/12/11 21:38
  * @desc 分页插件实体
  */

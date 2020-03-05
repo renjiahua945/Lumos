@@ -4,7 +4,7 @@ import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ONE;
 import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ZERO;
 
 /**
- * @author 不会敲代码的小白(博客)
+ * @author 敲代码的长腿毛欧巴(博客)
  * @date 2019/12/8 14:29
  * @desc 返回结果类
  */
@@ -18,7 +18,7 @@ public class ResponseResult<T> {
      */
     private Integer code;
     /**
-     * @author 不会敲代码的小白(博客)
+     * @author 敲代码的长腿毛欧巴(博客)
      * @date 2019/12/8 14:30
      * @desc 返回结果数据
      */

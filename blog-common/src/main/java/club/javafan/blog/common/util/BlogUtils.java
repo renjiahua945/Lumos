@@ -3,7 +3,7 @@ package club.javafan.blog.common.util;
 import java.net.URI;
 
 /**
- * @author 不会敲代码的小白(博客)
+ * @author 敲代码的长腿毛欧巴(博客)
  * @date 2019/12/28 20:52
  * @desc 博客工具类
  */

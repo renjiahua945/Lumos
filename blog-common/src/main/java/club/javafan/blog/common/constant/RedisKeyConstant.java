@@ -5,7 +5,7 @@ import club.javafan.blog.common.annotation.RedisKey;
 import static club.javafan.blog.domain.enums.RedisStructureEnum.STRING;
 
 /**
- * @author 不会敲代码的小白(博客)
+ * @author 敲代码的长腿毛欧巴(博客)
  * @date 2019/12/10 22:55
  * @desc redis Key类 记录所有的redis key 和数据结构
  */

@@ -23,7 +23,7 @@ import static club.javafan.blog.common.constant.RedisKeyConstant.EXCEPTION_AMOUN
 
 
 /**
- * @author 不会敲代码的小白
+ * @author 敲代码的长腿毛欧巴
  * @date 2020/1/30
  * 定时发送邮件类(如果是集群，应该加上分布式锁)
  */

@@ -14,7 +14,7 @@ import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ZERO;
 /**
  * 文本审核单例
  *
- * @author 不会敲代码的小白
+ * @author 敲代码的长腿毛欧巴
  * @createDate 2020/2/2
  */
 @Component

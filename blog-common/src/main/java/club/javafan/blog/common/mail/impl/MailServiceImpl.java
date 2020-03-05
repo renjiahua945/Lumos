@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 
 /**
- * @author 不会敲代码的小白
+ * @author 敲代码的长腿毛欧巴
  * @date 2020/1/30
  * 邮件发送类
  */
@@ -38,7 +38,7 @@ public class MailServiceImpl implements MailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(content);
-        message.setFrom("不会敲代码的小白" + "<" + from + ">");
+        message.setFrom("敲代码的长腿毛欧巴" + "<" + from + ">");
         mailSender.send(message);
     }
 
@@ -86,7 +86,7 @@ public class MailServiceImpl implements MailService {
      */
     private MimeMessageHelper buildHelper(String to, String subject, String content, MimeMessage message, String[] cc) throws MessagingException {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        message.setFrom("不会敲代码的小白" + "<" + from + ">");
+        message.setFrom("敲代码的长腿毛欧巴" + "<" + from + ">");
         helper.setTo(to);
         if (ArrayUtils.isNotEmpty(cc)) {
             helper.setCc(cc);
