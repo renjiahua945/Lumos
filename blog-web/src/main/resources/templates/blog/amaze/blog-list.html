@@ -1,6 +1,6 @@
 <!DOCTYPE html><!--suppress ALL-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="blog-list-fragment" class="am-u-lg-8 am-u-sm-12" style="background-color: #ffffff;">
+<div th:fragment="blog-list-fragment" class="am-u-lg-8 am-u-sm-12">
     <main class="articles-list">
         <div>
             <th:block th:if="${null != blogPageResult}">
@@ -15,11 +15,11 @@
                                                  class="link avatar avatar-image">
                                         </div>
                                         <div class="author-lockup blog-flex1">
-                                            <a class="link" href="javascript:;"
+                                            <a class="link am-link-muted" href="javascript:;"
                                                th:text="${configurations.get('yourName')}">13</a>
                                             <span class="in">in</span>
                                             <span class="category-name">
-                                                <a class="category-name" rel="tag" th:href="@{'/category/' + ${blog.blogCategoryName}}"
+                                                <a class="category-name am-link-muted" rel="tag" th:href="@{'/category/' + ${blog.blogCategoryName}}"
                                                    th:utext="${blog.blogCategoryName}">
                                                     </a>
                                             </span>
@@ -29,13 +29,13 @@
                                 <span class="pull-right time pc_time"
                                       th:text="${#dates.format(blog.createTime, 'yyyy-MM-dd')}">2019-01</span>
                             </div>
-                            <h1 class="post-index-title"><a itemtype="url" th:href="@{'/blog/' + ${blog.blogId}}">
+                            <h1 class="post-index-title"><a itemtype="url" class="am-link-muted" th:href="@{'/blog/' + ${blog.blogId}}">
                                 <th:block th:text="${blog.blogTitle}"></th:block>
                             </a>
                             </h1>
-                            <div class="post-content-preview article-body">
+                            <div class="post-content-preview article-body" style="width:30%;">
                                 <a th:href="@{'/blog/' + ${blog.blogId}}">
-                                    <img th:src="@{${blog.blogCoverImage}}" alt=""></a>
+                                    <img th:src="@{${blog.blogCoverImage}}" class="am-img-responsive"></a>
                             </div>
                             <div class="clearfix topic-footer">
                                 <span class="pull-left time mobile_time">2018-01</span>
@@ -45,7 +45,7 @@
                 </th:block>
             </th:block>
             <th:block th:if="${null != blogPageResult}">
-                <ul class="am-pagination" style="margin-top:5%; margin-left:auto; margin-right: auto;">
+                <ul class="am-pagination am-link-muted" style="margin-top:5%; margin-left:auto; margin-right: auto; text-align: center;">
                     <li th:class="${blogPageResult.currPage==1}?'disabled' : 'am-pagination-prev'"><a
                             th:href="@{${blogPageResult.currPage==1}?'##':'/page/' + ${blogPageResult.currPage-1}}">&laquo;</a>
                     </li>

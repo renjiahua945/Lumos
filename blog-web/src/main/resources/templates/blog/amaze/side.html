@@ -1,6 +1,6 @@
 <!DOCTYPE html><!--suppress ALL-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="side-fragment" class="am-u-lg-4 am-u-sm-12 am-u-lg-offset-0 am-u-sm-offset-0 sidebar-container" style="background-color: #ffffff;">
+<div th:fragment="side-fragment" class="am-u-lg-4 am-u-sm-12 am-u-lg-offset-0 am-u-sm-offset-0 sidebar-container">
     <section>
         <section>
             <div class="sidebar-header">
@@ -26,7 +26,7 @@
             <div class="tags ">
                 <th:block th:if="${null != hotTags}">
                     <th:block th:each="hotTag : ${hotTags}">
-                        <a rel="tag" th:href="@{'/tag/' + ${hotTag.tagName}}">
+                        <a rel="tag" class="am-link-muted" th:href="@{'/tag/' + ${hotTag.tagName}}">
                             <th:block th:text="${hotTag.tagName}+'('+${hotTag.tagCount}+')'"></th:block>
                         </a>
                     </th:block>
@@ -40,7 +40,7 @@
                 </span>
             </div>
             <div class="sidebar-list">
-                <ul class="sidebar-list-body sidebar-list-items">
+                <ul class="sidebar-list-body sidebar-list-items am-link-muted">
                     <th:block th:if="${null != newBlogs}">
                         <th:block th:each="newBlog : ${newBlogs}">
                             <li class="sidebar-list-item"><a th:href="@{'/blog/' + ${newBlog.blogId}}"

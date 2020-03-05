@@ -1,6 +1,8 @@
 <!DOCTYPE html><!--suppress ALL-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="blog/amaze/header::head-fragment"></head>
+<head th:replace="blog/amaze/header::head-fragment">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+</head>
 <body id="blog" style="background-color: #f8f4ed;">
 <div th:replace="blog/amaze/header::nav-fragment" style="position: fixed;"></div>
 <div th:replace="blog/amaze/header::header-fragment" style="position: fixed;"></div>

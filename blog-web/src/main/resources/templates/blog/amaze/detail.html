@@ -1,0 +1,219 @@
+<!DOCTYPE html><!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html><!--suppress ALL-->
+<html>
+<head>
+    <title th:text="${configurations.get('websiteName')}+' | '+${pageName}">详情页</title>
+    <meta name="description" th:content="${configurations.get('websiteDescription')}">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" th:href="@{${configurations.get('websiteIcon')}}"/>
+    <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
+    <link rel="stylesheet" th:href="@{/blog/amaze/css/amazeui.css}">
+    <!-- highlight -->
+    <link rel="stylesheet" th:href="@{/blog/plugins/highlight/styles/paraiso-light.css}">
+    <!--音乐播放器-->
+    <link href="//cdn.bootcss.com/aplayer/1.10.1/APlayer.min.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/aplayer/1.10.1/APlayer.min.js"></script>
+    <!--jquery-->
+    <script src="//cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <!--音乐播放器-->
+    <style type="text/css">
+        .demo{
+            width:360px;
+            margin:auto auto 10px auto;
+        }
+        .demo p{
+            padding:10px 0;
+        }
+    </style>
+</head>
+<body style="background-color: #f8f4ed; margin:0;">
+<div th:replace="blog/amaze/header::nav-fragment"></div>
+<header style="padding-top: 8%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1 th:text="${blogDetailVO.blogTitle}"></h1>
+                    <span class="meta">
+                        <th:block th:text="${#dates.format(blogDetailVO.createTime, 'yyyy-MM-dd')}"></th:block> &nbsp;
+                            <div class="comments-view" style="display: inline-block">
+                                <a href="#comments" class="article-comments" style="color: #000000;"><th:block
+                                        th:text="${blogDetailVO.commentCount}"></th:block>条评论</a> &nbsp;
+                                <th:block th:text="${blogDetailVO.blogViews}"></th:block>浏览
+                            </div>
+                    </span>
+                    <div class="tags post-tags">
+                        <th:block th:each="tag : ${blogDetailVO.blogTags}">
+                            <a class="tag" rel="tag" th:href="@{'/tag/' + ${tag}}" style="color: #000000;">
+                                <th:block th:text="${tag}"></th:block>
+                            </a>&nbsp;
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="demo">
+        <div id="player1">
+            <pre class="aplayer-lrc-content">
+                [00:00.00] 作曲 : 林一峰
+                [00:01.00] 作词 : 易家扬
+                [00:24.898]听见 冬天的离开
+                [00:29.697]我在某年某月 醒过来
+                [00:34.768]我想 我等 我期待
+                [00:40.598]未来却不能因此安排
+                [00:53.398]阴天 傍晚 车窗外
+                [00:58.758]未来有一个人在等待
+                [01:04.298]向左向右向前看
+                [01:09.599]爱要拐几个弯才来
+                [01:14.369]我遇见谁 会有怎样的对白
+                [01:19.638]我等的人 他在多远的未来
+                [01:24.839]我听见风来自地铁和人海
+                [01:30.399]我排着队 拿着爱的号码牌
+                [01:56.388]阴天 傍晚 车窗外
+                [02:02.298]未来有一个人在等待
+                [02:06.650]向左向右向前看
+                [02:12.000]爱要拐几个弯才来
+                [02:16.980]我遇见谁 会有怎样的对白
+                [02:22.289]我等的人 他在多远的未来
+                [02:27.989]我听见风来自地铁和人海
+                [02:32.688]我排着队 拿着爱的号码牌
+                [02:43.380]我往前飞 飞过一片时间海
+                [02:48.298]我们也曾在爱情里受伤害
+                [02:53.689]我看着路 梦的入口有点窄
+                [02:58.748]我遇见你是最美丽的意外
+                [03:05.888]总有一天 我的谜底会揭开
+            </pre>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="am-g am-g-fixed blog-fixed">
+        <div class="am-u-lg-12 am-u-sm-12">
+            <article class="am-article blog-article-p article-trigger">
+                <div id="post-content" class="am-article-bd article-body">
+                    <th:block th:utext="${blogDetailVO.blogContent}"/>
+                    <aside class="blog-rights clearfix">
+                        <p>本站文章除注明转载/出处外，皆为作者原创，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。</p>
+                    </aside>
+                </div>
+            </article>
+            <hr>
+        </div>
+    </div>
+    <aside class="comments" id="comments">
+        <th:block th:if="${null != commentPageResult}">
+            <th:block th:each="comment,iterStat : ${commentPageResult.list}">
+                <article class="comment">
+                    <header class="clearfix">
+                        <img th:src="@{/blog/default/img/avatar.png}" class="avatar">
+                        <div class="meta">
+                            <h3 th:text="${comment.commentator}"></h3>
+                            <span class="date">
+                                       评论时间：<th:block
+                                    th:text="${#dates.format(comment.commentCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></th:block>
+                            </span>
+                        </div>
+                    </header>
+                    <div style="margin-left:9%; margin-top:1%;">
+                        <th:block th:text="${comment.commentBody}"></th:block>
+                    </div>
+                </article>
+                <th:block th:unless="${#strings.isEmpty(comment.replyBody)}">
+                    <article class="comment reply">
+                        <header class="clearfix">
+                            <img th:src="@{${configurations.get('yourAvatar')}}"
+                                 style="float: left;border-radius: 100px;width: 50px;">
+                            <div class="meta2">
+                                <h3 th:text="${configurations.get('yourName')}">敲代码的长腿毛欧巴</h3>
+                                <span class="date">
+                                        回复时间： <th:block
+                                        th:text="${#dates.format(comment.replyCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></th:block>
+                                    </span>
+
+                            </div>
+                        </header>
+                        <div class="reply-body">
+                            <th:block th:text="${comment.replyBody}"></th:block>
+                        </div>
+                    </article>
+                </th:block>
+            </th:block>
+        </th:block>
+
+    </aside>
+    <th:block th:if="${blogDetailVO.enableComment==0}">
+        <aside class="create-comment" id="create-comment">
+            <hr>
+            <h2><i class="fa fa-pencil"></i> 添加评论</h2>
+
+            <div id="commentForm" class="form" style="width:auto; margin:0 auto; text-align: center;">
+                <input type="hidden" id="blogId" name="blogId" th:value="${blogDetailVO.blogId}"></input>
+
+                <!--横向表单-->
+                <div class="am-form-inline" role="form" style="display: inline-block;">
+                    <!--头像-->
+                    <div class="am-form-group">
+                        <img id="idPic" class="am-img-thumbnail" src="/blog/default/img/avatar.png" style="width:60%; border-radius: 50%;">
+                    </div>
+                    <!--QQ号-->
+                    <div class="am-form-group">
+                        <input  id="qqNum" type="text" class="am-form-field" placeholder="qq号" onmouseout="qqfun()">
+                    </div>
+                    <!--昵称-->
+                    <div class="am-form-group">
+                        <input  id="commentator" type="text" class="am-form-field" placeholder="qq昵称">
+                    </div>
+                    <!--邮箱-->
+                    <div class="am-form-group">
+                        <input  id="email" type="text" class="am-form-field" placeholder="电子邮箱">
+                    </div>
+                </div>
+                <!--网站地址-->
+                <input type="text" name="websiteUrl" id="websiteUrl" style="width: 65%;" placeholder="你的网站地址(可不填)">
+                <!--评论-->
+                <div>
+                    <textarea rows="5" name="commentBody" id="commentBody" style="width: 65%;" placeholder="请输入您的评论"></textarea>
+                </div>
+                <div class="am-form-inline">
+                    <!--图片验证-->
+                    <input style="width:30%" type="text" name="verifyCode" id="verifyCode"
+                           placeholder="Verification Code">&nbsp;&nbsp;
+                    <img alt="单击图片刷新！" style="width:15%" class="pointer" th:src="@{/common/kaptcha}"
+                         onclick="this.src='/common/kaptcha?d='+new Date()*1">
+                </div>
+                <!--提交-->
+                <button id="commentSubmit" type="submit" class="submit am-btn am-btn-primary">提交</button>
+            </div>
+        </aside>
+    </th:block>
+</div>
+<footer th:replace="blog/amaze/footer::footer-fragment"></footer>
+</body>
+<script th:src="@{/blog/default/js/jquery.min.js}"></script>
+<script th:src="@{/blog/plugins/highlight/highlight.pack.js}"></script>
+<script th:src="@{/blog/plugins/comment/valid.js}"></script>
+<script th:src="@{/blog/plugins/comment/comment.js}"></script>
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+
+<!--音乐播放器-->
+<script>
+    var ap = new APlayer
+    ({
+        element: document.getElementById('player1'),
+        narrow: false,
+        autoplay: true,
+        showlrc: true,
+        music: {
+            title: '遇见',
+            author: '孙燕姿',
+            url: '//music.163.com/song/media/outer/url?id=287035.mp3',
+            pic: '//y.gtimg.cn/music/photo_new/T002R300x300M000002ehzTm0TxXC2.jpg'
+        }
+    });
+    ap.init();
+</script>
+
+</html>
