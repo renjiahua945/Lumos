@@ -133,4 +133,7 @@ baidu:
       app: 18131202
       apikey: T1TAQcoANVtGgibseCATCblY
       secretkey: HmgAhWXV3Ao1GRHtBsqKI4PAswlQzMim
-
+#guava 设置
+guava:
+  time: 1
+  max-size: 100

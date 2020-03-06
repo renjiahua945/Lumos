@@ -108,9 +108,9 @@
             <th:block th:each="comment,iterStat : ${commentPageResult.list}">
                 <article class="comment">
                     <header class="clearfix">
-                        <img th:src="@{/blog/default/img/avatar.png}" class="avatar">
+                        <img th:src="${comment.headImg}" class="avatar">
                         <div class="meta">
-                            <h3 th:text="${comment.commentator}"></h3>
+                            <h3 th:text="${comment.nickName}"></h3>
                             <span class="date">
                                        评论时间：<th:block
                                     th:text="${#dates.format(comment.commentCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></th:block>

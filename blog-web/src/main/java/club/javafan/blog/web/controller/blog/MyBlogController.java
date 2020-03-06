@@ -12,8 +12,8 @@ import club.javafan.blog.domain.vo.BlogDetailVO;
 import club.javafan.blog.domain.vo.QQUserInfoVO;
 import club.javafan.blog.domain.vo.SimpleBlogListVO;
 import club.javafan.blog.service.*;
+import com.google.common.cache.Cache;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +50,8 @@ public class MyBlogController {
     private CategoryService categoryService;
     @Resource
     private QQUserInfo qqUserInfo;
+    @Resource
+    private Cache<String,Object> guavaCache;
     /**
      * 首页
      *
@@ -59,7 +61,6 @@ public class MyBlogController {
     public ModelAndView index(HttpServletRequest request) {
         return this.page(10);
     }
-
     /**
      * 首页 分页数据
      *
@@ -105,11 +106,20 @@ public class MyBlogController {
     @GetMapping({"/blog/{blogId}", "/article/{blogId}"})
     public ModelAndView detail(@PathVariable("blogId") Long blogId
             , @RequestParam(value = "commentPage", required = false, defaultValue = "1") Integer commentPage) {
-        BlogDetailVO blogDetailVO = blogService.getBlogDetail(blogId);
         ModelAndView modelAndView = new ModelAndView("blog/amaze/detail");
-        if (nonNull(blogDetailVO)) {
-            modelAndView.addObject("blogDetailVO", blogDetailVO);
+        Object blog = guavaCache.getIfPresent(String.valueOf(blogId));
+        if (nonNull(blog)){
+            modelAndView.addObject("blogDetailVO", (BlogDetailVO)blog);
             modelAndView.addObject("commentPageResult", commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage));
+            System.out.println(guavaCache.stats());
+        }
+        if (isNull(blog)){
+            BlogDetailVO blogDetailVO = blogService.getBlogDetail(blogId);
+            if (nonNull(blogDetailVO)){
+                modelAndView.addObject("blogDetailVO", blogDetailVO);
+                modelAndView.addObject("commentPageResult", commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage));
+                guavaCache.put(String.valueOf(blogId),blogDetailVO);
+            }
         }
         modelAndView.addObject("pageName", "详情");
         modelAndView.addObject("configurations", configService.getAllConfigs());

@@ -1,4 +1,4 @@
-package club.javafan.blog.configs.KaptchaConfig;
+package club.javafan.blog.configs.kaptcha;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
