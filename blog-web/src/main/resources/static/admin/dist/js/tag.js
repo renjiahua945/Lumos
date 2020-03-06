@@ -69,7 +69,7 @@ function tagAdd() {
                 }
                 else {
                     $("#tagName").val('')
-                    swal(result.message, {
+                    swal(result.desc, {
                         icon: "error",
                     });
                 }

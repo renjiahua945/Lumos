@@ -183,7 +183,7 @@ $('#saveButton').click(function () {
                 }
                 else {
                     $('#replyModal').modal('hide');
-                    swal(result.message, {
+                    swal(result.desc, {
                         icon: "error",
                     });
                 }

@@ -111,7 +111,6 @@ public class MyBlogController {
         if (nonNull(blog)){
             modelAndView.addObject("blogDetailVO", (BlogDetailVO)blog);
             modelAndView.addObject("commentPageResult", commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage));
-            System.out.println(guavaCache.stats());
         }
         if (isNull(blog)){
             BlogDetailVO blogDetailVO = blogService.getBlogDetail(blogId);
@@ -119,6 +118,10 @@ public class MyBlogController {
                 modelAndView.addObject("blogDetailVO", blogDetailVO);
                 modelAndView.addObject("commentPageResult", commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage));
                 guavaCache.put(String.valueOf(blogId),blogDetailVO);
+            }
+            if (isNull(blogDetailVO)){
+                modelAndView.setViewName("error/error_400");
+                return modelAndView;
             }
         }
         modelAndView.addObject("pageName", "详情");
@@ -298,7 +301,7 @@ public class MyBlogController {
         comment.setEmail(email);
         comment.setQNumber(qNumber);
         comment.setNickName(nickName);
-        comment.setHeadImg(headImg);
+        comment.setHeadImage(headImg);
         if (PatternUtil.isURL(websiteUrl)) {
             comment.setWebsiteUrl(websiteUrl);
         }
@@ -306,10 +309,10 @@ public class MyBlogController {
         comment.setCommentCreateTime(new Date());
         AipContentCensorBuilder.SensorResult results = AipContentCensorBuilder.judgeText(comment.toString());
         if (!results.getCode().equals(NumberUtils.INTEGER_ZERO)) {
-            return ResponseResult.successResult().setData(false);
+            return ResponseResult.successResult("评论非法！").setData(false);
         }
         Boolean aBoolean = commentService.addComment(comment);
-        return ResponseResult.successResult().setData(aBoolean);
+        return ResponseResult.successResult("评论成功，等待博主审核！").setData(aBoolean);
     }
 
     /**
@@ -334,6 +337,6 @@ public class MyBlogController {
     @ResponseBody
     public QQUserInfoVO getUserInfo(@RequestParam String qq) throws Exception {
         QQUserInfoVO qqUserInfo = this.qqUserInfo.getQQUserInfo(qq);
-        return qqUserInfo;
+        return isNull(qqUserInfo) ? new QQUserInfoVO() : qqUserInfo;
     }
 }

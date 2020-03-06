@@ -198,7 +198,7 @@ $('#saveButton').click(function () {
             }
             else {
                 $('#articleModal').modal('hide');
-                swal(result.message, {
+                swal(result.desc, {
                     icon: "error",
                 });
             }

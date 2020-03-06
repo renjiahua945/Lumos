@@ -15,7 +15,7 @@ $(function () {
                     });
                 }
                 else {
-                    swal(result.message, {
+                    swal(result.desc, {
                         icon: "error",
                     });
                 }
@@ -43,7 +43,7 @@ $(function () {
                     });
                 }
                 else {
-                    swal(result.message, {
+                    swal(result.desc, {
                         icon: "error",
                     });
                 }
@@ -71,7 +71,7 @@ $(function () {
                     });
                 }
                 else {
-                    swal(result.message, {
+                    swal(result.desc, {
                         icon: "error",
                     });
                 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="club.javafan.blog.repository.BlogCommentMapper">
-  <resultMap id="BaseResultMap" type="club.javafan.blog.domain.BlogComment">
+  <resultMap id="BaseResultMap" type="club.javafan.blog.domain.BlogComment">e
     <!--@mbg.generated-->
     <!--@Table tb_blog_comment-->
     <id column="comment_id" jdbcType="BIGINT" property="commentId" />
@@ -10,11 +10,11 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="q_number" jdbcType="VARCHAR" property="qNumber" />
     <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
-    <result column="head_img" jdbcType="VARCHAR" property="headImg" />
+    <result column="head_img" jdbcType="VARCHAR" property="headImage" />
     <result column="website_url" jdbcType="VARCHAR" property="websiteUrl" />
     <result column="comment_body" jdbcType="VARCHAR" property="commentBody" />
     <result column="comment_create_time" jdbcType="TIMESTAMP" property="commentCreateTime" />
-    <result column="commentator_ip" jdbcType="VARCHAR" property="commentatorIp" />
+    <result column="commentator_ip" jdbcType="VARCHAR" property="commentatorIp" /e>
     <result column="reply_body" jdbcType="VARCHAR" property="replyBody" />
     <result column="reply_create_time" jdbcType="TIMESTAMP" property="replyCreateTime" />
     <result column="comment_status" jdbcType="TINYINT" property="commentStatus" />
@@ -82,8 +82,10 @@
   </sql>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    comment_id, blog_id, commentator, email, website_url, comment_body, comment_create_time, 
-    commentator_ip, reply_body, reply_create_time, comment_status, is_deleted
+    blog_id, commentator, email,q_number,nick_name,head_img,
+    website_url, comment_body, comment_create_time,
+    commentator_ip, reply_body, reply_create_time,
+    comment_status, is_deleted
   </sql>
   <select id="selectByExample" parameterType="club.javafan.blog.domain.example.BlogCommentExample" resultMap="BaseResultMap">
     <!--@mbg.generated-->

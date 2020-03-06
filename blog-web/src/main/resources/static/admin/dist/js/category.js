@@ -102,7 +102,7 @@ $('#saveButton').click(function () {
                 }
                 else {
                     $('#categoryModal').modal('hide');
-                    swal(result.message, {
+                    swal(result.desc, {
                         icon: "error",
                     });
                 }

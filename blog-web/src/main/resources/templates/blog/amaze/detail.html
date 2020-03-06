@@ -108,7 +108,7 @@
             <th:block th:each="comment,iterStat : ${commentPageResult.list}">
                 <article class="comment">
                     <header class="clearfix">
-                        <img th:src="${comment.headImg}" class="avatar">
+                        <img th:src="${comment.headImage}" class="avatar">
                         <div class="meta">
                             <h3 th:text="${comment.nickName}"></h3>
                             <span class="date">

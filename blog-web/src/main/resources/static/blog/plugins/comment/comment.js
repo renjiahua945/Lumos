@@ -26,41 +26,42 @@ $('#commentSubmit').click(function () {
     var headImg = $('#idPic').attr("src");
     var websiteUrl = $('#websiteUrl').val();
     var commentBody = $('#commentBody').val();
-    if (blogId) {
+    if (isNull(blogId)) {
         swal("参数异常", {
             icon: "warning",
         });
         return;
     }
-    if (nickName) {
+    if (isNull(nickName)) {
         swal("请输入你的称呼", {
             icon: "warning",
         });
         return;
     }
-    if (email) {
+    if (isNull(email)) {
         swal("请输入你的邮箱", {
             icon: "warning",
         });
         return;
     }
-    if (qNumber) {
+    if (isNull(qNumber)) {
         swal("请输入你的QQ号", {
             icon: "warning",
         });
         return;
     }
-    if (verifyCode) {
+    if (isNull(verifyCode)) {
         swal("请输入验证码", {
             icon: "warning",
         });
         return;
     }
     var data = {
-        "blogId": blogId, "verifyCode": verifyCode, "nickName": commentator,"headImg":headImg,
+        "blogId": blogId, "verifyCode": verifyCode, "nickName": nickName,"headImg":headImg,
         "qNumber":qNumber, "email": email, "websiteUrl": websiteUrl, "commentBody": commentBody
     };
     console.log(data);
+
     $.ajax({
         type: 'POST',//方法类型
         url: '/blog/comment',
@@ -74,7 +75,7 @@ $('#commentSubmit').click(function () {
                 $('#verifyCode').val('');
             }
             else {
-                swal(result.message, {
+                swal(result.desc, {
                     icon: "error",
                 });
             }

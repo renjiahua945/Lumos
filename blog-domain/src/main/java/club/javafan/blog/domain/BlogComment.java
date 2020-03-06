@@ -36,7 +36,7 @@ public class BlogComment {
     /**
      *  评论人头像
      */
-    private String headImg;
+    private String headImage;
     /**
     * 网址
     */
