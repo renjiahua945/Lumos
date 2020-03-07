@@ -1,7 +1,7 @@
 package club.javafan.blog.service.impl;
 
 
-import club.javafan.blog.common.Result.ResponseResult;
+import club.javafan.blog.common.result.ResponseResult;
 import club.javafan.blog.common.util.MD5Util;
 import club.javafan.blog.domain.AdminUser;
 import club.javafan.blog.domain.example.AdminUserExample;

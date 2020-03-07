@@ -1,6 +1,6 @@
 package club.javafan.blog.web.controller.admin;
 
-import club.javafan.blog.common.Result.ResponseResult;
+import club.javafan.blog.common.result.ResponseResult;
 import club.javafan.blog.service.ConfigService;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;

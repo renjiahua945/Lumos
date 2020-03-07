@@ -1,6 +1,6 @@
 package club.javafan.blog.service.impl;
 
-import club.javafan.blog.common.Result.ResponseResult;
+import club.javafan.blog.common.result.ResponseResult;
 import club.javafan.blog.common.util.MarkDownUtil;
 import club.javafan.blog.common.util.PageQueryUtil;
 import club.javafan.blog.common.util.PageResult;

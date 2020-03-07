@@ -28,14 +28,13 @@ public class SystemUtil {
      *
      * @return
      */
-    public static String getMemoryRate() {
+    public Integer getMemoryRate() {
         OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
         // 剩余的物理内存
         long totalVirtualMemory = operatingSystemMXBean.getTotalSwapSpaceSize();
         long freePhysicalMemorySize = operatingSystemMXBean.getFreePhysicalMemorySize();
         Double compare = (1 - freePhysicalMemorySize * 1.0 / totalVirtualMemory) * 100;
-        String str = compare.intValue() + "%";
-        return str;
+        return compare.intValue();
     }
 
     /**

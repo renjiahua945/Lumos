@@ -17,12 +17,13 @@ import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ZERO;
 
 /**
  * @author 敲代码的长腿毛欧巴(博客)
- * @date 2INTEGER_ZERO19/12/25 21:INTEGER_ZERO7
+ * @date 2O19/12/25 21:O7
  * @desc 评论类 可以用畅言插件 或者接入百度AI SDK 进行风控
  *
  */
 @Service
 public class CommentServiceImpl implements CommentService {
+
     @Autowired
     private BlogCommentMapper blogCommentMapper;
 

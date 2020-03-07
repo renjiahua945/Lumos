@@ -1,7 +1,7 @@
 package club.javafan.blog.web.controller.blog;
 
 
-import club.javafan.blog.common.Result.ResponseResult;
+import club.javafan.blog.common.result.ResponseResult;
 import club.javafan.blog.common.qquserinfo.QQUserInfo;
 import club.javafan.blog.common.sennsor.AipContentCensorBuilder;
 import club.javafan.blog.common.util.PageResult;

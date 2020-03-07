@@ -35,9 +35,7 @@
                     </div>
                     <div class="col-lg-4 col-6">
                         <!-- small box -->
-                        <div class="small-box">
-                            <p th:text="${guavaStatus}"></p>
-                        </div>
+                        <div id="memoryRate" class="small-box" style="width: 480px;height:360px;"></div>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -65,10 +63,12 @@
     var exceptionData = [[${exceptionData}]]
     var indexDates = [[${indexDate}]]
     var guavaStatus = [[${guavaStatus}]]
+    var memoryRate = [[${memoryRate}]]
 
     // 基于准备好的dom，初始化echarts实例
     var exCharts = echarts.init(document.getElementById('exMonitor'));
     var guavaCharts = echarts.init(document.getElementById('guavaMonitor'));
+    var memoryCharts = echarts.init(document.getElementById('memoryRate'));
     /*]]>*/
 
     // 指定图表的配置项和数据
@@ -204,6 +204,49 @@
         ]
     };
     guavaCharts.setOption(option2)
+    option3 = {
+        title: {
+            text: '博客内存使用率',
+            left: 'center'
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['已使用', '剩余']
+        },
+        series: [
+            {
+                name: '',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data: [
+                    {value: memoryRate, name: '已使用'},
+                    {value: 100 - memoryRate, name: '剩余'}
+                ],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    memoryCharts.setOption(option3)
 </script>
 </body>
 </html>

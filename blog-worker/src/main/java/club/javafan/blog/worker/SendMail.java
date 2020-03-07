@@ -79,7 +79,7 @@ public class SendMail {
         //获取这段日期的异常次数
         List<Long> pastDaysExceptionAmount = systemUtil.getPastDaysAmount(exKeys);
         //获取系统的现在占用率
-        valueMap.put("memory", SystemUtil.getMemoryRate());
+        valueMap.put("memory", systemUtil.getMemoryRate());
         //获取系统的异常率
         valueMap.put("exceptionRate", systemUtil.getExceptionRate(pastDaysPageAmount, pastDaysExceptionAmount));
         valueMap.put("pageData", pastDaysPageAmount);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="club.javafan.blog.repository.BlogCommentMapper">
-  <resultMap id="BaseResultMap" type="club.javafan.blog.domain.BlogComment">e
+  <resultMap id="BaseResultMap" type="club.javafan.blog.domain.BlogComment">
     <!--@mbg.generated-->
     <!--@Table tb_blog_comment-->
     <id column="comment_id" jdbcType="BIGINT" property="commentId" />
@@ -14,7 +14,7 @@
     <result column="website_url" jdbcType="VARCHAR" property="websiteUrl" />
     <result column="comment_body" jdbcType="VARCHAR" property="commentBody" />
     <result column="comment_create_time" jdbcType="TIMESTAMP" property="commentCreateTime" />
-    <result column="commentator_ip" jdbcType="VARCHAR" property="commentatorIp" /e>
+    <result column="commentator_ip" jdbcType="VARCHAR" property="commentatorIp"/>
     <result column="reply_body" jdbcType="VARCHAR" property="replyBody" />
     <result column="reply_create_time" jdbcType="TIMESTAMP" property="replyCreateTime" />
     <result column="comment_status" jdbcType="TINYINT" property="commentStatus" />
@@ -195,8 +195,8 @@
       <if test="nickName != null">
         #{nickName,jdbcType=VARCHAR},
       </if>
-      <if test="headImg != null">
-        #{headImg,jdbcType=VARCHAR},
+      <if test="headImage != null">
+        #{headImage,jdbcType=VARCHAR},
       </if>
       <if test="websiteUrl != null">
         #{websiteUrl,jdbcType=VARCHAR},
@@ -253,8 +253,8 @@
       <if test="record.nickName != null">
         nick_name = #{record.nickName,jdbcType=VARCHAR},
       </if>
-      <if test="record.headImg != null">
-        head_img = #{record.headImg,jdbcType=VARCHAR},
+      <if test="record.headImage != null">
+        head_img = #{record.headImage,jdbcType=VARCHAR},
       </if>
       <if test="record.websiteUrl != null">
         website_url = #{record.websiteUrl,jdbcType=VARCHAR},
@@ -294,7 +294,7 @@
       email = #{record.email,jdbcType=VARCHAR},
       q_number = #{record.qNumber,jdbcType=VARCHAR},
       nick_name = #{record.nickName,jdbcType=VARCHAR},
-      head_img = #{record.headImg,jdbcType=VARCHAR},
+      head_img = #{record.headImage,jdbcType=VARCHAR},
       website_url = #{record.websiteUrl,jdbcType=VARCHAR},
       comment_body = #{record.commentBody,jdbcType=VARCHAR},
       comment_create_time = #{record.commentCreateTime,jdbcType=TIMESTAMP},
@@ -326,8 +326,8 @@
       <if test="nickName != null">
         nick_name = #{nickName,jdbcType=VARCHAR},
       </if>
-      <if test="headImg != null">
-        head_img = #{headImg,jdbcType=VARCHAR},
+      <if test="headImage != null">
+        head_img = #{headImage,jdbcType=VARCHAR},
       </if>
       <if test="websiteUrl != null">
         website_url = #{websiteUrl,jdbcType=VARCHAR},
@@ -364,7 +364,7 @@
       email = #{email,jdbcType=VARCHAR},
       q_number = #{qNumber,jdbcType=VARCHAR},
       nick_name = #{nickName,jdbcType=VARCHAR},
-      head_img = #{headImg,jdbcType=VARCHAR},
+      head_img = #{headImage,jdbcType=VARCHAR},
       website_url = #{websiteUrl,jdbcType=VARCHAR},
       comment_body = #{commentBody,jdbcType=VARCHAR},
       comment_create_time = #{commentCreateTime,jdbcType=TIMESTAMP},

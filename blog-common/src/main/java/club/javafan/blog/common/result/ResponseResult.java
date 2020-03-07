@@ -1,4 +1,4 @@
-package club.javafan.blog.common.Result;
+package club.javafan.blog.common.result;
 
 import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ONE;
 import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ZERO;

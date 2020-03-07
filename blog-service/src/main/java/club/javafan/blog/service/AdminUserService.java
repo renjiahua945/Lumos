@@ -1,7 +1,7 @@
 package club.javafan.blog.service;
 
 
-import club.javafan.blog.common.Result.ResponseResult;
+import club.javafan.blog.common.result.ResponseResult;
 import club.javafan.blog.domain.AdminUser;
 
 public interface AdminUserService {

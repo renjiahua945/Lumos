@@ -44,18 +44,18 @@ public class LoggerExceptionAop {
     }
 
     @Pointcut(value = "execution(public * club.javafan.blog.common.mail.impl.*.*(..))")
-    private void mailPointCut() {
+    private void commonPointCut() {
     }
 
-    @Pointcut(value = "execution(public * club.javafan.blog.worker.*.*(..))")
-    private void sendMailPointCut() {
+    @Pointcut(value = "execution(public * club.javafan.blog.worker..*.*(..))")
+    private void workerPointCut() {
     }
 
     @Pointcut(value = "execution(public * club.javafan.blog.web.controller..*.*(..))")
     private void controllerPoint() {
     }
 
-    @Before(value = "controllerPoint()||servicePointCut()||mailPointCut()||sendMailPointCut()")
+    @Before(value = "controllerPoint()||servicePointCut()||commonPointCut()||workerPointCut()")
     public void before(JoinPoint joinPoint) {
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = joinPoint.getSignature().getName();
@@ -67,25 +67,26 @@ public class LoggerExceptionAop {
         //过滤掉request请求和response 避免异步请求出错
         List<Object> logArgs = Stream.of(args)
                 .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse)))
+                .parallel()
                 .collect(Collectors.toList());
         log.append(JSONObject.toJSONString(logArgs)).toString();
         logger.info(log.toString());
     }
 
-    @AfterReturning(value = "controllerPoint()||servicePointCut()||sendMailPointCut()", returning = "returnObj")
+    @AfterReturning(value = "controllerPoint()||servicePointCut()||workerPointCut()", returning = "returnObj")
     public void afterReturn(Object returnObj) {
         String result = JSONObject.toJSONString(returnObj);
         logger.info("club.javafan.blog return result: {}", result);
     }
 
-    @AfterThrowing(value = "controllerPoint()||servicePointCut()||mailPointCut()||sendMailPointCut()", throwing = "e")
+    @AfterThrowing(value = "controllerPoint()||servicePointCut()||commonPointCut()||workerPointCut()", throwing = "e")
     public void afterThrowing(Throwable e) {
         //统计今日异常数
         redisUtil.incr(EXCEPTION_AMOUNT + DateUtils.getToday());
         logger.error("club.javafan.blog error : {}", e);
     }
 
-    @Around(value = "controllerPoint()||servicePointCut()||mailPointCut()||sendMailPointCut()")
+    @Around(value = "controllerPoint()||servicePointCut()||commonPointCut()||workerPointCut()")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         //统计今日执行的总次数
         redisUtil.incr(CS_PAGE_VIEW + DateUtils.getToday());

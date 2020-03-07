@@ -1,7 +1,7 @@
 package club.javafan.blog.web.controller.admin;
 
 
-import club.javafan.blog.common.Result.ResponseResult;
+import club.javafan.blog.common.result.ResponseResult;
 import club.javafan.blog.common.util.PageQueryUtil;
 import club.javafan.blog.common.util.PageResult;
 import club.javafan.blog.service.TagService;

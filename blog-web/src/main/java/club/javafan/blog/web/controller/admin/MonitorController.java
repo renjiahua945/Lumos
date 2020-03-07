@@ -54,6 +54,7 @@ public class MonitorController {
         List<String> exceptionKeys = systemUtil.genKey(EXCEPTION_AMOUNT, indexDate);
         //获取过去一个月的异常数
         List<Long> pastDaysExceptionAmount = systemUtil.getPastDaysAmount(exceptionKeys);
+        //获取guava缓存状态
         CacheStats stats = guavaCache.stats();
         List<Long> guavaList = new ArrayList<Long>(){{
             add(stats.hitCount());
@@ -68,6 +69,7 @@ public class MonitorController {
         modelAndView.addObject("exceptionData", pastDaysExceptionAmount);
         modelAndView.addObject("indexDate", indexDate);
         modelAndView.addObject("guavaStatus",guavaList);
+        modelAndView.addObject("memoryRate",systemUtil.getMemoryRate());
         return modelAndView;
     }
 }

@@ -67,12 +67,4 @@ public class QQUserInfo {
         return null;
     }
 
-
-    public static void main(String[] args) {
-        try {
-            new QQUserInfo().getQQUserInfo("1067861305");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
