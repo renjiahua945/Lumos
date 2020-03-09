@@ -82,7 +82,7 @@
   </sql>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    blog_id, commentator, email,q_number,nick_name,head_img,
+    comment_id,blog_id, commentator, email,q_number,nick_name,head_img,
     website_url, comment_body, comment_create_time,
     commentator_ip, reply_body, reply_create_time,
     comment_status, is_deleted
@@ -411,7 +411,14 @@
   </update>
   <update id="deleteBatch">
     update tb_blog_comment
-    set is_deleted=1 where comment_id in
+    set is_deleted= 1 where comment_id in
+    <foreach item="id" collection="array" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </update>
+  <update id="deleteBatchByBlogId">
+    update tb_blog_comment
+    set is_deleted= 1 where blog_id in
     <foreach item="id" collection="array" open="(" separator="," close=")">
       #{id}
     </foreach>

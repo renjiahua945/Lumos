@@ -1,8 +1,8 @@
 package club.javafan.blog.web.controller.blog;
 
 
-import club.javafan.blog.common.result.ResponseResult;
 import club.javafan.blog.common.qquserinfo.QQUserInfo;
+import club.javafan.blog.common.result.ResponseResult;
 import club.javafan.blog.common.sennsor.AipContentCensorBuilder;
 import club.javafan.blog.common.util.PageResult;
 import club.javafan.blog.common.util.PatternUtil;
@@ -108,15 +108,25 @@ public class MyBlogController {
             , @RequestParam(value = "commentPage", required = false, defaultValue = "1") Integer commentPage) {
         ModelAndView modelAndView = new ModelAndView("blog/amaze/detail");
         Object blog = guavaCache.getIfPresent(String.valueOf(blogId));
+        //设置兜底值
+        modelAndView.addObject("commentTotal", 0);
         if (nonNull(blog)){
-            modelAndView.addObject("blogDetailVO", (BlogDetailVO)blog);
-            modelAndView.addObject("commentPageResult", commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage));
+            modelAndView.addObject("blogDetailVO", blog);
+            PageResult commentPageByBlogIdAndPageNum = commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage);
+            if (nonNull(commentPageByBlogIdAndPageNum)) {
+                modelAndView.addObject("commentTotal", commentPageByBlogIdAndPageNum.getTotalCount());
+            }
+            modelAndView.addObject("commentPageResult", commentPageByBlogIdAndPageNum);
         }
         if (isNull(blog)){
             BlogDetailVO blogDetailVO = blogService.getBlogDetail(blogId);
             if (nonNull(blogDetailVO)){
                 modelAndView.addObject("blogDetailVO", blogDetailVO);
-                modelAndView.addObject("commentPageResult", commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage));
+                PageResult commentPageByBlogIdAndPageNum = commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage);
+                if (nonNull(commentPageByBlogIdAndPageNum)) {
+                    modelAndView.addObject("commentTotal", commentPageByBlogIdAndPageNum.getTotalCount());
+                }
+                modelAndView.addObject("commentPageResult", commentPageByBlogIdAndPageNum);
                 guavaCache.put(String.valueOf(blogId),blogDetailVO);
             }
             if (isNull(blogDetailVO)){

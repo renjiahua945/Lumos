@@ -15,6 +15,14 @@ public interface CommentService {
     Boolean addComment(BlogComment blogComment);
 
     /**
+     * 根据Id查询评论
+     *
+     * @param blogCommentId 评论id
+     * @return
+     */
+    BlogComment getComment(Long blogCommentId);
+
+    /**
      * 后台管理系统中评论分页功能
      *
      * @param pageUtil

@@ -5,9 +5,9 @@ import club.javafan.blog.common.util.PageResult;
 import club.javafan.blog.domain.BlogComment;
 import club.javafan.blog.repository.BlogCommentMapper;
 import club.javafan.blog.service.CommentService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +30,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Boolean addComment(BlogComment blogComment) {
         return blogCommentMapper.insertSelective(blogComment) > INTEGER_ZERO;
+    }
+
+    @Override
+    public BlogComment getComment(Long blogCommentId) {
+        return blogCommentMapper.selectByPrimaryKey(blogCommentId);
     }
 
     @Override
@@ -76,7 +81,7 @@ public class CommentServiceImpl implements CommentService {
         pageUtil.put("blogId", blogId);
         pageUtil.put("commentStatus", INTEGER_ONE);
         List<BlogComment> comments = blogCommentMapper.findBlogCommentList(pageUtil);
-        if (!CollectionUtils.isEmpty(comments)) {
+        if (CollectionUtils.isNotEmpty(comments)) {
             int total = blogCommentMapper.getTotalBlogComments(pageUtil);
             PageResult pageResult = new PageResult(comments, total, pageUtil.getLimit(), pageUtil.getPage());
             return pageResult;

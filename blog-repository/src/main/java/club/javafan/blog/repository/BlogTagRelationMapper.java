@@ -5,12 +5,14 @@ import club.javafan.blog.common.annotation.Slave;
 import club.javafan.blog.domain.BlogTagRelation;
 import club.javafan.blog.domain.example.BlogTagRelationExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 
 public interface BlogTagRelationMapper {
     long countByExample(BlogTagRelationExample example);
 
+    @Async("threadTaskExecutor")
     int deleteByExample(BlogTagRelationExample example);
 
     int deleteByPrimaryKey(Long relationId);
@@ -32,6 +34,7 @@ public interface BlogTagRelationMapper {
     int updateByPrimaryKey(BlogTagRelation record);
     @Slave
     int batchInsert(@Param("relationList") List<BlogTagRelation> blogTagRelationList);
+
     @Master
     int batchDelete(Integer[] blogIds);
 

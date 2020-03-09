@@ -38,4 +38,6 @@ public interface BlogCommentMapper {
     int checkDone(Integer[] ids);
 
     int deleteBatch(Integer[] ids);
+
+    int deleteBatchByBlogId(Integer[] ids);
 }

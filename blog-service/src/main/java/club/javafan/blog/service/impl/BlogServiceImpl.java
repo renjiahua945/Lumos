@@ -25,6 +25,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -48,6 +49,8 @@ public class BlogServiceImpl implements BlogService {
     private BlogTagRelationMapper blogTagRelationMapper;
     @Autowired
     private BlogCommentMapper blogCommentMapper;
+    @Autowired
+    private Executor threadTaskExecutor;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -132,7 +135,11 @@ public class BlogServiceImpl implements BlogService {
         if (ArrayUtils.isEmpty(ids)) {
             return false;
         }
-        blogTagRelationMapper.batchDelete(ids);
+        //删除标签的关系
+        threadTaskExecutor.execute(() -> blogTagRelationMapper.batchDelete(ids));
+        //删除相关评论
+        threadTaskExecutor.execute(() -> blogCommentMapper.deleteBatchByBlogId(ids));
+
         return blogMapper.deleteBatch(ids) > 0;
     }
 
@@ -158,8 +165,8 @@ public class BlogServiceImpl implements BlogService {
         //修改blog信息->修改分类排序值->删除原关系数据->保存新的关系数据
         BlogTagRelationExample example = new BlogTagRelationExample();
         example.createCriteria().andBlogIdEqualTo(blog.getBlogId());
-        blogTagRelationMapper.deleteByExample(example);
-        boolean res = batchTagsRelation(blog, blogCategory, tags);
+        threadTaskExecutor.execute(() -> blogTagRelationMapper.deleteByExample(example));
+        threadTaskExecutor.execute(() -> batchTagsRelation(blog, blogCategory, tags));
         int con = blogMapper.updateByPrimaryKeySelective(blog);
         if (con > INTEGER_ZERO) {
             return ResponseResult.successResult("修改成功！");

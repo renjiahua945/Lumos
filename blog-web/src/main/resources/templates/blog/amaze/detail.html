@@ -39,7 +39,7 @@
                         <th:block th:text="${#dates.format(blogDetailVO.createTime, 'yyyy-MM-dd')}"></th:block> &nbsp;
                             <div class="comments-view" style="display: inline-block">
                                 <a href="#comments" class="article-comments" style="color: #000000;"><th:block
-                                        th:text="${blogDetailVO.commentCount}"></th:block>条评论</a> &nbsp;
+                                        th:text="${commentTotal}"></th:block>条评论</a> &nbsp;
                                 <th:block th:text="${blogDetailVO.blogViews}"></th:block>浏览
                             </div>
                     </span>

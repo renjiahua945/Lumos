@@ -8,6 +8,8 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -20,6 +22,7 @@ import java.io.File;
  * 邮件发送类
  */
 @Service("mailService")
+@EnableAsync
 public class MailServiceImpl implements MailService {
     /**
      * 用户名
@@ -33,6 +36,7 @@ public class MailServiceImpl implements MailService {
     private JavaMailSender mailSender;
 
     @Override
+    @Async("threadTaskExecutor")
     public void sendSimpleMail(String to, String subject, String content, String[] cc) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -43,6 +47,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
+    @Async("threadTaskExecutor")
     public void sendHtmlMail(String to, String subject, String content, String[] cc) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         buildHelper(to, subject, content, message, cc);
@@ -51,6 +56,7 @@ public class MailServiceImpl implements MailService {
 
 
     @Override
+    @Async("threadTaskExecutor")
     public void sendAttachmentMail(String to, String subject, String content, String filePath, String[] cc) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = buildHelper(to, subject, content, message);
@@ -63,6 +69,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
+    @Async("threadTaskExecutor")
     public void sendInlineResourceMail(String to, String subject, String content, String rscPath, String rscId, String[] cc) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = buildHelper(to, subject, content, message);

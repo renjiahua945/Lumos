@@ -77,7 +77,7 @@ spring:
     subject: 博客日报
     host: smtp.exmail.qq.com
     username: coder@javafan.club
-    password: 9qVQ6Cjxr8a4JTT5
+    password: FnGUpdKFUEg8uAEj
     properties:
       mail.smtp.auth: true
       mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
