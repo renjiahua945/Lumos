@@ -23,4 +23,7 @@ public class RedisKeyConstant {
     @RedisKey(desc = "存放用户sessionId,过期时间30分钟", structure = STRING)
     public static final String BLOG_SESSION = "blog_session_";
 
+    @RedisKey(desc = "博客的浏览量 + id", structure = STRING)
+    public static final String BLOG_PAGE_VIEW = "blog_page_view_";
+
 }

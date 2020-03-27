@@ -1,18 +1,19 @@
 <!DOCTYPE html><!--suppress ALL-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="blog/amaze/header::head-fragment">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
 </head>
-<body id="blog" style="background-color: #f8f4ed;">
-<div th:replace="blog/amaze/header::nav-fragment" style="position: fixed;"></div>
+<body id="blog">
 <div th:replace="blog/amaze/header::header-fragment" style="position: fixed;"></div>
-<div class="am-g am-g-fixed blog-fixed">
+<div class="am-g am-g-fixed blog-fixed" style="position: relative;top: 5rem;">
     <div th:replace="blog/amaze/blog-list::blog-list-fragment"></div>
     <div th:replace="blog/amaze/side::side-fragment"></div>
 </div>
+<div th:replace="blog/amaze/to-top::to-top-fragment"></div>
 <footer th:replace="blog/amaze/footer::footer-fragment"></footer>
 </body>
-<script th:src="@{/blog/plugins/jquery/jquery.min.js}"></script>
 <script th:src="@{/blog/plugins/search/search.js}"></script>
-
+<!-- 背景动画 -->
+<script type="text/javascript" color="0,0,205" opacity='0.7' zIndex="-2" count="199"
+        src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
 </html>

@@ -1,12 +1,59 @@
 <!DOCTYPE html><!--suppress ALL-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org" class="am-topbar am-with-topbar-fixed-bottom">
-<footer class="footer blog-footer" th:fragment="footer-fragment">
-    <div class="blog-text-center">
-        &copy;
-        <a th:text="${configurations.get('footerAbout')}">your singal blog.</a>  &nbsp;   • &nbsp;
-        Powered by <a href="https://github.com/renjiahua945/blog" target="_blank"
-                      th:text="${configurations.get('footerCopyRight')}">2018 不会敲代码的小白</a><br/>
-        ICP <a th:text="${configurations.get('footerICP')}">浙ICP备 xxxxxx-x号</a>
+<footer class="blog-footer" th:fragment="footer-fragment">
+    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+            <h3>博客简介</h3>
+            <p class="am-text-sm">这是一个基于Spring Boot的轻量级博客<br> 博客/ 资讯类 <br>
+                支持响应式，多种布局，包括主页、文章页、媒体页、分类页等<br>互联网世界有我们而精彩！<br><br>
+                轻量级博客 使用<a href="https://github.com/renjiahua945/blog/blob/master/LICENSE" target="_blank"
+                           style="color: #8dc1df; ">Apache许可证</a>发布，用户可以自由使用、复制、修改、合并、出版发行、散布、再授权及贩售 博客 及其副本。</p>
+        </div>
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+            <h3>社交账号</h3>
+            <p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=1406628376&site=qq&menu=yes"><span
+                        class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
+                <a href="https://github.com/renjiahua945/blog"><span
+                        class="am-icon-github am-icon-fw blog-icon"></span></a>
+                <a href="https://weibo.com/codeview"><span class="am-icon-weibo am-icon-fw blog-icon blog-icon"></span></a>
+                <a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=cgAXHBgbExoHE0tGRzIEGwJcAwNcER0f"><span
+                        class="am-icon-reddit am-icon-fw blog-icon"></span></a>
+                <a href="#am-wechat" data-am-modal><span
+                        class="am-icon-weixin am-icon-fw blog-icon"></span></a>
+                <a class="new-issue  am-icon-fw blog-icon "
+                   href="https://github.com/renjiahua945/blog/issues/new?title=Bug%3A%20&amp;body=**%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0**%0A%0A%EF%BC%88%E6%8F%8F%E8%BF%B0%E4%B8%80%E4%B8%8B%E9%97%AE%E9%A2%98%EF%BC%89%0A%0A**%E4%BA%A7%E7%94%9F%E7%8E%AF%E5%A2%83**%0A%0A-%20%E8%AE%BE%E5%A4%87%EF%BC%9A%EF%BC%88%E6%89%8B%E6%9C%BA%E3%80%81%E5%B9%B3%E6%9D%BF%E7%AD%89%E7%A7%BB%E5%8A%A8%E8%AE%BE%E5%A4%87%E6%97%B6%E5%A1%AB%E5%86%99%E6%AD%A4%E9%A1%B9%EF%BC%89%0A-%20%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8F%8A%E7%89%88%E6%9C%AC%EF%BC%9A%0A-%20%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8F%8A%E7%89%88%E6%9C%AC%EF%BC%9A%0A-%20%E6%BC%94%E7%A4%BA%E5%9C%B0%E5%9D%80%EF%BC%9A%0A%0A**%E5%A4%8D%E7%8E%B0%E6%AD%A5%E5%A5%8F**%0A%0A1.%20%0A2.%20%0A...%20%0A%20%0A**UA:**%20%0A%60%60%60%0AMozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F80.0.3987.149%20Safari%2F537.36%0A%60%60%60%0A"
+                   target="_blank" title="Bug 反馈"><span class="am-icon-paper-plane"></span></a>
+            </p>
+            <h3>Credits</h3>
+            <p>我们追求卓越，然时间、经验、能力有限。这个博客有很多不足的地方，希望大家包容、不吝赐教，给我们提意见、建议。感谢你们！</p>
+        </div>
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+            <h1>我们站在巨人的肩膀上</h1>
+            <h3>Heroes</h3>
+            <p>
+            <ul>
+                <li>Spring Boot</li>
+                <li>Thymeleaf</li>
+                <li>Baidu AI</li>
+                <li>AmazeUI</li>
+                <li>...</li>
+            </ul>
+            </p>
+        </div>
+    </div>
+    <div class="blog-text-center" th:text="${configurations.get('footerCopyRight')}">© 2020 AllMobilize, Inc. Licensed
+        under Apache license.
+    </div>
+    <div class="blog-text-center" th:text="${configurations.get('footerICP')}">冀 xxxxxx</div>
+    <div class="am-modal am-modal-no-btn am-modal-out" tabindex="-1" id="am-wechat"
+         style="display: none; margin-top: -159px;color: black">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd"><a href="" class="am-close am-close-spin" data-am-modal-close="">×</a></div>
+            <div class="am-modal-bd"><img th:src="@{/blog/amaze/images/wx35673847.png}" alt="作者微信" style="width: 50%">
+                <br>有问题加我微信，不要闲聊！
+            </div>
+        </div>
     </div>
 </footer>
 </html>

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,7 @@ import java.util.stream.Stream;
 
 import static club.javafan.blog.common.constant.RedisKeyConstant.CS_PAGE_VIEW;
 import static club.javafan.blog.common.constant.RedisKeyConstant.EXCEPTION_AMOUNT;
+import static java.util.Objects.isNull;
 
 /**
  * @author 敲代码的长腿毛欧巴(博客)
@@ -64,10 +66,10 @@ public class LoggerExceptionAop {
                 .append(methodName)
                 .append(" , params: ");
         Object[] args = joinPoint.getArgs();
-        //过滤掉request请求和response 避免异步请求出错
+        //过滤掉request请求和response 避免异步请求出错,同时过滤MultipartFile
         List<Object> logArgs = Stream.of(args)
-                .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse)))
-                .parallel()
+                .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse))
+                        && !(arg instanceof MultipartFile))
                 .collect(Collectors.toList());
         log.append(JSONObject.toJSONString(logArgs)).toString();
         logger.info(log.toString());
@@ -75,8 +77,10 @@ public class LoggerExceptionAop {
 
     @AfterReturning(value = "controllerPoint()||servicePointCut()||workerPointCut()", returning = "returnObj")
     public void afterReturn(Object returnObj) {
-        String result = JSONObject.toJSONString(returnObj);
-        logger.info("club.javafan.blog return result: {}", result);
+        if (isNull(returnObj)) {
+            return;
+        }
+        logger.info("club.javafan.blog return result: {}", JSONObject.toJSONString(returnObj));
     }
 
     @AfterThrowing(value = "controllerPoint()||servicePointCut()||commonPointCut()||workerPointCut()", throwing = "e")

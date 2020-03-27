@@ -1,10 +1,9 @@
 <!DOCTYPE html><!--suppress ALL-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="blog/amaze/header::head-fragment"></head>
-<body id="blog" style="background-color: #f7f4ed;">
-<div th:replace="blog/amaze/header::nav-fragment"></div>
+<body id="blog">
 <div th:replace="blog/amaze/header::header-fragment"></div>
-<div class="am-g am-g-fixed blog-fixed">
+<div class="am-g am-g-fixed blog-fixed" style="position:relative;margin-top: 12rem;">
     <div class="am-u-lg-8 am-u-sm-12">
         <main class="links-list">
             <th:block th:unless="${#lists.isEmpty(favoriteLinks)}">
@@ -74,8 +73,8 @@
 
         </main>
     </div>
+
 </div>
-<!-- 引入页脚footer-fragment -->
 <footer th:replace="blog/amaze/footer::footer-fragment"></footer>
 </body>
 
@@ -206,5 +205,7 @@
     })
     typing.start();
 </script>
-
+<!-- 背景动画 -->
+<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99"
+        src="https://files.cnblogs.com/files/yzl0/canvas-nest.js"></script>
 </html>

@@ -6,6 +6,7 @@ import club.javafan.blog.common.result.ResponseResult;
 import club.javafan.blog.common.sennsor.AipContentCensorBuilder;
 import club.javafan.blog.common.util.PageResult;
 import club.javafan.blog.common.util.PatternUtil;
+import club.javafan.blog.common.util.RedisUtil;
 import club.javafan.blog.domain.BlogComment;
 import club.javafan.blog.domain.BlogLink;
 import club.javafan.blog.domain.vo.BlogDetailVO;
@@ -14,6 +15,7 @@ import club.javafan.blog.domain.vo.SimpleBlogListVO;
 import club.javafan.blog.service.*;
 import com.google.common.cache.Cache;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static club.javafan.blog.common.constant.CacheConstant.BLOG_DETAIL;
+import static club.javafan.blog.common.constant.CacheConstant.QQ_USER_INFO;
+import static club.javafan.blog.common.constant.RedisKeyConstant.BLOG_PAGE_VIEW;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -52,6 +57,8 @@ public class MyBlogController {
     private QQUserInfo qqUserInfo;
     @Resource
     private Cache<String,Object> guavaCache;
+    @Autowired
+    private RedisUtil redisUtil;
     /**
      * 首页
      *
@@ -59,7 +66,7 @@ public class MyBlogController {
      */
     @GetMapping({"/", "/index", "index.html"})
     public ModelAndView index(HttpServletRequest request) {
-        return this.page(10);
+        return this.page(1, 7);
     }
     /**
      * 首页 分页数据
@@ -67,8 +74,8 @@ public class MyBlogController {
      * @return
      */
     @GetMapping({"/page/{pageNum}"})
-    public ModelAndView page(@PathVariable("pageNum") int pageNum) {
-        PageResult blogPageResult = blogService.getBlogsForIndexPage(1, pageNum);
+    public ModelAndView page(@PathVariable("pageNum") int pageNum, @RequestParam(defaultValue = "7") Integer pageSize) {
+        PageResult blogPageResult = blogService.getBlogsForIndexPage(pageNum, pageSize);
         ModelAndView modelAndView = new ModelAndView("blog/amaze/index");
         if (isNull(blogPageResult)) {
             modelAndView.setViewName("error/error_404");
@@ -77,6 +84,7 @@ public class MyBlogController {
         modelAndView.addObject("blogPageResult", blogPageResult);
         modelAndView.addObject("newBlogs", blogService.getBlogListForIndexPage(1));
         modelAndView.addObject("hotBlogs", blogService.getBlogListForIndexPage(0));
+        modelAndView.addObject("categories", categoryService.getAllCategories());
         modelAndView.addObject("hotTags", tagService.getBlogTagCountForIndex());
         modelAndView.addObject("pageName", "首页");
         modelAndView.addObject("configurations", configService.getAllConfigs());
@@ -107,10 +115,15 @@ public class MyBlogController {
     public ModelAndView detail(@PathVariable("blogId") Long blogId
             , @RequestParam(value = "commentPage", required = false, defaultValue = "1") Integer commentPage) {
         ModelAndView modelAndView = new ModelAndView("blog/amaze/detail");
-        Object blog = guavaCache.getIfPresent(String.valueOf(blogId));
+        Object blog = guavaCache.getIfPresent(BLOG_DETAIL + blogId);
         //设置兜底值
         modelAndView.addObject("commentTotal", 0);
         if (nonNull(blog)){
+            //增加浏览量
+            BlogDetailVO blogDetailVO = (BlogDetailVO) blog;
+            //增加博客的浏览量
+            long incr = redisUtil.incr(BLOG_PAGE_VIEW + blogId);
+            blogDetailVO.setBlogViews(incr);
             modelAndView.addObject("blogDetailVO", blog);
             PageResult commentPageByBlogIdAndPageNum = commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage);
             if (nonNull(commentPageByBlogIdAndPageNum)) {
@@ -121,19 +134,23 @@ public class MyBlogController {
         if (isNull(blog)){
             BlogDetailVO blogDetailVO = blogService.getBlogDetail(blogId);
             if (nonNull(blogDetailVO)){
+                //增加浏览量
+                long incr = redisUtil.incr(BLOG_PAGE_VIEW + blogId);
+                blogDetailVO.setBlogViews(incr);
                 modelAndView.addObject("blogDetailVO", blogDetailVO);
                 PageResult commentPageByBlogIdAndPageNum = commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage);
                 if (nonNull(commentPageByBlogIdAndPageNum)) {
                     modelAndView.addObject("commentTotal", commentPageByBlogIdAndPageNum.getTotalCount());
                 }
                 modelAndView.addObject("commentPageResult", commentPageByBlogIdAndPageNum);
-                guavaCache.put(String.valueOf(blogId),blogDetailVO);
+                guavaCache.put(BLOG_DETAIL + blogId, blogDetailVO);
             }
             if (isNull(blogDetailVO)){
                 modelAndView.setViewName("error/error_400");
                 return modelAndView;
             }
         }
+        modelAndView.addObject("categories", categoryService.getAllCategories());
         modelAndView.addObject("pageName", "详情");
         modelAndView.addObject("configurations", configService.getAllConfigs());
         return modelAndView;
@@ -156,7 +173,7 @@ public class MyBlogController {
      */
     @GetMapping({"/tag/{tagName}/{page}"})
     public ModelAndView tag(@PathVariable("tagName") String tagName, @PathVariable("page") Integer page) {
-        ModelAndView modelAndView = new ModelAndView("blog/amaze/list");
+        ModelAndView modelAndView = new ModelAndView("blog/amaze/index");
         PageResult blogPageResult = blogService.getBlogsPageByTag(tagName, page);
         modelAndView.addObject("blogPageResult", blogPageResult);
         modelAndView.addObject("pageName", "标签");
@@ -166,6 +183,7 @@ public class MyBlogController {
         modelAndView.addObject("hotBlogs", blogService.getBlogListForIndexPage(0));
         modelAndView.addObject("hotTags", tagService.getBlogTagCountForIndex());
         modelAndView.addObject("configurations", configService.getAllConfigs());
+        modelAndView.addObject("categories", categoryService.getAllCategories());
         return modelAndView;
     }
 
@@ -187,7 +205,7 @@ public class MyBlogController {
     @GetMapping({"/category/{categoryName}/{page}"})
     public ModelAndView category(@PathVariable("categoryName") String categoryName
             , @PathVariable("page") Integer page) {
-        ModelAndView modelAndView = new ModelAndView("blog/amaze/list");
+        ModelAndView modelAndView = new ModelAndView("blog/amaze/index");
         PageResult blogPageResult = blogService.getBlogsPageByCategory(categoryName, page);
         modelAndView.addObject("blogPageResult", blogPageResult);
         modelAndView.addObject("pageName", "分类");
@@ -198,6 +216,7 @@ public class MyBlogController {
         modelAndView.addObject("hotBlogs", blogService.getBlogListForIndexPage(0));
         modelAndView.addObject("hotTags", tagService.getBlogTagCountForIndex());
         modelAndView.addObject("configurations", configService.getAllConfigs());
+        modelAndView.addObject("categories", categoryService.getAllCategories());
         return modelAndView;
     }
 
@@ -219,7 +238,7 @@ public class MyBlogController {
     @GetMapping({"/search/{keyword}/{page}"})
     public ModelAndView search(@PathVariable("keyword") String keyword, @PathVariable("page") Integer page) {
         PageResult blogPageResult = blogService.getBlogsPageBySearch(keyword, page);
-        ModelAndView modelAndView = new ModelAndView("blog/amaze/list");
+        ModelAndView modelAndView = new ModelAndView("blog/amaze/index");
         modelAndView.addObject("blogPageResult", blogPageResult);
         modelAndView.addObject("pageName", "搜索");
         modelAndView.addObject("pageUrl", "search");
@@ -228,6 +247,7 @@ public class MyBlogController {
         modelAndView.addObject("hotBlogs", blogService.getBlogListForIndexPage(0));
         modelAndView.addObject("hotTags", tagService.getBlogTagCountForIndex());
         modelAndView.addObject("configurations", configService.getAllConfigs());
+        modelAndView.addObject("categories", categoryService.getAllCategories());
         return modelAndView;
     }
 
@@ -254,6 +274,7 @@ public class MyBlogController {
                 modelAndView.addObject("personalLinks", linkMap.get((byte) 2));
             }
         }
+        modelAndView.addObject("categories", categoryService.getAllCategories());
         modelAndView.addObject("configurations", configService.getAllConfigs());
         return modelAndView;
     }
@@ -346,7 +367,18 @@ public class MyBlogController {
     @RequestMapping("/blog/comment/getUserInfo")
     @ResponseBody
     public QQUserInfoVO getUserInfo(@RequestParam String qq) throws Exception {
-        QQUserInfoVO qqUserInfo = this.qqUserInfo.getQQUserInfo(qq);
-        return isNull(qqUserInfo) ? new QQUserInfoVO() : qqUserInfo;
+        //从缓存中取
+        Object o = guavaCache.getIfPresent(QQ_USER_INFO + qq);
+        if (isNull(o)) {
+            //从httpClient 中爬取
+            QQUserInfoVO qqUserInfo = this.qqUserInfo.getQQUserInfo(qq);
+            if (nonNull(qqUserInfo)) {
+                //放入缓存
+                guavaCache.put(QQ_USER_INFO + qq, qqUserInfo);
+                return qqUserInfo;
+            }
+            return new QQUserInfoVO();
+        }
+        return o instanceof QQUserInfoVO ? (QQUserInfoVO) o : new QQUserInfoVO();
     }
 }

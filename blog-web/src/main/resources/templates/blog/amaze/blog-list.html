@@ -3,77 +3,96 @@
 <div th:fragment="blog-list-fragment" class="am-u-lg-8 am-u-sm-12">
     <main class="articles-list">
         <div>
-            <th:block th:if="${null != blogPageResult}">
+            <th:block th:if="${!(null != blogPageResult && blogPageResult.list.size()> 0)}">
+                <h1>
+                    暂无相关博客！
+                </h1>
+            </th:block>
+            <th:block th:if="${null != blogPageResult && blogPageResult.list.size()>0}">
                 <th:block th:each="blog,iterStat : ${blogPageResult.list}">
-                    <article class="am-g blog-entry-article">
-                        <div class="am-u-lg-6 am-u-lg-12 am-u-sm-12 blog-entry-text post-preview" style="margin-top: 5%;">
-                            <div class="topic-header">
-                                <div class="pull-left">
-                                    <div class="blog-flex-center">
-                                        <div class="blog-flex0">
-                                            <img th:src="@{${configurations.get('yourAvatar')}}" alt=""
-                                                 class="link avatar avatar-image">
-                                        </div>
-                                        <div class="author-lockup blog-flex1">
-                                            <a class="link am-link-muted" href="javascript:;"
-                                               th:text="${configurations.get('yourName')}">13</a>
-                                            <span class="in">in</span>
-                                            <span class="category-name">
-                                                <a class="category-name am-link-muted" rel="tag" th:href="@{'/category/' + ${blog.blogCategoryName}}"
-                                                   th:utext="${blog.blogCategoryName}">
-                                                    </a>
-                                            </span>
-                                        </div>
+                    <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+                        <!--列表标题-->
+                        <div class="am-list-news-hd am-cf">
+                            <div class="pull-left">
+                                <div class="blog-flex-center">
+                                    <div class="blog-flex0">
+                                        <img th:src="@{${configurations.get('yourAvatar')}}" alt=""
+                                             class="link avatar avatar-image">
+                                    </div>
+                                    <div class="author-lockup blog-flex1">
+                                        <a class="link am-link-muted" href="javascript:;"
+                                           th:text="${configurations.get('yourName')}">13</a>
                                     </div>
                                 </div>
-                                <span class="pull-right time pc_time"
-                                      th:text="${#dates.format(blog.createTime, 'yyyy-MM-dd')}">2019-01</span>
                             </div>
-                            <h1 class="post-index-title"><a itemtype="url" class="am-link-muted" th:href="@{'/blog/' + ${blog.blogId}}">
-                                <th:block th:text="${blog.blogTitle}"></th:block>
-                            </a>
-                            </h1>
-                            <div class="post-content-preview article-body" style="width:30%;">
-                                <a th:href="@{'/blog/' + ${blog.blogId}}">
-                                    <img th:src="@{${blog.blogCoverImage}}" class="am-img-responsive"></a>
-                            </div>
-                            <div class="clearfix topic-footer">
-                                <span class="pull-left time mobile_time">2018-01</span>
-                            </div>
+                            <span class="pull-right time pc_time"
+                                  th:text="${#dates.format(blog.createTime, 'yyyy-MM-dd')}">2019-01</span>
+                            <span class="pull-left time mobile_time"
+                                  th:text="${#dates.format(blog.createTime, 'yyyy-MM-dd')}">2018-01</span>
                         </div>
-                    </article>
+
+                        <div class="am-list-news-bd">
+                            <ul class="am-list">
+                                <!--缩略图在标题左边-->
+                                <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
+                                    <div class="am-u-sm-4 am-list-thumb">
+                                        <a th:href="@{'/blog/' + ${blog.blogId}}">
+                                            <img th:src="@{${blog.blogCoverImage}}"
+                                                 style="width: 30rem;height: 13rem;"/>
+                                        </a>
+                                    </div>
+                                    <div class=" am-u-sm-8 am-list-main">
+                                        <h3 class="am-list-item-hd"><a th:href="@{'/blog/' + ${blog.blogId}}">
+                                            <th:block th:text="${blog.blogTitle}"></th:block>
+                                        </a></h3>
+                                        <span>
+                                            <a class="am-badge am-badge-success am-round"
+                                               th:href="@{'/category/' + ${blog.blogCategoryName}}"
+                                               th:text="${blog.blogCategoryName}"></a>
+                                            </span>
+                                        <div class="am-list-item-text" th:text="${blog.abstractContent}"
+                                             style="font-size: 1.5rem;">
+                                            该作者很懒，没有留下摘要！该作者很懒，没有留下摘要！该作者很懒，没有留下摘要！该作者很懒，没有留下摘要！
+                                        </div>
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </th:block>
+                <th:block th:if="${null != blogPageResult}">
+                    <ul class="am-pagination am-link-muted"
+                        style="margin-top:5%; margin-left:auto; margin-right: auto; text-align: center;">
+                        <li th:class="${blogPageResult.currPage==1}?'disabled' : 'am-pagination-prev'"><a
+                                th:href="@{${blogPageResult.currPage==1}?'##':'/page/' + ${blogPageResult.currPage-1}}">&laquo;</a>
+                        </li>
+                        <li th:if="${blogPageResult.currPage-3 >=1}"><a
+                                th:href="@{'/page/' + ${blogPageResult.currPage-3}}"
+                                th:text="${blogPageResult.currPage -3}">1</a></li>
+                        <li th:if="${blogPageResult.currPage-2 >=1}"><a
+                                th:href="@{'/page/' + ${blogPageResult.currPage-2}}"
+                                th:text="${blogPageResult.currPage -2}">1</a></li>
+                        <li th:if="${blogPageResult.currPage-1 >=1}"><a
+                                th:href="@{'/page/' + ${blogPageResult.currPage-1}}"
+                                th:text="${blogPageResult.currPage -1}">1</a></li>
+                        <li class="active"><a href="#" th:text="${blogPageResult.currPage}">1</a></li>
+                        <li th:if="${blogPageResult.currPage+1 <=blogPageResult.totalPage}"><a
+                                th:href="@{'/page/' + ${blogPageResult.currPage+1}}"
+                                th:text="${blogPageResult.currPage +1}">1</a></li>
+                        <li th:if="${blogPageResult.currPage+2 <=blogPageResult.totalPage}"><a
+                                th:href="@{'/page/' + ${blogPageResult.currPage+2}}"
+                                th:text="${blogPageResult.currPage +2}">1</a></li>
+                        <li th:if="${blogPageResult.currPage+3 <=blogPageResult.totalPage}"><a
+                                th:href="@{'/page/' + ${blogPageResult.currPage+3}}"
+                                th:text="${blogPageResult.currPage +3}">1</a></li>
+                        <li th:class="${blogPageResult.currPage==blogPageResult.totalPage}?'disabled' : ''">
+                            <a th:href="@{${blogPageResult.currPage==blogPageResult.totalPage}?'##' : '/page/' + ${blogPageResult.currPage+1}}">&raquo;</a>
+                        </li>
+                    </ul>
                 </th:block>
             </th:block>
-            <th:block th:if="${null != blogPageResult}">
-                <ul class="am-pagination am-link-muted" style="margin-top:5%; margin-left:auto; margin-right: auto; text-align: center;">
-                    <li th:class="${blogPageResult.currPage==1}?'disabled' : 'am-pagination-prev'"><a
-                            th:href="@{${blogPageResult.currPage==1}?'##':'/page/' + ${blogPageResult.currPage-1}}">&laquo;</a>
-                    </li>
-                    <li th:if="${blogPageResult.currPage-3 >=1}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage-3}}"
-                            th:text="${blogPageResult.currPage -3}">1</a></li>
-                    <li th:if="${blogPageResult.currPage-2 >=1}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage-2}}"
-                            th:text="${blogPageResult.currPage -2}">1</a></li>
-                    <li th:if="${blogPageResult.currPage-1 >=1}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage-1}}"
-                            th:text="${blogPageResult.currPage -1}">1</a></li>
-                    <li class="active"><a href="#" th:text="${blogPageResult.currPage}">1</a></li>
-                    <li th:if="${blogPageResult.currPage+1 <=blogPageResult.totalPage}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage+1}}"
-                            th:text="${blogPageResult.currPage +1}">1</a></li>
-                    <li th:if="${blogPageResult.currPage+2 <=blogPageResult.totalPage}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage+2}}"
-                            th:text="${blogPageResult.currPage +2}">1</a></li>
-                    <li th:if="${blogPageResult.currPage+3 <=blogPageResult.totalPage}"><a
-                            th:href="@{'/page/' + ${blogPageResult.currPage+3}}"
-                            th:text="${blogPageResult.currPage +3}">1</a></li>
-                    <li th:class="${blogPageResult.currPage==blogPageResult.totalPage}?'disabled' : ''">
-                        <a
-                                th:href="@{${blogPageResult.currPage==blogPageResult.totalPage}?'##' : '/page/' + ${blogPageResult.currPage+1}}">&raquo;</a>
-                    </li>
-                </ul>
-            </th:block>
+
         </div>
     </main>
 </div>

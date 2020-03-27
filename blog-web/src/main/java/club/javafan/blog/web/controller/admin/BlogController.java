@@ -8,7 +8,6 @@ import club.javafan.blog.common.util.PageResult;
 import club.javafan.blog.domain.Blog;
 import club.javafan.blog.service.BlogService;
 import club.javafan.blog.service.CategoryService;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,7 +25,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 import java.util.Random;
 
 import static java.util.Objects.isNull;
@@ -57,16 +55,11 @@ public class BlogController {
 
     @GetMapping("/blogs/list")
     @ResponseBody
-    public ResponseResult list(@RequestParam Map<String, Object> params) {
-        if (MapUtils.isEmpty(params) || StringUtils.isEmpty(params.get("page")) || StringUtils.isEmpty(params.get("limit"))) {
-            return ResponseResult.failResult("参数异常！");
-        }
-        PageQueryUtil pageUtil = new PageQueryUtil();
-        pageUtil.putAll(params);
+    public ResponseResult list(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer limit) {
+        PageQueryUtil pageUtil = new PageQueryUtil(page, limit);
         PageResult pageResult = blogService.getBlogsPage(pageUtil);
         return ResponseResult.successResult("成功！").setData(pageResult);
     }
-
 
     @GetMapping("/blogs")
     public ModelAndView list() {
@@ -111,7 +104,7 @@ public class BlogController {
 
     @PostMapping("/blogs/update")
     @ResponseBody
-    public ResponseResult update(@RequestParam Blog blog) {
+    public ResponseResult update(Blog blog) {
         if (isNull(blog.getBlogId())) {
             return ResponseResult.failResult("失败，该文章不存在！");
         }
@@ -137,15 +130,9 @@ public class BlogController {
             tempName.append(sdf.format(new Date())).append(r.nextInt(100)).append(suffixName);
             String newFileName = tempName.toString();
             //创建文件
-            File destFile = new File(FILE_PATH + newFileName);
+            File destFile = new File(newFileName);
             String fileUrl = BlogUtils.getHost(new URI(request.getRequestURL() + ""))
-                    + "/upload/" + newFileName;
-            File fileDirectory = new File(FILE_PATH);
-            if (!fileDirectory.exists()) {
-                if (!fileDirectory.mkdir()) {
-                    throw new IOException("文件夹创建失败,路径为：" + fileDirectory);
-                }
-            }
+                    + "/upload/img/" + newFileName;
             file.transferTo(destFile);
             request.setCharacterEncoding("utf-8");
             response.setHeader("Content-Type", "text/html");

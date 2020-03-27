@@ -5,6 +5,11 @@ blog:
 spring:
   main:
     allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 20MB
   #关闭自动context /
   application:
     name: blog
@@ -114,6 +119,8 @@ server:
     key-store-type: JKS
     key-alias: was
   port: 443
+#  tomcat:
+#    basedir: temp/img/upload/
 http:
   port: 80
 #设置线程池
@@ -125,7 +132,7 @@ thread:
   keep-alive-seconds: 500
 #文件上传路径
 file:
-  file-path: /opt/deploy/upload/
+  file-path: _upload/img
 #百度文本审核
 baidu:
   content:

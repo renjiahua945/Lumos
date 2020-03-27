@@ -4,55 +4,79 @@
     <meta charset="utf-8">
     <title th:text="|${configurations.get('websiteName')} - ${pageName}|">主页</title>
     <meta name="description" th:content="${configurations.get('websiteDescription')}">
+    <meta name="keywords" content="Spring Boot Java 轻量级 博客 好看 Amaze UI MySQL 敲代码的长腿欧巴">
     <link rel="shortcut icon" th:href="@{${configurations.get('websiteIcon')}}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="Window-target" content="_top"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" th:content="${configurations.get('websiteName')}"/>
+    <meta name="msapplication-TileColor" content="#0e90d2">
     <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
     <link rel="stylesheet" th:href="@{/blog/amaze/css/amazeui.css}">
+    <link rel="stylesheet" th:href="@{/blog/amaze/css/app.css}">
+    <script th:src="@{/blog/plugins/jquery/jquery.min.js}"></script>
+    <script th:src="@{/blog/amaze/js/amazeui.min.js}"></script>
 </head>
-<nav th:fragment="nav-fragment" class="navbar navbar-default navbar-custom am-topbar-fixed-top am-topbar">
-    <div style="background-color: #ffffff;">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header page-scroll am-link-muted" style="height: 15%;">
-                <button type="button" class="navbar-toggle" data-for="toggle-items">
-                    <span class="am-icon-home am-icon-sm"></span>
-                </button>
-                <a class="navbar-brand" style="color:#000000;" href="/" th:text="${configurations.get('websiteName')}">
-                </a>
-            </div>
-
-            <div class="navbar-collapse" id="toggle-items" >
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a style="color:#000000;" th:href="@{/index}">主页</a>
-                    </li>
-                    <li>
-                        <a style="color:#000000;" th:href="@{/link}">友链</a>
-                    </li>
-                    <li>
-                        <a style="color:#000000;" th:href="@{/about}">关于</a>
-                    </li>
-                    <li>
-                        <a style="color:#000000;" href="https://github.com/renjiahua945/blog/blog">GitHub</a>
-                    </li>
-                </ul>
-            </div>
+<header th:fragment="header-fragment" class="am-topbar am-topbar-inverse am-topbar-fixed-top">
+    <div class="amz-container">
+        <h1 class="am-topbar-brand">
+            <a class="navbar-brand" href="/" th:text="${configurations.get('websiteName')}">敲代码的长腿毛欧巴的博客</a>
+            <a href="/">
+                <img th:src="@{/blog/amaze/images/website.png}" style="width: 50%;" th:alt="敲代码的长腿毛欧巴Logo">
+            </a>
+        </h1>
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+                data-am-collapse="{target: '#doc-topbar-collapse-5'}">
+            <span class="am-sr-only">
+                导航切换
+            </span>
+            <span class="am-icon-bars">
+            </span>
+        </button>
+        <div class="am-collapse am-topbar-collapse navbar-center" id="doc-topbar-collapse-5">
+            <ul class="am-nav am-nav-pills am-topbar-nav">
+                <li class="am-active">
+                    <a th:href="@{/index}">
+                        首页
+                    </a>
+                </li>
+                <li class="am-dropdown" data-am-dropdown="">
+                    <a class="am-dropdown-toggle" data-am-dropdown-toggle="" href="javascript:;">
+                        分类
+                        <span class="am-icon-caret-down">
+                        </span>
+                    </a>
+                    <ul class="am-dropdown-content">
+                        <th:block th:if="${null != categories && categories.size() > 0}">
+                            <th:block th:each="item,iterStat : ${categories}">
+                                <li>
+                                    <a th:href="${'/category/' + item.categoryName}">
+                                        <th:block th:text="${item.categoryName}"></th:block>
+                                    </a>
+                                </li>
+                            </th:block>
+                        </th:block>
+                    </ul>
+                </li>
+                <li>
+                    <a th:href="@{/link}">
+                        友链
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/about}">关于</a>
+                </li>
+                <li>
+                    <a href="https://github.com/renjiahua945/blog" target="_blank">GitHub</a>
+                </li>
+            </ul>
+        </div>
     </div>
-
-        <script th:src="@{/blog/default/js/jquery.min.js}"></script>
-        <script>
-            $(function () {
-                $('.navbar-toggle').click(function () {
-                    $('#toggle-items').fadeToggle("fast");
-                });
-            })
-        </script>
-    </div>
-    <!-- /.container -->
-</nav>
-<header th:fragment="header-fragment">
-    <div style="height: 10%; padding-top:2%;">&nbsp;</div>
 </header>
-
 </html>

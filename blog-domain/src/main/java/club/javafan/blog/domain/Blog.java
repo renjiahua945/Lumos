@@ -52,7 +52,7 @@ public class Blog {
     private Byte blogStatus;
 
     /**
-    * 阅读量
+     * 阅读量（已经废弃）
     */
     private Long blogViews;
 

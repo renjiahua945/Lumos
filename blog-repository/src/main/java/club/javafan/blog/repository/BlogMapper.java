@@ -27,8 +27,8 @@ public interface BlogMapper {
     int updateByExample(@Param("record") Blog record, @Param("example") BlogExample example);
 
     int updateByPrimaryKeySelective(Blog record);
-
     int updateByPrimaryKey(Blog record);
+
     @Slave
     List<Blog> findBlogList(PageQueryUtil pageUtil);
     @Slave

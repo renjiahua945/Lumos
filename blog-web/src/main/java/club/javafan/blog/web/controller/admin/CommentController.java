@@ -72,7 +72,7 @@ public class CommentController {
         if (reply) {
             BlogComment comment = commentService.getComment(commentId);
             //异步发送邮件
-            mailService.sendSimpleMail(comment.getEmail(), "您的评论收到了新的回复"
+            mailService.sendSimpleMail(comment.getEmail(), "尊敬的用户: " + comment.getNickName() + ",您的评论收到了新的回复"
                     , "博客作者回复了您的评论：\" " + comment.getCommentBody() + "\"" + replyBody, null);
             return ResponseResult.successResult("成功！");
         } else {

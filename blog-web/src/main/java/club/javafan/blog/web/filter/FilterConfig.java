@@ -9,8 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class FilterConfig implements WebMvcConfigurer {
-
-    @Value("file.file-path")
+    @Value("${file.file-path}")
     private String FILE_PATH;
     @Autowired
     private AdminLoginInterceptor adminLoginInterceptor;
@@ -25,6 +24,9 @@ public class FilterConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/upload/**").addResourceLocations("file:" + FILE_PATH);
+        // 路径映射
+        String path = System.getProperty("user.dir").replaceAll("\\\\", "/") + FILE_PATH;
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:" + path);
     }
+
 }

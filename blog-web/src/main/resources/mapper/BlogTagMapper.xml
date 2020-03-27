@@ -257,7 +257,7 @@
                                 LEFT JOIN tb_blog b ON tr.blog_id = b.blog_id
                        WHERE b.is_deleted = 0) trb
                   GROUP BY tag_id) r
-             ORDER BY tag_count DESC LIMIT 20) AS t_r
+             ORDER BY tag_count DESC LIMIT 15) AS t_r
                 LEFT JOIN tb_blog_tag t ON t_r.tag_id = t.tag_id
         WHERE t.is_deleted = 0
     </select>

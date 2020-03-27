@@ -89,4 +89,5 @@ public interface BlogService {
     PageResult getBlogsPageBySearch(String keyword, int page);
 
     BlogDetailVO getBlogDetailBySubUrl(String subUrl);
+
 }
