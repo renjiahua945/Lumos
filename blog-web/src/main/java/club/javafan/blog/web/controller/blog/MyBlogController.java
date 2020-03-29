@@ -31,6 +31,7 @@ import java.util.Map;
 import static club.javafan.blog.common.constant.CacheConstant.BLOG_DETAIL;
 import static club.javafan.blog.common.constant.CacheConstant.QQ_USER_INFO;
 import static club.javafan.blog.common.constant.RedisKeyConstant.BLOG_PAGE_VIEW;
+import static club.javafan.blog.common.constant.RedisKeyConstant.BLOG_VIEW_ZSET;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -83,7 +84,7 @@ public class MyBlogController {
         }
         modelAndView.addObject("blogPageResult", blogPageResult);
         modelAndView.addObject("newBlogs", blogService.getBlogListForIndexPage(1));
-        modelAndView.addObject("hotBlogs", blogService.getBlogListForIndexPage(0));
+        modelAndView.addObject("hotBlogs", blogService.getHotBlogs());
         modelAndView.addObject("categories", categoryService.getAllCategories());
         modelAndView.addObject("hotTags", tagService.getBlogTagCountForIndex());
         modelAndView.addObject("pageName", "首页");
@@ -106,6 +107,13 @@ public class MyBlogController {
         return modelAndView;
     }
 
+    @GetMapping({"/about"})
+    public ModelAndView about() {
+        ModelAndView modelAndView = new ModelAndView("blog/amaze/about");
+        modelAndView.addObject("configurations", configService.getAllConfigs());
+        modelAndView.addObject("categories", categoryService.getAllCategories());
+        return modelAndView;
+    }
     /**
      * 详情页
      *
@@ -122,7 +130,7 @@ public class MyBlogController {
             //增加浏览量
             BlogDetailVO blogDetailVO = (BlogDetailVO) blog;
             //增加博客的浏览量
-            long incr = redisUtil.incr(BLOG_PAGE_VIEW + blogId);
+            Long incr = addBlogView(blogId);
             blogDetailVO.setBlogViews(incr);
             modelAndView.addObject("blogDetailVO", blog);
             PageResult commentPageByBlogIdAndPageNum = commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage);
@@ -134,8 +142,8 @@ public class MyBlogController {
         if (isNull(blog)){
             BlogDetailVO blogDetailVO = blogService.getBlogDetail(blogId);
             if (nonNull(blogDetailVO)){
-                //增加浏览量
-                long incr = redisUtil.incr(BLOG_PAGE_VIEW + blogId);
+                //增加博客的浏览量
+                Long incr = addBlogView(blogId);
                 blogDetailVO.setBlogViews(incr);
                 modelAndView.addObject("blogDetailVO", blogDetailVO);
                 PageResult commentPageByBlogIdAndPageNum = commentService.getCommentPageByBlogIdAndPageNum(blogId, commentPage);
@@ -154,6 +162,12 @@ public class MyBlogController {
         modelAndView.addObject("pageName", "详情");
         modelAndView.addObject("configurations", configService.getAllConfigs());
         return modelAndView;
+    }
+
+    private Long addBlogView(Long blogId) {
+        Long incr = redisUtil.incr(BLOG_PAGE_VIEW + blogId);
+        redisUtil.zAdd(BLOG_VIEW_ZSET, String.valueOf(blogId), incr.doubleValue());
+        return incr;
     }
 
     /**
@@ -180,7 +194,7 @@ public class MyBlogController {
         modelAndView.addObject("pageUrl", "tag");
         modelAndView.addObject("keyword", tagName);
         modelAndView.addObject("newBlogs", blogService.getBlogListForIndexPage(1));
-        modelAndView.addObject("hotBlogs", blogService.getBlogListForIndexPage(0));
+        modelAndView.addObject("hotBlogs", blogService.getHotBlogs());
         modelAndView.addObject("hotTags", tagService.getBlogTagCountForIndex());
         modelAndView.addObject("configurations", configService.getAllConfigs());
         modelAndView.addObject("categories", categoryService.getAllCategories());
@@ -213,7 +227,7 @@ public class MyBlogController {
         modelAndView.addObject("keyword", categoryName);
         List<SimpleBlogListVO> blogListForIndexPage = blogService.getBlogListForIndexPage(1);
         modelAndView.addObject("newBlogs", blogListForIndexPage);
-        modelAndView.addObject("hotBlogs", blogService.getBlogListForIndexPage(0));
+        modelAndView.addObject("hotBlogs", blogService.getHotBlogs());
         modelAndView.addObject("hotTags", tagService.getBlogTagCountForIndex());
         modelAndView.addObject("configurations", configService.getAllConfigs());
         modelAndView.addObject("categories", categoryService.getAllCategories());
@@ -244,7 +258,7 @@ public class MyBlogController {
         modelAndView.addObject("pageUrl", "search");
         modelAndView.addObject("keyword", keyword);
         modelAndView.addObject("newBlogs", blogService.getBlogListForIndexPage(1));
-        modelAndView.addObject("hotBlogs", blogService.getBlogListForIndexPage(0));
+        modelAndView.addObject("hotBlogs", blogService.getHotBlogs());
         modelAndView.addObject("hotTags", tagService.getBlogTagCountForIndex());
         modelAndView.addObject("configurations", configService.getAllConfigs());
         modelAndView.addObject("categories", categoryService.getAllCategories());

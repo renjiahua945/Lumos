@@ -47,12 +47,19 @@ public interface BlogService {
 
     /**
      * 首页侧边栏数据列表
-     * 0-点击最多 1-最新发布
+     * 0-点击最多(方法已经作废) 1-最新发布
      *
      * @param type
      * @return
      */
     List<SimpleBlogListVO> getBlogListForIndexPage(int type);
+
+    /**
+     * 从Redis zSet中拿出前10条热门博文
+     *
+     * @return
+     */
+    List<SimpleBlogListVO> getHotBlogs();
     /**
      * 文章详情
      *

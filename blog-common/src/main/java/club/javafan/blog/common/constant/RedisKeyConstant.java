@@ -3,6 +3,7 @@ package club.javafan.blog.common.constant;
 import club.javafan.blog.common.annotation.RedisKey;
 
 import static club.javafan.blog.domain.enums.RedisStructureEnum.STRING;
+import static club.javafan.blog.domain.enums.RedisStructureEnum.ZSET;
 
 /**
  * @author 敲代码的长腿毛欧巴(博客)
@@ -25,5 +26,8 @@ public class RedisKeyConstant {
 
     @RedisKey(desc = "博客的浏览量 + id", structure = STRING)
     public static final String BLOG_PAGE_VIEW = "blog_page_view_";
+
+    @RedisKey(desc = "博客浏览量的zset，存放博客的id和浏览量", structure = ZSET)
+    public static final String BLOG_VIEW_ZSET = "blog_view_zset";
 
 }

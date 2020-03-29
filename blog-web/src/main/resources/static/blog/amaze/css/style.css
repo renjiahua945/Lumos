@@ -1,0 +1,732 @@
+
+#wrapper {
+    max-width: 700px;
+    margin: 60px auto 30px;
+    padding: 60px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+    position: relative;
+}
+
+p {
+    text-align: justify;
+    font-size: 13px;
+}
+
+.clear {
+    clear: both;
+}
+
+a {
+    color: #444;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#backgroundImg {
+
+}
+
+#sticker {
+    position: fixed;
+    top: -60px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    background: rgba(255, 255, 255, .98);
+    height: 55px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .3);
+    z-index: 1000;
+}
+
+#sticker h2.sectionHead {
+    border: none;
+    margin: 0 0 0 50px;
+    line-height: 55px;
+    padding: 0 0 0 8px;
+}
+
+#sticker h2.sectionHead:before {
+    left: -40px;
+    top: 5px;
+}
+
+#sticker #socialIcons {
+    top: 10px;
+    right: 15px;
+}
+
+/* ------------------------*/
+/*------H TAG STUFF-------*/
+/* ----------------------*/
+/*h1, h2, h3, h4, h5, h6 {*/
+/*font-weight: normal;*/
+/*}*/
+
+h3 {
+    font-weight: bold;
+    font-size: 14px
+}
+
+/* --------------------------*/
+/*---SECTION TITLES STUFF---*/
+/* ------------------------*/
+h2.sectionHead {
+    clear: both;
+    font: bold 20px/12px 'verdana', sans-serif;
+    margin: 60px -60px;
+    border-left: 52px solid #444;
+    color: #444;
+    padding: 1px 0 0 8px;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+h2.sectionHead:before {
+    content: "";
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    left: -105px;
+    top: -15px;
+    background-image: url(../images/icons.png);
+}
+
+h2#titleName {
+    margin: 20px -60px 10px;
+}
+
+h2#ribbon:before {
+    background-position: left -45px;
+}
+
+h2#tools:before {
+    background-position: left top;
+}
+
+h2#learn:before {
+    background-position: right top;
+}
+
+h2#eye:before {
+    background-position: -90px top;
+}
+
+h2#clock:before {
+    background-position: -45px top;
+}
+
+h2#chat:before {
+    background-position: -45px bottom;
+}
+
+h2#titleName:before {
+    background-position: -90px bottom;
+}
+
+h2#contact:before {
+    background-position: right bottom;
+}
+
+/* ------------------------*/
+/*-------BIO STUFF--------*/
+/* ----------------------*/
+#bio {
+    position: relative;
+}
+
+#bio #avatar {
+    float: left;
+    margin: 0 20px 0 0;
+}
+
+#bio h2 {
+    font-size: 15px;
+}
+
+#bio p {
+    clear: left;
+    margin: 40px auto;
+    padding: 40px 45px;
+    max-width: 560px;
+    background: #fbfbfb;
+    border: 1px solid #f3f3f3;
+    border-radius: 8px;
+    position: relative;
+    border-width: 0 1px 1px;
+    border-color: #fff #f3f3f3 #e8e8e8;
+    line-height: 1.6em;
+}
+
+#bio iframe {
+    margin: 0 auto;
+    display: block;
+}
+
+#bio p a {
+    text-decoration: none;
+    border: none;
+    background: #444;
+    color: #fff;
+    padding: 3px 5px;
+    margin: -3px 0 0 0;
+}
+
+#bio p a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: #222;
+}
+
+#bio a.selectedWork {
+    visibility: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+#socialIcons {
+    width: 50%;
+    height: 30px;
+    position: absolute;
+    top: -35px;
+    right: 0;
+    text-align: right;
+}
+
+.socialIcon {
+    width: 30px;
+    height: 30px;
+    margin: 0 0 0 3px;
+    display: inline-block;
+    background-image: url(../images/social.png);
+    border: none;
+}
+
+.socialIcon:hover {
+    border: none;
+}
+
+#qqIcon {
+    background-position: 0 0;
+}
+
+#youTubeIcon {
+    background-position: -30px 0;
+}
+
+#emailIcon {
+    background-position: -60px 0;
+}
+
+#weiboIcon {
+    background-position: -90px 0;
+}
+
+#phoneIcon {
+    background-position: -120px 0;
+}
+
+#giteeIcon {
+    background-position: -150px 0;
+}
+
+#gplusIcon {
+    background-position: -180px 0;
+}
+
+#facebookIcon {
+    background-position: -210px 0
+}
+
+#csdnIcon {
+    background-position: -240px 0;
+}
+
+#favIcon {
+    background-position: -270px 0;
+}
+
+#githubIcon {
+    background-position: -300px 0;
+}
+
+#qqIcon:hover {
+    background-position: 0 -30px;
+}
+
+#youTubeIcon:hover {
+    background-position: -30px -30px;
+}
+
+#emailIcon:hover {
+    background-position: -60px -30px;
+}
+
+#weiboIcon:hover {
+    background-position: -90px -30px;
+}
+
+#phoneIcon:hover {
+    background-position: -120px -30px;
+}
+
+#giteeIcon:hover {
+    background-position: -150px -30px;
+}
+
+#gplusIcon:hover {
+    background-position: -180px -30px;
+}
+
+#facebookIcon:hover {
+    background-position: -210px -30px;
+}
+
+#csdnIcon:hover {
+    background-position: -240px -30px;
+}
+
+#favIcon:hover {
+    background-position: -270px -30px;
+}
+
+#githubIcon:hover {
+    background-position: -300px -30px;
+}
+
+/* ---------------------------*/
+/*---RECOMMENDATIONS STUFF---*/
+/* -------------------------*/
+ul#recommends li {
+    margin: 0 0 30px 0;
+    clear: both;
+}
+
+ul#recommends li > h3 {
+    background: #fafafa;
+    color: #ccc;
+    padding-left: 5px;
+    line-height: 25px;
+    margin: 0 0 30px -5px;
+}
+
+/* -------------------------*/
+/*---AS SEEN ON STUFF------*/
+/* -----------------------*/
+ul#seenOn li {
+    display: inline-block;
+    position: relative;
+    border: 1px solid #eee;
+    margin-right: 2px;
+    height: 36px;
+    border-radius: 4px;
+    line-height: 30px;
+}
+
+ul#seenOn li img {
+    height: 30px;
+    width: auto;
+    padding: 3px;
+}
+
+/* ------------------------*/
+/*---SKILLS STUFF---------*/
+/* -----------------------*/
+ul#skills {
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    background: url(../images/loading.gif) no-repeat center 30%;
+}
+
+ul#skills.ready {
+    background: none;
+}
+
+ul#skills li {
+    position: relative;
+    right: 100%;
+    background-color: #444;
+    color: #fff;
+    font: bold 9px/20px sans-serif;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+    padding: 3px 1.1428571428571428% 0;
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+ul#skills li:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 5px;
+    line-height: 26px;
+    width: 50px;
+    text-align: right;
+    color: #aaa;
+}
+
+ul#skills li.s100:after {
+    content: "100%";
+}
+
+ul#skills li.s95:after {
+    content: "95%";
+}
+
+ul#skills li.s90:after {
+    content: "90%";
+}
+
+ul#skills li.s80:after {
+    content: "80%";
+}
+
+ul#skills li.s75:after {
+    content: "75%";
+}
+
+ul#skills li.s70:after {
+    content: "70%";
+}
+
+ul#skills li.s65:after {
+    content: "65%";
+}
+
+ul#skills li.s60:after {
+    content: "60%";
+}
+
+ul#skills li.s50:after {
+    content: "50%";
+}
+
+ul#skills li.s40:after {
+    content: "40%";
+}
+
+ul#skills li.s30:after {
+    content: "30%";
+}
+
+ul#skills li.s20:after {
+    content: "20%";
+}
+
+ul#skills li.s10:after {
+    content: "10%";
+}
+
+ul#skills li span {
+    display: none;
+}
+
+ul#skills li:hover {
+    background: #222;
+}
+
+li.s100 {
+    width: 97.71428571428571%;
+}
+
+li.s95 {
+    width: 92.71428571428571%;
+}
+
+li.s90 {
+    width: 87.71428571428571%;
+}
+
+li.s80 {
+    width: 77.71428571428571%;
+}
+
+li.s75 {
+    width: 72.71428571428571%;
+}
+
+li.s70 {
+    width: 67.71428571428571%;
+}
+
+li.s65 {
+    width: 62.714285714285715%;
+}
+
+li.s60 {
+    width: 57.714285714285715%;
+}
+
+li.s50 {
+    width: 47.714285714285715%;
+}
+
+li.s40 {
+    width: 37.714285714285715%;
+}
+
+li.s30 {
+    width: 27.714285714285715%;
+}
+
+li.s20 {
+    width: 17.714285714285715%;
+}
+
+li.s10 {
+    width: 7.714285714285714%;
+}
+
+/* ------------------------*/
+/*---HONORS STUFF---------*/
+/* ----------------------*/
+#honorsAwards li {
+    padding-left: 5px;
+    margin-bottom: 8px;
+}
+
+/* ------------------------*/
+/*---CONTACT FORM STUFF---*/
+/* ----------------------*/
+#contactform input,
+#contactform textarea {
+    float: none;
+    width: 250px;
+    padding: 8px;
+    margin: 5px 0 10px 0;
+    background: #fcfcfc;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    color: #666;
+    font-size: 12px;
+}
+
+#contactform textarea {
+    height: 150px;
+    width: 380px;
+    margin-bottom: 20px;
+}
+
+#contactform input[type="submit"] {
+    width: inherit;
+    float: right;
+    clear: both;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    line-height: 30px;
+    font-size: 10px;
+    text-transform: uppercase;
+    height: 30px;
+    padding: 0 15px;
+    margin: 0;
+    background: #444;
+    border-radius: 3px;
+}
+
+#contactform input[type="submit"]:hover {
+    background: #000;
+}
+
+.required {
+    color: red;
+}
+
+#required {
+    float: left;
+    margin-top: 10px;
+    color: #bbb;
+    display: none;
+}
+
+#contactform input.error,
+#contactform textarea.error {
+    border: 1px solid red;
+    background: #ffd3c9
+}
+
+#contactInfo {
+    float: left;
+    width: 40%;
+}
+
+#emailMessage {
+    float: right;
+    width: 57%;
+}
+
+#messageSent {
+    line-height: 40px;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    background: #5cd25c;
+    color: #fff;
+    display: none;
+}
+
+/* --------------------------*/
+/*---GENERAL LAYOUT STUFF---*/
+/* ------------------------*/
+ul#jobs,
+ul#schools,
+ul#recommends,
+ul#project,
+ul#seenOn {
+    margin: 0;
+    list-style: none;
+}
+
+ul#jobs li,
+ul#schools li,
+ul#project li,
+ul#recommends li {
+    margin: 0 0 20px 0;
+    clear: both;
+}
+
+ul#jobs li .details,
+ul#schools li .details,
+ul#project li .details,
+ul#recommends li .details {
+    float: left;
+    width: 40%
+}
+
+ul#jobs li p,
+ul#schools li > p,
+ul#project li > p,
+ul#recommends li > p {
+    float: right;
+    width: 57%;
+    margin-bottom: 25px;
+}
+
+.details h5 {
+    font-style: italic;
+}
+
+/* ------------------------*/
+/*---COPYRIGHT STUFF------*/
+/* ----------------------*/
+#copyright {
+    text-align: center;
+    font: bold 10px sans-serif;
+    text-transform: uppercase;
+    color: #aaa;
+    margin: 20px 0 60px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+/* ------------------------*/
+/*--RESPONSIVE STUFF------*/
+/* ----------------------*/
+body.respond {
+    background: #fff;
+}
+
+body.respond #sticker {
+    display: none;
+}
+
+body.respond #wrapper {
+    margin: 0 auto;
+    padding: 30px;
+    background: #fff;
+    box-shadow: none;
+}
+
+body.respond h2.sectionHead {
+    font-size: 15px;
+    letter-spacing: -1px;
+    margin: 40px 0 50px -60px;
+    padding-left: 8px;
+}
+
+body.respond h2#titleName {
+    margin: 20px 0 10px -60px;
+}
+
+body.respond p {
+    text-align: left;
+}
+
+body.respond #socialIcons {
+    height: 30px;
+    margin-top: 20px;
+    position: relative;
+    right: auto;
+    text-align: left;
+    top: auto;
+    width: 100%;
+}
+
+body.respond #bio h2 {
+    font-size: 12px;
+}
+
+body.respond #bio p {
+    padding: 0;
+    background: #fff;
+    max-width: 100%;
+    border: none;
+}
+
+body.respond ul#seenOn li {
+    height: auto;
+    line-height: 1em;
+}
+
+body.respond ul#seenOn li img {
+    width: 96%;
+    height: auto;
+    padding: 2%;
+}
+
+body.respond ul#jobs li .details,
+body.respond ul#schools li .details,
+body.respond ul#project li .details,
+body.respond ul#recommends li .details {
+    float: none;
+    width: 100%
+}
+
+body.respond ul#jobs li p,
+body.respond ul#schools li > p,
+body.respond ul#project li > p,
+body.respond ul#recommends li > p {
+    float: none;
+    width: 100%;
+    margin-bottom: 50px;
+    margin-top: 10px;
+}
+
+body.respond #contactInfo,
+body.respond #emailMessage {
+    float: none;
+    width: 100%;
+}
+
+body.respond #contactform input[type="submit"] {
+    float: none;
+    width: auto;
+}
+
+body.respond #contactform input,
+body.respond #contactform textarea {
+    width: 90%;
+}
+
+body.respond #copyright {
+    margin: 60px auto;
+}
+
+body.respond #messageSent {
+    margin-top: 20px;
+}

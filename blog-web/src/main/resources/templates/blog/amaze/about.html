@@ -1,0 +1,182 @@
+<!DOCTYPE html><!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blog/amaze/header::head-fragment">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+</head>
+<!--BASE STYLE CSS-->
+<link rel="stylesheet" th:href="@{blog/amaze/css/style.css}" type="text/css" media="screen"/>
+<!--PRODUCTION PHOTO CSS-->
+<link rel="stylesheet" th:href="@{blog/amaze/css/productionPhoto.css}" type="text/css" media="screen"/>
+<!--PRINT CSS-->
+<link rel="stylesheet" th:href="@{blog/amaze/css/print.css}" type="text/css" media="print"/>
+<body>
+<div th:replace="blog/amaze/header::header-fragment"></div>
+
+<div class="container" style="position:relative;margin-top: 7rem;">
+    <div id="wrapper">
+        <!--INTRODUCE NAME-->
+        <h2 id="titleName" class="sectionHead">敲代码的长腿毛欧巴</h2>
+
+        <!--BASE INFORMATION-->
+        <div id="bio">
+            <h2>数码爱好者/Java后台开发工程师</h2>
+            <!--BASE INFORMATION - SOCIAL LINKS-->
+            <div id="socialIcons">
+                <a class="socialIcon" target="_blank" id="emailIcon"
+                   href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=cgAXHBgbExoHE0tGRzIEGwJcAwNcER0f"
+                   title="点击给我发邮件"></a>
+                <a class="socialIcon" target="_blank" id="githubIcon" href="https://github.com/renjiahua945"
+                   title="点击访问我的GitHub"></a>
+                <a class="socialIcon" target="_blank" id="qqIcon"
+                   href="http://wpa.qq.com/msgrd?v=3&uin=1406628376&site=qq&menu=yes" title="点击和我发起会话"></a>
+                <a class="socialIcon" target="_blank" id="weiboIcon" href="https://weibo.com/codeview"
+                   title="点击进入我的微博"></a>
+
+            </div>
+            <!--END SOCIAL LINKS-->
+
+            <!--BASE INFORMATION - PERSONAL INFORMATION-->
+            <p>
+                我是一名数码爱好者，同时我也是一个新晋攻城狮，主要做网站后台服务Java的开发。爱好敲代码，做好玩的事情。
+                享受科技的快乐，同时也享受代码成功运行所获得的成就感。相信通过自己的努力可以拥有美好的未来。
+                我是一名97后，和大多数毕业生一样刚刚梦想起步。
+            </p>
+            <!--END PERSONAL INFORMATION-->
+        </div>
+        <!--END BASE INFORMATION-->
+
+        <div class="clear"></div>
+
+        <!--SKILLS TITLE-->
+        <h2 id="tools" class="sectionHead">技能</h2>
+        <!--SKILLS-->
+        <ul id="skills">
+            <!--Notice: the class names indicate the % of your skills. i.e. s70 = 70%, s40 = 40% etc. -->
+            <li id="skill1" class="s100"><span>Java</span></li>
+            <li id="skill2" class="s80"><span>Spring</span></li>
+            <li id="skill3" class="s75"><span>Spring Boot</span></li>
+            <li id="skill4" class="s60"><span>HTML + CSS</span></li>
+            <li id="skill6" class="s60"><span>Mysql</span></li>
+            <li id="skill7" class="s60"><span>Nginx</span></li>
+            <li id="skill8" class="s60"><span>Redis</span></li>
+            <li id="skill9" class="s40"><span><del>Photoshop</del></span></li>
+            <li id="skill5" class="s30"><span>jQuery</span></li>
+        </ul>
+        <!--END SKILLS-->
+
+        <div class="clear"></div>
+
+        <!--EXPERIENCE TITLE-->
+        <h2 id="clock" class="sectionHead">工作经验</h2>
+        <!--EXPERIENCE-->
+        <ul id="jobs">
+            <li>
+                <div class="details">
+                    <h3>北京京东尚科信息技术有限公司</h3>
+                    <h4>京东.商家后台.服务端Java开发工程师 - 大兴区, 北京</h4>
+                    <h5>2019.03 - 2019.12</h5>
+                </div>
+                <p>主要负责京东商家后台学习中心、麦头条、成长中心的后台研发。</p>
+            </li>
+            <li>
+                <div class="details">
+                    <h3>北京京东尚科信息技术有限公司</h3>
+                    <h4>京东.京东app.服务端Java开发工程师 - 大兴区, 北京</h4>
+                    <h5>2019.12 -</h5>
+                </div>
+                <p>负责京东App我的京东的后台研发，和日常维护。</p>
+            </li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <!--END EXPERIENCE-->
+
+        <div class="clear"></div>
+
+        <!--EDUCATION TITLE-->
+        <h2 id="learn" class="sectionHead">教育背景</h2>
+        <!--EDUCATION-->
+        <ul id="schools">
+            <li>
+                <div class="details">
+                    <h3>河北师范大学 - 软件工程</h3>
+                    <h4>学位头衔 - 学士</h4>
+                    <h5>2016 - 2020</h5>
+                </div>
+                <p>主要学习软件工程相关学科，主学专业Java开发。</p>
+            </li>
+        </ul>
+        <!--END EDUCATION-->
+
+        <div class="clear"></div>
+
+        <!--END HONORS / AWARDS-->
+
+        <!--AS SEEN ON TITLE-->
+        <h2 id="eye" class="sectionHead">项目经验</h2>
+        <!--PROJECT-->
+        <ul id="project">
+            <li>
+                <div class="details">
+                    <h3>京东麦头条</h3>
+                    <h4>PC/Android/iOS APP 端后台,</h4>
+                    <h5>Mar 2019 - Dec 2019</h5>
+                </div>
+                <p>麦头条主要是京东服务商家的资讯平台，提供商家官方动态京东正常，学习培训等相关信息。
+                    主要包含文章、视频、点播和直播等相关内容。承接商家大会的直播。</p>
+            </li>
+            <li>
+                <div class="details">
+                    <h3>京东学习中心</h3>
+                    <h4>PC端后台</h4>
+                    <h5>Mar 2019 - Dec 2019</h5>
+                </div>
+                <p>京东学习中心主要是为京东商家提供学习的平台，主要包含付费视频、免费视频和免费在线直播。</p>
+            </li>
+            <li>
+                <div class="details">
+                    <h3>京东App.我的京东</h3>
+                    <h4>服务端</h4>
+                    <h5>Dec 2019 -</h5>
+                </div>
+                <p>京东APP服务端主要是为我京模块提供服务，用户个人信息页面的数据，给京东APP提供后台服务。</p>
+            </li>
+        </ul>
+        <!--END PROJECT-->
+
+        <div class="clear"></div>
+
+    </div>
+
+</div>
+<div style="text-align: center">
+    <button class="am-btn am-btn-default" onclick="exportReportTemplet()">
+        <i class="am-icon-cloud-download"></i>下载该简历
+    </button>
+</div>
+</div>
+<div th:replace="blog/amaze/to-top::to-top-fragment"></div>
+<footer th:replace="blog/amaze/footer::footer-fragment"></footer>
+</body>
+<!--PROJECT PHOTO JS-->
+<script th:src="@{/blog/amaze/js/projectPhoto.js}"></script>
+<!--BACK POSITION JS-->
+<script th:src="@{/blog/amaze/js/backPosition.js}"></script>
+<!--CUSTOM JS-->
+<script th:src="@{/blog/amaze/js/custom.js}"></script>
+<!--生成PDF-->
+<script th:src="@{/blog/amaze/js/generatePDF.js}"></script>
+<!-- 背景动画 -->
+<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+<script src="https://cdn.bootcss.com/jspdf/1.5.3/jspdf.min.js"></script>
+<script type="text/javascript" color="0,0,205" opacity='0.7' zIndex="-2" count="199"
+        src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+</html>

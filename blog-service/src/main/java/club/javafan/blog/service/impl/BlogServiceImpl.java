@@ -26,6 +26,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static club.javafan.blog.common.constant.RedisKeyConstant.BLOG_VIEW_ZSET;
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.apache.commons.lang3.math.NumberUtils.*;
 
@@ -196,7 +199,7 @@ public class BlogServiceImpl implements BlogService {
             example.setOrderByClause("blog_views desc");
         }
         //默认设置9条
-        example.setLimit(9);
+        example.setLimit(7);
         example.setStart(0);
         example.createCriteria().andIsDeletedEqualTo(BYTE_ZERO).
                 andBlogStatusEqualTo(BYTE_ONE);
@@ -209,6 +212,25 @@ public class BlogServiceImpl implements BlogService {
             });
         }
         return simpleBlogListVOS;
+    }
+
+    @Override
+    public List<SimpleBlogListVO> getHotBlogs() {
+        Set<Object> blogIdSet = redisUtil.zRevRange(BLOG_VIEW_ZSET, 0, 6);
+        if (isNotEmpty(blogIdSet)) {
+            List<SimpleBlogListVO> collect = blogIdSet.stream().parallel().filter(Objects::nonNull).map(id -> {
+                long blogId = Long.parseLong(String.valueOf(id));
+                Blog blog = blogMapper.selectByPrimaryKey(blogId);
+                if (Objects.nonNull(blog)) {
+                    SimpleBlogListVO simpleBlogListVO = new SimpleBlogListVO();
+                    BeanUtils.copyProperties(blog, simpleBlogListVO);
+                    return simpleBlogListVO;
+                }
+                return null;
+            }).filter(Objects::nonNull).collect(Collectors.toList());
+            return isEmpty(collect) ? new ArrayList<>(1) : collect;
+        }
+        return new ArrayList<>(1);
     }
 
     @Override

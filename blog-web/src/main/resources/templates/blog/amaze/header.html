@@ -23,12 +23,13 @@
     <script th:src="@{/blog/plugins/jquery/jquery.min.js}"></script>
     <script th:src="@{/blog/amaze/js/amazeui.min.js}"></script>
 </head>
-<header th:fragment="header-fragment" class="am-topbar am-topbar-inverse am-topbar-fixed-top">
+<header th:fragment="header-fragment" class="am-topbar am-topbar-inverse am-topbar-fixed-top"
+        style="background-color: black">
     <div class="amz-container">
         <h1 class="am-topbar-brand">
             <a class="navbar-brand" href="/" th:text="${configurations.get('websiteName')}">敲代码的长腿毛欧巴的博客</a>
             <a href="/">
-                <img th:src="@{/blog/amaze/images/website.png}" style="width: 50%;" th:alt="敲代码的长腿毛欧巴Logo">
+                <img th:src="@{/blog/amaze/images/website.png}" style="width: 60%;" th:alt="敲代码的长腿毛欧巴Logo">
             </a>
         </h1>
         <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
