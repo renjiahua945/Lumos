@@ -1,11 +1,13 @@
 package club.javafan.blog.service.impl;
 
 
+import club.javafan.blog.common.util.RedisUtil;
 import club.javafan.blog.domain.Config;
 import club.javafan.blog.domain.example.ConfigExample;
 import club.javafan.blog.repository.ConfigMapper;
 import club.javafan.blog.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -15,6 +17,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static club.javafan.blog.common.constant.RedisKeyConstant.BLOG_INDEX_VIEW;
+import static club.javafan.blog.common.constant.RedisKeyConstant.BLOG_INDEX_VIEW_ALL;
+import static club.javafan.blog.common.util.DateUtils.getDistanceToNow;
+import static club.javafan.blog.common.util.DateUtils.getToday;
 import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ZERO;
 
 /**
@@ -24,9 +30,18 @@ import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ZERO;
  */
 @Service
 public class ConfigServiceImpl implements ConfigService {
+    /**
+     * 配置项查询
+     */
     @Autowired
     private ConfigMapper configMapper;
-
+    /**
+     * redis 查询
+     */
+    @Autowired
+    private RedisUtil redisUtil;
+    @Value("${blog.run.date}")
+    private String runDate;
     public static final String WEBSITE_NAME = "个人博客";
     public static final String WEBSITE_DESC = "敲代码的长腿毛欧巴是SpringBoot2+Thymeleaf+Mybatis建造的个人博客网站.SpringBoot实战博客源码.个人博客搭建";
     public static final String WEBSITE_LOGO = "/admin/dist/img/logo2.png";
@@ -54,7 +69,7 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public Map<String, String> getAllConfigs() {
+    public Map<String, String> getAllConfigs() throws Exception {
         //获取所有的map并封装为map
         ConfigExample example = new ConfigExample();
         List<Config> blogConfigs = configMapper.selectByExample(example);
@@ -97,6 +112,15 @@ public class ConfigServiceImpl implements ConfigService {
                 config.setValue(POWER_BY_URL);
             }
         }
+        //获取今天访客数
+        Object indexViewToday = redisUtil.get(BLOG_INDEX_VIEW + getToday());
+        configMap.put("indexViewToday", String.valueOf(indexViewToday));
+        //获取总的访客数
+        Object indexViewAll = redisUtil.get(BLOG_INDEX_VIEW_ALL);
+        configMap.put("indexViewAll", String.valueOf(indexViewAll));
+        //获取服务器的运行天数
+        configMap.put("runDays", getDistanceToNow(runDate).toString());
+
         return configMap;
     }
 }

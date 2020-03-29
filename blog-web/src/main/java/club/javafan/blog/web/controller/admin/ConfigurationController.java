@@ -22,7 +22,7 @@ public class ConfigurationController {
     private ConfigService configService;
 
     @GetMapping("/configurations")
-    public ModelAndView list() {
+    public ModelAndView list() throws Exception {
         ModelAndView modelAndView = new ModelAndView("admin/configuration");
         modelAndView.addObject("path", "configurations");
         modelAndView.addObject("configurations", configService.getAllConfigs());

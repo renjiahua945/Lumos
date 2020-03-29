@@ -30,8 +30,8 @@ import java.util.Map;
 
 import static club.javafan.blog.common.constant.CacheConstant.BLOG_DETAIL;
 import static club.javafan.blog.common.constant.CacheConstant.QQ_USER_INFO;
-import static club.javafan.blog.common.constant.RedisKeyConstant.BLOG_PAGE_VIEW;
-import static club.javafan.blog.common.constant.RedisKeyConstant.BLOG_VIEW_ZSET;
+import static club.javafan.blog.common.constant.RedisKeyConstant.*;
+import static club.javafan.blog.common.util.DateUtils.getToday;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -60,13 +60,14 @@ public class MyBlogController {
     private Cache<String,Object> guavaCache;
     @Autowired
     private RedisUtil redisUtil;
+    private Long EXPIRE_TIME = 60 * 60 * 24L;
     /**
      * 首页
      *
      * @return
      */
     @GetMapping({"/", "/index", "index.html"})
-    public ModelAndView index(HttpServletRequest request) {
+    public ModelAndView index(HttpServletRequest request) throws Exception {
         return this.page(1, 7);
     }
     /**
@@ -75,13 +76,14 @@ public class MyBlogController {
      * @return
      */
     @GetMapping({"/page/{pageNum}"})
-    public ModelAndView page(@PathVariable("pageNum") int pageNum, @RequestParam(defaultValue = "7") Integer pageSize) {
+    public ModelAndView page(@PathVariable("pageNum") int pageNum, @RequestParam(defaultValue = "7") Integer pageSize) throws Exception {
         PageResult blogPageResult = blogService.getBlogsForIndexPage(pageNum, pageSize);
         ModelAndView modelAndView = new ModelAndView("blog/amaze/index");
         if (isNull(blogPageResult)) {
             modelAndView.setViewName("error/error_404");
             return modelAndView;
         }
+        recordIndexVisit();
         modelAndView.addObject("blogPageResult", blogPageResult);
         modelAndView.addObject("newBlogs", blogService.getBlogListForIndexPage(1));
         modelAndView.addObject("hotBlogs", blogService.getHotBlogs());
@@ -93,12 +95,23 @@ public class MyBlogController {
     }
 
     /**
+     * 给Key设置过期时间
+     */
+    private void recordIndexVisit() {
+        if (!redisUtil.hasKey(BLOG_INDEX_VIEW + getToday())) {
+            redisUtil.set(BLOG_INDEX_VIEW + getToday(), 0, EXPIRE_TIME);
+        }
+        redisUtil.incr(BLOG_INDEX_VIEW + getToday());
+        redisUtil.incr(BLOG_INDEX_VIEW_ALL);
+    }
+
+    /**
      * Categories页面(包括分类数据和标签数据)
      *
      * @return
      */
     @GetMapping({"/categories"})
-    public ModelAndView categories() {
+    public ModelAndView categories() throws Exception {
         ModelAndView modelAndView = new ModelAndView("blog/amaze/category");
         modelAndView.addObject("hotTags", tagService.getBlogTagCountForIndex());
         modelAndView.addObject("categories", categoryService.getAllCategories());
@@ -108,7 +121,7 @@ public class MyBlogController {
     }
 
     @GetMapping({"/about"})
-    public ModelAndView about() {
+    public ModelAndView about() throws Exception {
         ModelAndView modelAndView = new ModelAndView("blog/amaze/about");
         modelAndView.addObject("configurations", configService.getAllConfigs());
         modelAndView.addObject("categories", categoryService.getAllCategories());
@@ -121,7 +134,7 @@ public class MyBlogController {
      */
     @GetMapping({"/blog/{blogId}", "/article/{blogId}"})
     public ModelAndView detail(@PathVariable("blogId") Long blogId
-            , @RequestParam(value = "commentPage", required = false, defaultValue = "1") Integer commentPage) {
+            , @RequestParam(value = "commentPage", required = false, defaultValue = "1") Integer commentPage) throws Exception {
         ModelAndView modelAndView = new ModelAndView("blog/amaze/detail");
         Object blog = guavaCache.getIfPresent(BLOG_DETAIL + blogId);
         //设置兜底值
@@ -164,8 +177,15 @@ public class MyBlogController {
         return modelAndView;
     }
 
+    /**
+     * 记录主页的访问量
+     *
+     * @param blogId 博客id
+     * @return 博客的访问量
+     */
     private Long addBlogView(Long blogId) {
-        Long incr = redisUtil.incr(BLOG_PAGE_VIEW + blogId);
+        String key = BLOG_PAGE_VIEW + blogId;
+        Long incr = redisUtil.incr(key);
         redisUtil.zAdd(BLOG_VIEW_ZSET, String.valueOf(blogId), incr.doubleValue());
         return incr;
     }
@@ -176,7 +196,7 @@ public class MyBlogController {
      * @return
      */
     @GetMapping({"/tag/{tagName}"})
-    public ModelAndView tag(@PathVariable("tagName") String tagName) {
+    public ModelAndView tag(@PathVariable("tagName") String tagName) throws Exception {
         return tag(tagName, 1);
     }
 
@@ -186,7 +206,7 @@ public class MyBlogController {
      * @return
      */
     @GetMapping({"/tag/{tagName}/{page}"})
-    public ModelAndView tag(@PathVariable("tagName") String tagName, @PathVariable("page") Integer page) {
+    public ModelAndView tag(@PathVariable("tagName") String tagName, @PathVariable("page") Integer page) throws Exception {
         ModelAndView modelAndView = new ModelAndView("blog/amaze/index");
         PageResult blogPageResult = blogService.getBlogsPageByTag(tagName, page);
         modelAndView.addObject("blogPageResult", blogPageResult);
@@ -207,7 +227,7 @@ public class MyBlogController {
      * @return
      */
     @GetMapping({"/category/{categoryName}"})
-    public ModelAndView category(@PathVariable("categoryName") String categoryName) {
+    public ModelAndView category(@PathVariable("categoryName") String categoryName) throws Exception {
         return category(categoryName, 1);
     }
 
@@ -218,7 +238,7 @@ public class MyBlogController {
      */
     @GetMapping({"/category/{categoryName}/{page}"})
     public ModelAndView category(@PathVariable("categoryName") String categoryName
-            , @PathVariable("page") Integer page) {
+            , @PathVariable("page") Integer page) throws Exception {
         ModelAndView modelAndView = new ModelAndView("blog/amaze/index");
         PageResult blogPageResult = blogService.getBlogsPageByCategory(categoryName, page);
         modelAndView.addObject("blogPageResult", blogPageResult);
@@ -240,7 +260,7 @@ public class MyBlogController {
      * @return
      */
     @GetMapping({"/search/{keyword}"})
-    public ModelAndView search(@PathVariable("keyword") String keyword) {
+    public ModelAndView search(@PathVariable("keyword") String keyword) throws Exception {
         return search(keyword, 1);
     }
 
@@ -250,7 +270,7 @@ public class MyBlogController {
      * @return
      */
     @GetMapping({"/search/{keyword}/{page}"})
-    public ModelAndView search(@PathVariable("keyword") String keyword, @PathVariable("page") Integer page) {
+    public ModelAndView search(@PathVariable("keyword") String keyword, @PathVariable("page") Integer page) throws Exception {
         PageResult blogPageResult = blogService.getBlogsPageBySearch(keyword, page);
         ModelAndView modelAndView = new ModelAndView("blog/amaze/index");
         modelAndView.addObject("blogPageResult", blogPageResult);
@@ -272,7 +292,7 @@ public class MyBlogController {
      * @return
      */
     @GetMapping({"/link"})
-    public ModelAndView link() {
+    public ModelAndView link() throws Exception {
         ModelAndView modelAndView = new ModelAndView("blog/amaze/link");
         modelAndView.addObject("pageName", "友情链接");
         Map<Byte, List<BlogLink>> linkMap = linkService.getLinksForLinkPage();
@@ -366,7 +386,7 @@ public class MyBlogController {
      * @return
      */
     @GetMapping({"/{subUrl}"})
-    public ModelAndView detail(@PathVariable("subUrl") String subUrl) {
+    public ModelAndView detail(@PathVariable("subUrl") String subUrl) throws Exception {
         ModelAndView modelAndView = new ModelAndView("blog/amaze/detail");
         BlogDetailVO blogDetailVO = blogService.getBlogDetailBySubUrl(subUrl);
         if (isNull(blogDetailVO)) {

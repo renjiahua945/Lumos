@@ -2,6 +2,8 @@
 blog:
   version: 1.0.0 beta
   author: 敲代码的长腿毛欧巴
+  run:
+    date: 2020-01-01
 spring:
   main:
     allow-bean-definition-overriding: true

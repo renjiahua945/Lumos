@@ -97,13 +97,16 @@
             <div class="sidebar-list">
                 <ul class="sidebar-list-body sidebar-list-items am-link-muted">
                     <li class="sidebar-list-item">
-                        <span style="font-weight: bold">今日访问次数：333</span>
+                        <span style="font-weight: bold"><i class="am-icon-eye am-icon-fw"></i> 今日访问次数: </span>
+                        <th:block th:text="${configurations.get('indexViewToday')}"></th:block>
                     </li>
                     <li class="sidebar-list-item">
-                        <span style="font-weight: bold">总访问次数：3223232</span>
+                        <span style="font-weight: bold"><i class="am-icon-user am-icon-fw"></i> 总访问次数：</span>
+                        <th:block th:text="${configurations.get('indexViewAll')}"></th:block>
                     </li>
                     <li class="sidebar-list-item">
-                        <span style="font-weight: bold">稳定运行天数：465天</span>
+                        <span style="font-weight: bold"><i class="am-icon-trophy am-icon-fw"></i> 稳定运行天数：</span>
+                        <th:block th:text="${configurations.get('runDays')}"></th:block>
                     </li>
                 </ul>
             </div>
