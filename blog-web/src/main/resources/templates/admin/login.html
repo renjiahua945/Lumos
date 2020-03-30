@@ -17,18 +17,6 @@
     <script th:src="@{/blog/live2d-widget/live2d.min.js}"></script>
 
     <style>
-        canvas {
-            display: block;
-            vertical-align: bottom;
-        }
-        #particles {
-            background-color: #F7FAFC;
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
 
         #stage {
             position: relative;
@@ -56,7 +44,7 @@
 
         #cover {
             position: absolute;
-            background-color: #CB3837;
+            background-color: #b38bcb;
             width: 100%;
             height: 100%;
             bottom: 10%;
@@ -67,7 +55,7 @@
         #text {
             position: absolute;
             bottom: 30%;
-            font-size: 2em;
+            font-size: 2rem;
             left: 50%;
             transform: translateX(-50%);
             opacity: 0.4;
@@ -95,11 +83,13 @@
         }
 
         #info {
+            font-size: 1rem;
             left: 40px;
             bottom: 20px;
         }
 
         #refresh {
+            font-size: 1rem;
             right: 40px;
             bottom: 20px;
         }
@@ -114,37 +104,32 @@
     </style>
 </head>
 <body class="hold-transition login-page">
-<div id="particles">
-</div>
 <div class="login-box">
-    <div class="login-logo" style="color: #007bff;">
+    <!-- /.login-logo -->
+    <div class="card">
         <div id="stage">
             <div id="inner">
                 <div id="cover">
                     <div id="text">
-                        <span style="color: cyan;">MIMI</span><span style="color: white">POWERED</span>
+                        <span>
+                            博客  登录
+                        </span>
                     </div>
                     <div id="detail"></div>
                     <div id="handle"></div>
                 </div>
                 <canvas class="mb-4" id="live2d" width="300" height="300"></canvas>
             </div>
-            <a id="info" href="javascript:info()"><i class="fa fa-lg fa-info"></i></a>
-            <a id="refresh" href="javascript:refresh()"><i class="fa fa-lg fa-refresh"></i></a>
+            <a id="info" href="javascript:info()"><i class="fa fa-lg fa-info" alt="每日鸡汤"></i></a>
+            <a id="refresh" href="javascript:refresh()"><i class="fa fa-lg fa-refresh" alt="换肤"></i></a>
         </div>
-    </div>
-    <!-- /.login-logo -->
-    <div class="card">
         <div class="card-body login-card-body">
-            <p class="login-box-msg">后台管理登录</p>
             <form th:action="@{/admin/login}" method="post">
                 <div class="form-group has-feedback">
-                    <i class="fa fa-user form-control-feedback"></i>
                     <input type="text" id="userName" name="userName" class="form-control" placeholder="请输入账号"
                            required="true">
                 </div>
                 <div class="form-group has-feedback">
-                    <i class="fa fa-lock form-control-feedback"></i>
                     <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码"
                            required="true">
                 </div>
@@ -179,8 +164,9 @@
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
 <!-- Bootstrap 4 -->
 <script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/admin/dist/js/plugins/particles.js}"></script>
-<script th:src="@{/admin/dist/js/plugins/login-bg-particles.js}"></script>
+<!-- 背景动画 -->
+<script type="text/javascript" color="0,0,215" opacity='0.7' zIndex="-2" count="199"
+        src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
 <script th:src="@{/admin/dist/js/login.js}"></script>
 </body>
 </html>
