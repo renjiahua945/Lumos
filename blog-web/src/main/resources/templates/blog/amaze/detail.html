@@ -11,9 +11,11 @@
         <div class="am-article-hd" style="text-align: center">
             <h1 class="am-article-title" th:text="${blogDetailVO.blogTitle}">永远的蝴蝶</h1>
             <p class="am-article-meta">
-                <span th:text="${#dates.format(blogDetailVO.createTime, 'yyyy-MM-dd')}"></span>
-                <span th:text="${commentTotal}"></span> 条评论
-                <span th:text="${blogDetailVO.blogViews}"></span> 浏览
+                <span><i class="am-icon-calendar am-icon-fw"></i>&nbsp;</span><span
+                    th:text="${#dates.format(blogDetailVO.createTime, 'yyyy-MM-dd')}"></span>
+                <span><i class="am-icon-comment am-icon-fw"></i>&nbsp;</span><span th:text="${commentTotal}"></span> 条评论
+                <span><i class="am-icon-eye am-icon-fw"></i>&nbsp;</span><span
+                    th:text="${blogDetailVO.blogViews}"></span> 浏览
             </p>
             <div>
                 <th:block th:each="tag : ${blogDetailVO.blogTags}">
@@ -104,7 +106,8 @@
                 <div class="am-form-inline" role="form" style="display: inline-block;">
                     <!--头像-->
                     <div class="am-form-group">
-                        <img id="idPic" class="am-img-thumbnail" src="/blog/default/img/avatar.png" style="width:60%; border-radius: 50%;">
+                        <img id="idPic" class="am-img-thumbnail" src="/blog/default/img/avatar.png"
+                             style="width:60%; border-radius: 50%;">
                     </div>
                     <!--QQ号-->
                     <div class="am-form-group">
@@ -116,7 +119,7 @@
                     </div>
                     <!--邮箱-->
                     <div class="am-form-group">
-                        <input  id="email" type="text" class="am-form-field" placeholder="电子邮箱">
+                        <input id="email" type="text" class="am-form-field" placeholder="电子邮箱">
                     </div>
                 </div>
                 <div>

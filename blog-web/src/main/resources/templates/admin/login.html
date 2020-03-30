@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>敲代码的长腿毛欧巴 | Log in</title>
+    <title>NB-Coder Blog| Log in</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" th:href="@{/admin/dist/img/favicon.png}"/>
@@ -13,6 +13,9 @@
     <link rel="stylesheet" th:href="@{/admin/dist/css/ionicons.min.css}">
     <!-- Theme style -->
     <link rel="stylesheet" th:href="@{/admin/dist/css/adminlte.min.css}">
+    <!--live2d-->
+    <script th:src="@{/blog/live2d-widget/live2d.min.js}"></script>
+
     <style>
         canvas {
             display: block;
@@ -26,6 +29,88 @@
             height: 100%;
             z-index: -1;
         }
+
+        #stage {
+            position: relative;
+        }
+
+        #stage img {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 20px;
+        }
+
+        #stage a {
+            position: absolute;
+            width: 2em;
+            height: 2em;
+            border-radius: 50%;
+        }
+
+        #inner {
+            position: relative;
+            background-color: #999;
+            clip-path: circle(120px at center);
+            -webkit-clip-path: circle(120px at center);
+        }
+
+        #cover {
+            position: absolute;
+            background-color: #CB3837;
+            width: 100%;
+            height: 100%;
+            bottom: 10%;
+            transition: all 1s;
+            box-shadow: 0 0 0 5px rgba(0, 0, 0, .1);
+        }
+
+        #text {
+            position: absolute;
+            bottom: 30%;
+            font-size: 2em;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.4;
+            font-weight: bold;
+        }
+
+        #detail {
+            position: absolute;
+            background: rgba(255, 255, 255, .1);
+            width: 100%;
+            height: 10px;
+            bottom: 0;
+        }
+
+        #handle {
+            position: absolute;
+            background: #ccc;
+            bottom: -2px;
+            box-shadow: 0 1px 0 1px rgba(0, 0, 0, .1);
+            height: 8px;
+            left: 50%;
+            margin-left: -15px;
+            width: 30px;
+            cursor: pointer;
+        }
+
+        #info {
+            left: 40px;
+            bottom: 20px;
+        }
+
+        #refresh {
+            right: 40px;
+            bottom: 20px;
+        }
+
+        #live2d {
+            cursor: grab;
+        }
+
+        #live2d:active {
+            cursor: grabbing;
+        }
     </style>
 </head>
 <body class="hold-transition login-page">
@@ -33,12 +118,25 @@
 </div>
 <div class="login-box">
     <div class="login-logo" style="color: #007bff;">
-        <h1>敲代码的长腿毛欧巴</h1>
+        <div id="stage">
+            <div id="inner">
+                <div id="cover">
+                    <div id="text">
+                        <span style="color: cyan;">MIMI</span><span style="color: white">POWERED</span>
+                    </div>
+                    <div id="detail"></div>
+                    <div id="handle"></div>
+                </div>
+                <canvas class="mb-4" id="live2d" width="300" height="300"></canvas>
+            </div>
+            <a id="info" href="javascript:info()"><i class="fa fa-lg fa-info"></i></a>
+            <a id="refresh" href="javascript:refresh()"><i class="fa fa-lg fa-refresh"></i></a>
+        </div>
     </div>
     <!-- /.login-logo -->
     <div class="card">
         <div class="card-body login-card-body">
-            <p class="login-box-msg">Enjoy yourself!</p>
+            <p class="login-box-msg">后台管理登录</p>
             <form th:action="@{/admin/login}" method="post">
                 <div class="form-group has-feedback">
                     <i class="fa fa-user form-control-feedback"></i>
@@ -83,5 +181,6 @@
 <script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/admin/dist/js/plugins/particles.js}"></script>
 <script th:src="@{/admin/dist/js/plugins/login-bg-particles.js}"></script>
+<script th:src="@{/admin/dist/js/login.js}"></script>
 </body>
 </html>
