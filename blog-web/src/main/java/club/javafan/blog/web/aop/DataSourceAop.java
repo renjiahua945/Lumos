@@ -24,7 +24,6 @@ public class DataSourceAop {
             "execution( * club.javafan.blog.repository.*.count*(..))")
 
     public void setSlaveDataSource() {
-        System.out.println("slave....");
         DataSourceContextHolder.set(SLAVE);
     }
     /**
@@ -37,7 +36,6 @@ public class DataSourceAop {
             "execution( * club.javafan.blog.repository.*.delete*(..))||" +
             "execution( * club.javafan.blog.repository.*.add*(..))")
     public void setMasterDataSource() {
-        System.out.println("master....");
         DataSourceContextHolder.set(MASTER);
     }
 }
