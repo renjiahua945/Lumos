@@ -74,7 +74,7 @@ function loadWidget(config) {
             Live2D.captureFrame = true;
         });
         document.querySelector("#waifu-tool .fa-info-circle").addEventListener("click", () => {
-            open("https://github.com/renjiahua945/blog");
+            open("https://github.com/renjiahua945/Lumos");
         });
         document.querySelector("#waifu-tool .fa-times").addEventListener("click", () => {
             localStorage.setItem("waifu-display", Date.now());
