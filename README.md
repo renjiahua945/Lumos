@@ -50,7 +50,7 @@ git clone https://github.com/renjiahua945/Lumos.git
 
 ## 博客示例
 
-请移步： 目前博客还在迭代中，暂未上线。
+请移步： <a href="https://www.javafan.club">点击进入Lumos</a>
 
 
 ## 许可证
