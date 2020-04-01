@@ -17,5 +17,5 @@ public interface ConfigService {
      *
      * @return
      */
-    Map<String,String> getAllConfigs();
+    Map<String, String> getAllConfigs() throws Exception;
 }

@@ -1,6 +1,5 @@
 package club.javafan.blog.web.aop;
 
-import club.javafan.blog.common.util.DateUtils;
 import club.javafan.blog.common.util.RedisUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.aspectj.lang.JoinPoint;
@@ -10,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +19,8 @@ import java.util.stream.Stream;
 
 import static club.javafan.blog.common.constant.RedisKeyConstant.CS_PAGE_VIEW;
 import static club.javafan.blog.common.constant.RedisKeyConstant.EXCEPTION_AMOUNT;
+import static club.javafan.blog.common.util.DateUtils.getToday;
+import static java.util.Objects.isNull;
 
 /**
  * @author 敲代码的长腿毛欧巴(博客)
@@ -38,7 +40,7 @@ public class LoggerExceptionAop {
      * 日志
      */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+    private static final Long EXIST_TIME = 31 * 24 * 60 * 60L;
     @Pointcut(value = "execution(public * club.javafan.blog.service.impl.*.*(..))")
     private void servicePointCut() {
     }
@@ -64,10 +66,10 @@ public class LoggerExceptionAop {
                 .append(methodName)
                 .append(" , params: ");
         Object[] args = joinPoint.getArgs();
-        //过滤掉request请求和response 避免异步请求出错
+        //过滤掉request请求和response 避免异步请求出错,同时过滤MultipartFile
         List<Object> logArgs = Stream.of(args)
-                .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse)))
-                .parallel()
+                .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse))
+                        && !(arg instanceof MultipartFile))
                 .collect(Collectors.toList());
         log.append(JSONObject.toJSONString(logArgs)).toString();
         logger.info(log.toString());
@@ -75,21 +77,36 @@ public class LoggerExceptionAop {
 
     @AfterReturning(value = "controllerPoint()||servicePointCut()||workerPointCut()", returning = "returnObj")
     public void afterReturn(Object returnObj) {
-        String result = JSONObject.toJSONString(returnObj);
-        logger.info("club.javafan.blog return result: {}", result);
+        if (isNull(returnObj)) {
+            return;
+        }
+        logger.info("club.javafan.blog return result: {}", JSONObject.toJSONString(returnObj));
     }
 
     @AfterThrowing(value = "controllerPoint()||servicePointCut()||commonPointCut()||workerPointCut()", throwing = "e")
     public void afterThrowing(Throwable e) {
         //统计今日异常数
-        redisUtil.incr(EXCEPTION_AMOUNT + DateUtils.getToday());
+        recordTodayCount(EXCEPTION_AMOUNT);
         logger.error("club.javafan.blog error : {}", e);
+    }
+
+    /**
+     * 记录今天的数量并且设置过期时间
+     *
+     * @param redisKey
+     */
+    private void recordTodayCount(String redisKey) {
+        String key = redisKey + getToday();
+        if (!redisUtil.hasKey(key)) {
+            redisUtil.set(key, 0, EXIST_TIME);
+        }
+        redisUtil.incr(key);
     }
 
     @Around(value = "controllerPoint()||servicePointCut()||commonPointCut()||workerPointCut()")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         //统计今日执行的总次数
-        redisUtil.incr(CS_PAGE_VIEW + DateUtils.getToday());
+        recordTodayCount(CS_PAGE_VIEW);
         String className = proceedingJoinPoint.getTarget().getClass().getName();
         String methodName = proceedingJoinPoint.getSignature().getName();
         Long begin = System.currentTimeMillis();

@@ -139,4 +139,19 @@ public class DateUtils {
         return new SimpleDateFormat("yyyy-MM-dd").format(currYearLast);
     }
 
+    /**
+     * 获取传入日期距离当前多少天
+     *
+     * @param before yyyy-MM-dd格式的时间
+     * @return
+     */
+    public static Long getDistanceToNow(String before) throws Exception {
+        Date start = new SimpleDateFormat("yyyy-MM-dd").parse(before);
+        return (System.currentTimeMillis() - start.getTime()) / (1000 * 60 * 60 * 24);
+    }
+
+    public static void main(String[] args) throws Exception {
+        Long distanceToNow = getDistanceToNow("2020-03-03");
+        System.out.println(distanceToNow);
+    }
 }

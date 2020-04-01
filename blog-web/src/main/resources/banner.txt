@@ -16,4 +16,4 @@
                                  ${AnsiColor.YELLOW}
                                                     敲代码的长腿毛欧巴的博客，点击预览==> https://blog.javafan.club
                                                     微博：敲代码的长腿毛欧巴，留言反馈==> https://weibo.com/codeview。
-                                                    或者在github上提交isue ==>  https://github.com/renjiahua945/blog/issues。
+                                                    或者在github上提交isue ==>  https://github.com/renjiahua945/Lumos/issues。

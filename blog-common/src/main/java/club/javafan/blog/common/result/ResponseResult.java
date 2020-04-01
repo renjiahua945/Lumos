@@ -18,9 +18,7 @@ public class ResponseResult<T> {
      */
     private Integer code;
     /**
-     * @author 敲代码的长腿毛欧巴(博客)
-     * @date 2019/12/8 14:30
-     * @desc 返回结果数据
+     *  返回结果数据
      */
     private T data;
 
@@ -63,8 +61,15 @@ public class ResponseResult<T> {
         return new ResponseResult(ResponseResultEnum.SUCCESS.code);
     }
 
-    public enum ResponseResultEnum {
-        SUCCESS(INTEGER_ZERO), FAIL(INTEGER_ONE);
+    protected enum ResponseResultEnum {
+        /**
+         * 返回结果成功
+         */
+        SUCCESS(INTEGER_ZERO),
+        /**
+         * 返回结果失败
+         */
+        FAIL(INTEGER_ONE);
 
         public Integer getCode() {
             return code;

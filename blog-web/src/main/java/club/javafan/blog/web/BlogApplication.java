@@ -21,6 +21,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
         , "club.javafan.blog.common.qquserinfo"
         , "club.javafan.blog.worker"
 })
+
 public class BlogApplication {
     public static void main(String[] args) {
         SpringApplication.run(BlogApplication.class, args);

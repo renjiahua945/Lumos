@@ -1,10 +1,8 @@
 package club.javafan.blog.service.impl;
 
+import club.javafan.blog.common.constant.RedisKeyConstant;
 import club.javafan.blog.common.result.ResponseResult;
-import club.javafan.blog.common.util.MarkDownUtil;
-import club.javafan.blog.common.util.PageQueryUtil;
-import club.javafan.blog.common.util.PageResult;
-import club.javafan.blog.common.util.PatternUtil;
+import club.javafan.blog.common.util.*;
 import club.javafan.blog.domain.Blog;
 import club.javafan.blog.domain.BlogCategory;
 import club.javafan.blog.domain.BlogTag;
@@ -25,10 +23,13 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
-import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static club.javafan.blog.common.constant.RedisKeyConstant.BLOG_VIEW_ZSET;
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.apache.commons.lang3.math.NumberUtils.*;
 
 /**
@@ -50,13 +51,12 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private BlogCommentMapper blogCommentMapper;
     @Autowired
-    private Executor threadTaskExecutor;
-
+    private RedisUtil redisUtil;
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ResponseResult saveBlog(Blog blog) {
-        BlogCategory blogCategory = categoryMapper.selectByPrimaryKey(blog.getBlogCategoryId());
 
+        BlogCategory blogCategory = categoryMapper.selectByPrimaryKey(blog.getBlogCategoryId());
         //处理标签数据
         String[] tags = blog.getBlogTags().split(",");
         if (ArrayUtils.isNotEmpty(tags) && tags.length > 6) {
@@ -124,6 +124,11 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public PageResult getBlogsPage(PageQueryUtil pageUtil) {
         List<Blog> blogList = blogMapper.findBlogList(pageUtil);
+        blogList.stream().map(blog -> {
+            //设置浏览量
+            blog.setBlogViews(getBlogView(blog.getBlogId()));
+            return blog;
+        }).collect(Collectors.toList());
         int total = blogMapper.getTotalBlogs(pageUtil);
         PageResult pageResult = new PageResult(blogList, total, pageUtil.getLimit(), pageUtil.getPage());
         return pageResult;
@@ -136,11 +141,11 @@ public class BlogServiceImpl implements BlogService {
             return false;
         }
         //删除标签的关系
-        threadTaskExecutor.execute(() -> blogTagRelationMapper.batchDelete(ids));
+        blogTagRelationMapper.batchDelete(ids);
         //删除相关评论
-        threadTaskExecutor.execute(() -> blogCommentMapper.deleteBatchByBlogId(ids));
+        blogCommentMapper.deleteBatchByBlogId(ids);
 
-        return blogMapper.deleteBatch(ids) > 0;
+        return blogMapper.deleteBatch(ids) > INTEGER_ZERO;
     }
 
     @Override
@@ -165,8 +170,8 @@ public class BlogServiceImpl implements BlogService {
         //修改blog信息->修改分类排序值->删除原关系数据->保存新的关系数据
         BlogTagRelationExample example = new BlogTagRelationExample();
         example.createCriteria().andBlogIdEqualTo(blog.getBlogId());
-        threadTaskExecutor.execute(() -> blogTagRelationMapper.deleteByExample(example));
-        threadTaskExecutor.execute(() -> batchTagsRelation(blog, blogCategory, tags));
+        blogTagRelationMapper.deleteByExample(example);
+        batchTagsRelation(blog, blogCategory, tags);
         int con = blogMapper.updateByPrimaryKeySelective(blog);
         if (con > INTEGER_ZERO) {
             return ResponseResult.successResult("修改成功！");
@@ -194,7 +199,8 @@ public class BlogServiceImpl implements BlogService {
             example.setOrderByClause("blog_views desc");
         }
         //默认设置9条
-        example.setLimit(9);
+        example.setLimit(7);
+        example.setStart(0);
         example.createCriteria().andIsDeletedEqualTo(BYTE_ZERO).
                 andBlogStatusEqualTo(BYTE_ONE);
         List<Blog> blogs = blogMapper.selectByExample(example);
@@ -206,6 +212,25 @@ public class BlogServiceImpl implements BlogService {
             });
         }
         return simpleBlogListVOS;
+    }
+
+    @Override
+    public List<SimpleBlogListVO> getHotBlogs() {
+        Set<Object> blogIdSet = redisUtil.zRevRange(BLOG_VIEW_ZSET, 0, 6);
+        if (isNotEmpty(blogIdSet)) {
+            List<SimpleBlogListVO> collect = blogIdSet.stream().parallel().filter(Objects::nonNull).map(id -> {
+                long blogId = Long.parseLong(String.valueOf(id));
+                Blog blog = blogMapper.selectByPrimaryKey(blogId);
+                if (Objects.nonNull(blog)) {
+                    SimpleBlogListVO simpleBlogListVO = new SimpleBlogListVO();
+                    BeanUtils.copyProperties(blog, simpleBlogListVO);
+                    return simpleBlogListVO;
+                }
+                return null;
+            }).filter(Objects::nonNull).collect(Collectors.toList());
+            return isEmpty(collect) ? new ArrayList<>(1) : collect;
+        }
+        return new ArrayList<>(1);
     }
 
     @Override
@@ -235,22 +260,22 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public PageResult getBlogsPageByCategory(String categoryName, int page) {
-        if (PatternUtil.validKeyword(categoryName) && page > 0) {
+        if (PatternUtil.validKeyword(categoryName) && page > INTEGER_ZERO) {
             BlogCategoryExample example = new BlogCategoryExample();
             example.createCriteria().andCategoryNameEqualTo(categoryName).andIsDeletedEqualTo(BYTE_ZERO);
             List<BlogCategory> blogCategories = categoryMapper.selectByExample(example);
             if (CollectionUtils.isEmpty(blogCategories)) {
                 return null;
             }
-            BlogCategory blogCategory = blogCategories.get(0);
+            BlogCategory blogCategory = blogCategories.get(INTEGER_ZERO);
             if ("默认分类".equals(categoryName)) {
                 blogCategory = new BlogCategory();
-                blogCategory.setCategoryId(0);
+                blogCategory.setCategoryId(INTEGER_ZERO);
             }
             PageQueryUtil pageUtil = new PageQueryUtil(page, 9);
             //过滤发布状态下的数据
             pageUtil.put("blogCategoryId", blogCategory.getCategoryId());
-            pageUtil.put("blogStatus", 1);
+            pageUtil.put("blogStatus", INTEGER_ONE);
             List<Blog> blogList = blogMapper.findBlogList(pageUtil);
             int totalBlogs = blogMapper.getTotalBlogs(pageUtil);
             return getPageResult(pageUtil, blogList, totalBlogs);
@@ -269,12 +294,12 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public PageResult getBlogsPageBySearch(String keyword, int page) {
-        if (page > 0 && PatternUtil.validKeyword(keyword)) {
+        if (page > INTEGER_ZERO && PatternUtil.validKeyword(keyword)) {
             Map param = new HashMap();
             PageQueryUtil pageUtil = new PageQueryUtil(page, 9);
             pageUtil.put("keyword", keyword);
             //过滤发布状态下的数据
-            pageUtil.put("blogStatus", 1);
+            pageUtil.put("blogStatus", INTEGER_ONE);
             List<Blog> blogList = blogMapper.findBlogList(pageUtil);
             return getPageResult(pageUtil, blogList, blogMapper.getTotalBlogs(pageUtil));
         }
@@ -291,7 +316,7 @@ public class BlogServiceImpl implements BlogService {
         }
 
         //不为空且状态为已发布
-        BlogDetailVO blogDetailVO = getBlogDetailVO(blogs.get(0));
+        BlogDetailVO blogDetailVO = getBlogDetailVO(blogs.get(INTEGER_ZERO));
         if (ObjectUtils.allNotNull(blogDetailVO)) {
             return blogDetailVO;
         }
@@ -305,17 +330,14 @@ public class BlogServiceImpl implements BlogService {
      * @return
      */
     private BlogDetailVO getBlogDetailVO(Blog blog) {
-        if (blog != null && blog.getBlogStatus() == 1) {
-            //增加浏览量
-            blog.setBlogViews(blog.getBlogViews() + 1);
-            blogMapper.updateByPrimaryKey(blog);
+        if (blog != null && blog.getBlogStatus().equals(BYTE_ONE)) {
             BlogDetailVO blogDetailVO = new BlogDetailVO();
             BeanUtils.copyProperties(blog, blogDetailVO);
             blogDetailVO.setBlogContent(MarkDownUtil.mdToHtml(blogDetailVO.getBlogContent()));
             BlogCategory blogCategory = categoryMapper.selectByPrimaryKey(blog.getBlogCategoryId());
             if (blogCategory == null) {
                 blogCategory = new BlogCategory();
-                blogCategory.setCategoryId(0);
+                blogCategory.setCategoryId(INTEGER_ZERO);
                 blogCategory.setCategoryName("默认分类");
                 blogCategory.setCategoryIcon("/admin/dist/img/category/00.png");
             }
@@ -353,12 +375,18 @@ public class BlogServiceImpl implements BlogService {
             blogList.stream().filter(Objects::nonNull).forEach(blog -> {
                 BlogListVO blogListVO = new BlogListVO();
                 BeanUtils.copyProperties(blog, blogListVO);
+                //计算摘要 内容大于100的进行截取
+                String abC = blog.getBlogContent();
+                if (isNotEmpty(abC) && abC.length() > 50) {
+                    abC = abC.substring(INTEGER_ZERO, 50);
+                }
+                blogListVO.setAbstractContent(abC);
                 boolean b = finalBlogCategoryMap.containsKey(blog.getBlogCategoryId());
                 if (b) {
                     String s = finalBlogCategoryMap.get(blog.getBlogCategoryId());
                     blogListVO.setBlogCategoryIcon(s);
                 } else {
-                    blogListVO.setBlogCategoryId(0);
+                    blogListVO.setBlogCategoryId(INTEGER_ZERO);
                     blogListVO.setBlogCategoryName("默认分类");
                     blogListVO.setBlogCategoryIcon("/admin/dist/img/category/00.png");
                 }
@@ -369,4 +397,14 @@ public class BlogServiceImpl implements BlogService {
         return blogListVOS;
     }
 
+    /**
+     * 获取博客浏览量
+     *
+     * @param id
+     * @return Long
+     */
+    private Long getBlogView(Long id) {
+        Object o = redisUtil.get(RedisKeyConstant.BLOG_PAGE_VIEW + id);
+        return Objects.isNull(o) ? 0L : Long.parseLong(o.toString());
+    }
 }

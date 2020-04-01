@@ -42,11 +42,20 @@
             <div class="sidebar-list">
                 <ul class="sidebar-list-body sidebar-list-items am-link-muted">
                     <th:block th:if="${null != newBlogs}">
-                        <th:block th:each="newBlog : ${newBlogs}">
+                        <th:block th:each="newBlog,newBlogStat : ${newBlogs}">
                             <li class="sidebar-list-item"><a th:href="@{'/blog/' + ${newBlog.blogId}}"
                                                              class="tag tooltipped tooltipped-n">
-                                <th:block th:text="${newBlog.blogTitle}"></th:block>
-                            </a></li>
+                                <th:block th:if="${newBlogStat.count <= 3}">
+                                    <span class="am-badge am-badge-warning am-radius"
+                                          th:text="${newBlogStat.count}"></span>&nbsp;&nbsp;
+                                    <th:block th:text="${newBlog.blogTitle}"></th:block>
+                                </th:block>
+                                <th:block th:if="${newBlogStat.count > 3}">
+                                    <span class="am-badge am-radius" th:text="${newBlogStat.count}"></span>&nbsp;&nbsp;
+                                    <th:block th:text="${newBlog.blogTitle}"></th:block>
+                                </th:block>
+                            </a>
+                            </li>
                         </th:block>
                     </th:block>
                 </ul>
@@ -58,18 +67,49 @@
                     点击最多
                 </span>
             </div>
-            <main class="sidebar-lists">
-                <ul>
+            <div class="sidebar-list">
+                <ul class="sidebar-list-body sidebar-list-items am-link-muted">
                     <th:block th:if="${null != hotBlogs}">
-                        <th:block th:each="hotBlog : ${hotBlogs}">
+                        <th:block th:each="hotBlog,hotBlogStat: ${hotBlogs}">
                             <li class="sidebar-list-item"><a class="tag tooltipped tooltipped-n"
                                                              th:href="@{'/blog/' + ${hotBlog.blogId}}">
-                                <th:block th:text="${hotBlog.blogTitle}"></th:block>
+                                <th:block th:if="${hotBlogStat.count <= 3}">
+                                    <span class="am-badge am-badge-warning am-radius"
+                                          th:text="${hotBlogStat.count}"></span>&nbsp;&nbsp;<th:block
+                                        th:text="${hotBlog.blogTitle}"></th:block>
+                                </th:block>
+                                <th:block th:if="${hotBlogStat.count > 3}">
+                                    <span class="am-badge am-radius" th:text="${hotBlogStat.count}"></span>&nbsp;&nbsp;<th:block
+                                        th:text="${hotBlog.blogTitle}"></th:block>
+                                </th:block>
                             </a></li>
                         </th:block>
                     </th:block>
                 </ul>
-            </main>
+            </div>
+        </section>
+        <section>
+            <div class="sidebar-header">
+                <span class="sidebar-header-title">
+                    博客信息
+                </span>
+            </div>
+            <div class="sidebar-list">
+                <ul class="sidebar-list-body sidebar-list-items am-link-muted">
+                    <li class="sidebar-list-item">
+                        <span style="font-weight: bold"><i class="am-icon-eye am-icon-fw"></i> 今日访问次数: </span>
+                        <th:block th:text="${configurations.get('indexViewToday')}"></th:block>
+                    </li>
+                    <li class="sidebar-list-item">
+                        <span style="font-weight: bold"><i class="am-icon-user am-icon-fw"></i> 总访问次数：</span>
+                        <th:block th:text="${configurations.get('indexViewAll')}"></th:block>
+                    </li>
+                    <li class="sidebar-list-item">
+                        <span style="font-weight: bold"><i class="am-icon-trophy am-icon-fw"></i> 稳定运行天数：</span>
+                        <th:block th:text="${configurations.get('runDays')}"></th:block>
+                    </li>
+                </ul>
+            </div>
         </section>
     </section>
 </div>

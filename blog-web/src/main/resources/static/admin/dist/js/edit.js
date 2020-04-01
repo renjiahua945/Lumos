@@ -75,7 +75,7 @@ $(function () {
                 $("#blogCoverImage").attr("style", "width: 128px;height: 128px;display:block;");
                 return false;
             } else {
-                alert("error");
+                alert(r.desc);
             }
         }
     });
@@ -176,7 +176,7 @@ $('#saveButton').click(function () {
             "enableComment": enableComment
         };
     }
-    console.log(data);
+    console.log(url);
     $.ajax({
         type: 'POST',//方法类型
         url: url,

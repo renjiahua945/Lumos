@@ -1,0 +1,178 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+    line-height: 1.2em;
+    background: #fafafa;
+    color: #444;
+}
+
+#wrapper {
+    margin: 0px;
+    padding: 0px;
+    background: #fff;
+    box-shadow: none;
+}
+
+ul {
+    margin: 0 0 0 15px;
+    position: relative;
+}
+
+li {
+    margin: 0 0 5px 0;
+    position: relative;
+    font-size: 13px;
+}
+
+p {
+    text-align: justify;
+    font-size: 13px;
+}
+
+.clear {
+    clear: both;
+}
+
+a {
+    color: #444;
+    text-decoration: none;
+}
+
+#sticker {
+    display: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0px;
+    font-weight: normal;
+}
+
+h3 {
+    font-weight: bold;
+}
+
+#bio #avatar {
+    float: left;
+    margin: 0 20px 40px 0;
+}
+
+#bio h1 {
+    font-size: 22px;
+}
+
+#bio h2 {
+    font-size: 18px;
+}
+
+#bio h3 {
+    font-size: 14px;
+}
+
+#bio p {
+    clear: left;
+    margin: 20px 0 10px;
+    padding: 0;
+    background: none;
+    border: none;
+}
+
+#bio #pdfDownload {
+    display: none;
+}
+
+#socialIcons {
+    display: none;
+}
+
+h2.sectionHead {
+    margin: 30px 0 15px;
+    clear: both;
+    font: bold 22px serif;
+}
+
+/*---------------------------*/
+/*---GENERAL LAYOUT STUFF---*/
+/*-------------------------*/
+
+ul#jobs,
+ul#schools,
+ul#recommends,
+ul#seenOn {
+    margin: 0;
+    list-style: none;
+}
+
+ul#jobs li,
+ul#schools li,
+ul#recommends li {
+    margin: 0 0 20px 0;
+    clear: both;
+}
+
+ul#jobs li .details,
+ul#schools li .details,
+ul#recommends li .details {
+    float: left;
+    width: 40%
+}
+
+ul#jobs li p,
+ul#schools li > p,
+ul#recommends li > p {
+    float: right;
+    width: 57%;
+    margin-bottom: 25px;
+}
+
+ul#seenOn li {
+    display: inline;
+}
+
+ul#seenOn li img {
+    padding: 3px;
+    border: 1px solid #eee;
+    margin-right: 2px;
+    width: auto;
+    height: 20px;
+}
+
+ul#skills {
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+ul#skills li {
+    right: 100%;
+    background-color: #507EA1;
+    color: #FFFFFF;
+    font: bold 9px/20px sans-serif;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+    padding: 0;
+    text-shadow: none;
+    text-transform: uppercase;
+}
+
+ul#skills li del {
+    display: none;
+}
+
+#copyright {
+    text-align: center;
+    font: bold 10px sans-serif;
+    text-transform: uppercase;
+    color: #aaa;
+    margin: 20px 0 60px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+h2#contact,
+#contactform,
+#messageSent {
+    display: none;
+}

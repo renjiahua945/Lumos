@@ -93,7 +93,7 @@ $('#saveButton').click(function () {
             url: url,
             data: params,
             success: function (result) {
-                if (result.ode == 0) {
+                if (result.code == 0) {
                     $('#categoryModal').modal('hide');
                     swal("保存成功", {
                         icon: "success",

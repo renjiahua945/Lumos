@@ -39,22 +39,15 @@ public class UploadController {
         StringBuilder tempName = new StringBuilder();
         tempName.append(sdf.format(new Date())).append(r.nextInt(100)).append(suffixName);
         String newFileName = tempName.toString();
-        File fileDirectory = new File(FILE_PATH);
         //创建文件
-        File destFile = new File(FILE_PATH + newFileName);
+        File destFile = new File(newFileName);
         try {
-            if (!fileDirectory.exists()) {
-                if (!fileDirectory.mkdir()) {
-                    throw new IOException("文件夹创建失败,路径为：" + fileDirectory);
-                }
-            }
             file.transferTo(destFile);
             ResponseResult resultSuccess = ResponseResult.successResult("成功！");
-            resultSuccess.setData(BlogUtils.getHost(new URI(httpServletRequest.getRequestURL() + "")) + "/upload/" + newFileName);
+            resultSuccess.setData(BlogUtils.getHost(new URI(httpServletRequest.getRequestURL() + "")) + "/upload/img/" + newFileName);
             return resultSuccess;
         } catch (IOException e) {
-            return ResponseResult.failResult("文件上传失败");
+            return ResponseResult.failResult("文件上传失败！");
         }
     }
-
 }

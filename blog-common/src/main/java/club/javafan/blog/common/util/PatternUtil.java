@@ -25,7 +25,7 @@ public class PatternUtil {
      * @return
      */
     public static Boolean validKeyword(String keyword) {
-        String regex = "^[a-zA-Z0-9\u4E00-\u9FA5]+$";
+        String regex = "^(?:[\\u4e00-\\u9fa5]*\\w*\\s*)+$";
         Pattern pattern = compile(regex);
         Matcher match = pattern.matcher(keyword);
         return match.matches();
