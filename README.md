@@ -40,16 +40,13 @@ git clone https://github.com/renjiahua945/Lumos.git
 
 ### 启动 Lumos
 
-#####1. 执行项目中SQL文件，创建表。
+1. 执行项目中SQL文件，创建表。
 
-#####2. 修改Application.yml中的MySQL数据库信息、Redis数据库信息、Java Mail数据库配置信息。具体如何修改，可以在yml文件的注释中查看。
-#####3. 项目中设计了敏感词校验，使用的百度云的文本校验接口，如果您想使用该项功能，需要去百度云创建应用，申请到AppId，Secret Key和ApiToken。代码在AipContentCensorBuilder.java文件中。
-```
-new AipContentCensor("434343", "RQERNWNRN", "FSFSMFSMFMSFMM");
-```
-#####4. 如果以上步骤都完成了，可以构建下项目，看下有没有报错。
-#####5. 后台密码没有提供注册界面，需要自己使用项目中的MD5方法，自行生成密码存在数据库。生成方法在：MD5Util.java中
-```public static String md5Encode(String origin, String charsetname)```
+2. 修改Application.yml中的MySQL数据库信息、Redis数据库信息、Java Mail数据库配置信息。具体如何修改，可以在yml文件的注释中查看。
+3. 项目中设计了敏感词校验，使用的百度云的文本校验接口，如果您想使用该项功能，需要去百度云创建应用，申请到AppId，Secret Key和ApiToken。代码在AipContentCensorBuilder.java文件中。```new AipContentCensor("434343", "RQERNWNRN", "FSFSMFSMFMSFMM");```
+
+4. 如果以上步骤都完成了，可以构建下项目，看下有没有报错。
+5. 后台密码没有提供注册界面，需要自己使用项目中的MD5方法，自行生成密码存在数据库。生成方法在：MD5Util.java中```public static String md5Encode(String origin, String charsetname)```
 
 ## 博客示例
 

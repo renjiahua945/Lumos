@@ -258,8 +258,8 @@
     where is_deleted=0
   </select>
   <update id="deleteBatch">
-    update tb_blog
-    set is_deleted=1 where blog_id in
+    update tb_blog_category
+    set is_deleted=1 where category_id in
     <foreach item="id" collection="array" open="(" separator="," close=")">
       #{id}
     </foreach>
