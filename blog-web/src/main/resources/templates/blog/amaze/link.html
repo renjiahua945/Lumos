@@ -54,27 +54,72 @@
                 </div>
             </th:block>
 
-            <div id="source" style="display: none;">
-                <h2 id="个人链接">链接须知</h2>
-                <p>欢迎互换友链 ^_^ 不过请确定贵站可以正常运营.</p>
-                <p>我的邮箱是
-                    <th:block th:text="${configurations.get('yourEmail')}"></th:block>
-                    , 格式要求如下:
-                </p>
-                <ul>
-                    <li>网站名称：不会敲代码的小白</li>
-                    <li>网站链接：http://blog.javafan.club</li>
-                    <li>网站描述：不会敲代码的小白的个人博客</li>
-                </ul>
-                <p>请保证自己的链接长期有效,不然可能会被清理.</p>
-            </div>
+            <div class="am-g">
+                <!--提示-->
+                <div id="source" style="display: none;">
+                    <h2 id="个人链接">链接须知</h2>
+                    <p>欢迎互换友链 ^_^ 不过请确定贵站可以正常运营.</p>
+                    <p>我的邮箱是
+                        <th:block th:text="${configurations.get('yourEmail')}"></th:block>
+                        , 格式要求如下:
+                    </p>
+                    <ul>
+                        <li>网站名称：不会敲代码的小白</li>
+                        <li>网站链接：http://blog.javafan.club</li>
+                        <li>网站描述：不会敲代码的小白的个人博客</li>
+                    </ul>
+                    <p>请保证自己的链接长期有效,不然可能会被清理.</p>
+                </div>
+                <div id="output" class="am-u-md-6 am-u-md-pull-6 am-u-lg-reset-order" style=" float:left;"></div>
+                <!--链接-->
+                <div id="friendlink" class="am-u-md-6 am-u-md-push-6 am-u-lg-reset-order" style="float:right;">
+                    <div data-am-widget="intro" class="am-intro am-cf am-intro-default"
+                         onclick="window.open('https://www.nbclass.com/')" style="width:13rem; height:6rem; border:1px solid #8a988e;
+                     border-radius: 5%; padding-bottom:2rem; padding-left:1rem; margin-top:1%; margin-right:1%; float:left;">
+                        <div class="am-g am-intro-bd" style="width:130%;">
+                            <div class="am-intro-left am-u-sm-5">
+                                <img src="https://q1.qlogo.cn/g?b=qq&nk=523179414&s=100"/>
+                            </div>
+                            <div class="am-intro-right am-u-sm-7">
+                                <h7>智博客</h7><br/>
+                                <small>Java开源博客</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-am-widget="intro" class="am-intro am-cf am-intro-default"
+                         onclick="window.open('https://www.wenyuanblog.com')" style="width:13rem; height:6rem; border:1px solid #8a988e;
+                     border-radius: 5%; padding-bottom:2rem; padding-left:1rem; margin-top:1%; margin-right:1%; float:left;">
+                        <div class="am-g am-intro-bd" style="width:130%;">
+                            <div class="am-intro-left am-u-sm-5">
+                                <img src="https://www.wenyuanblog.com/favicon.png"/>
+                            </div>
+                            <div class="am-intro-right am-u-sm-7">
+                                <h7>文渊博客</h7><br/>
+                                <small>90后程序员</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-am-widget="intro" class="am-intro am-cf am-intro-default"
+                         onclick="window.open('https://www.qq123.xin')" style="width:13rem; height:6rem; border:1px solid #8a988e;
+                     border-radius: 5%; padding-bottom:2rem; padding-left:1rem; margin-top:1%; margin-right:1%; float:left;">
+                        <div class="am-g am-intro-bd" style="width:130%;">
+                            <div class="am-intro-left am-u-sm-5">
+                                <img src="https://q1.qlogo.cn/g?b=qq&nk=304587661&s=100"/>
+                            </div>
+                            <div class="am-intro-right am-u-sm-7">
+                                <h7>恒哥博客</h7><br/>
+                                <small>PHP开源博客</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <div id="output"> </div>
+            </div>
 
         </main>
     </div>
-
 </div>
+<!-- 引入页脚footer-fragment -->
 <footer th:replace="blog/amaze/footer::footer-fragment"></footer>
 </body>
 
@@ -205,6 +250,17 @@
     })
     typing.start();
 </script>
+
+<!--打印彩色闪烁字体-->
+<script language="javascript">
+    function changeColor(){
+        var color="#ee3f4d|#db8540|#f7da94|#8cc269|#12a182|#1177b0|#813c85";
+        color=color.split("|");
+        document.getElementById("output").style.color=color[parseInt(Math.random() * color.length)];
+    }
+    setInterval("changeColor()",200);
+</script>
+
 <!-- 背景动画 -->
 <script th:src="@{/blog/plugins/bg/canvas-nest.js}" color="0,0,205" opacity='0.7' zIndex="-2" count="199"></script>
 </html>
