@@ -51,7 +51,9 @@ git clone https://github.com/renjiahua945/Lumos.git
 ## 博客示例
 
 请移步： <a href="https://www.javafan.club">点击进入Lumos</a>
-
+##Lumos交流群
+Lumos交流学习群：
+<a href="https://jq.qq.com/?_wv=1027&k=5Xi9tmg">点击加入群聊</a>
 
 ## 许可证
 
