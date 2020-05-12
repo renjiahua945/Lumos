@@ -374,7 +374,7 @@ public class MyBlogController {
         comment.setCommentCreateTime(new Date());
         AipContentCensorBuilder.SensorResult results = AipContentCensorBuilder.judgeText(comment.toString());
         if (!results.getCode().equals(NumberUtils.INTEGER_ZERO)) {
-            return ResponseResult.successResult("评论非法！").setData(false);
+            return ResponseResult.failResult("评论非法！").setData(false);
         }
         Boolean aBoolean = commentService.addComment(comment);
         return ResponseResult.successResult("评论成功，等待博主审核！").setData(aBoolean);
