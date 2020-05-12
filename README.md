@@ -77,3 +77,7 @@ Lumos交流学习群：
 ![](https://i.imgur.com/HvoFIx5.png)
 ![](https://i.imgur.com/FQrelUW.png)
 ![](https://i.imgur.com/voFA2EL.png)
+## 感谢
+**JetBrain** <br>
+点击图标进入JetBrain
+<a href="https://www.jetbrains.com/?from=Lumos" target="_blank"><img src="https://i.imgur.com/Hkpdwjc.png" width="100" height="100"/></a>
