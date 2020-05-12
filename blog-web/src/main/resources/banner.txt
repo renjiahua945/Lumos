@@ -14,6 +14,6 @@
                                                             ${AnsiColor.BRIGHT_RED}
                                                     博客版本:${blog.version} 作者: 后台: ${blog.author},前端页面: 王昭
                                  ${AnsiColor.YELLOW}
-                                                    敲代码的长腿毛欧巴的博客，点击预览==> https://blog.javafan.club
+                                                    敲代码的长腿毛欧巴的博客，点击预览==> https://javafan.club
                                                     微博：敲代码的长腿毛欧巴，留言反馈==> https://weibo.com/codeview。
                                                     或者在github上提交isue ==>  https://github.com/renjiahua945/Lumos/issues。
