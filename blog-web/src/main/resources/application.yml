@@ -21,11 +21,11 @@ spring:
   #设置redis
   #设置连接池
   datasource:
-    #配置多数据源 如果不需要主备 两个地址填成一样就好了
+    #配置多数据源
     slave:
-      jdbc-url: 从jdbc 地址
+      jdbc-url: jdbc:mysql://localhost:3306/my_blog_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: root
-      password: 数据库密码
+      password: ren123
       driver-class-name: com.mysql.cj.jdbc.Driver
       type: com.zaxxer.hikari.HikariDataSource
       hikari:
@@ -37,9 +37,9 @@ spring:
         maximum-pool-size: 15
         connection-test-query: SELECT 1
     master:
-      jdbc-url: 主jdbc地址
+      jdbc-url: jdbc:mysql://localhost:3306/my_blog_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: root
-      password: 主数据库密码
+      password: ren123
       driver-class-name: com.mysql.cj.jdbc.Driver
       type: com.zaxxer.hikari.HikariDataSource
       hikari:
@@ -59,7 +59,7 @@ spring:
     # Redis服务器连接端口
     port: 6379
     # Redis服务器连接密码（默认为空）如果没有配置密码就不要写这个属性了
-    password:
+    password: ren123
     #连接池
     lettuce:
       pool:
@@ -79,14 +79,13 @@ spring:
   #邮件发送设置
   mail:
     default-encoding: utf-8
-    邮件接收者
-    to: xx@qq.com
+    to: 1406628376@qq.com
     #抄送列表 ,分隔
-    cc:
+    cc: 1067861305@qq.com,35673847@qq.com
     subject: 博客日报
     host: smtp.exmail.qq.com
-    username: smtp用户名
-    password: 邮箱授权码
+    username: coder@javafan.club
+    password: FnGUpdKFUEg8uAEj
     properties:
       mail.smtp.auth: true
       mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
@@ -116,15 +115,13 @@ server:
     context-path: /
   error:
     path: error/error_404
-  #上线需要改为线上环境的证书和密码 https证书
+  #上线需要改为线上环境的证书和密码
   ssl:
     key-store: classpath:jks/blog.javafan.club.jks
     key-store-password: ren123
     key-store-type: JKS
     key-alias: was
   port: 443
-#  tomcat:
-#    basedir: temp/img/upload/
 http:
   port: 80
 #设置线程池
@@ -136,8 +133,13 @@ thread:
   keep-alive-seconds: 500
 #文件上传路径
 file:
-  file-path: _upload/img
+  file-path: /opt/deploy/upload/
 #guava 设置
 guava:
   time: 1
   max-size: 100
+  #配置日志级别
+logging:
+  level:
+    #设置项目的日志打印级别 map类型 root为全路径  后面为级别
+    root: error

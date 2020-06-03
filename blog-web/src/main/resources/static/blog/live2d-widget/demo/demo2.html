@@ -1,0 +1,176 @@
+<!DOCTYPE html><!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>看板娘登陆平台</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/blog/amaze/css/fontawesome.min.css}">
+    <script th:src="@{/blog/live2d-widget/live2d.min.js}"></script>
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+
+        .form-signin .form-control {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+
+        .form-signin input[type=text] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type=password] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        #stage {
+            position: relative;
+        }
+
+        #stage img {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 20px;
+        }
+
+        #stage a {
+            position: absolute;
+            width: 2em;
+            height: 2em;
+            border-radius: 50%;
+        }
+
+        #inner {
+            position: relative;
+            background-color: #999;
+            clip-path: circle(120px at center);
+            -webkit-clip-path: circle(120px at center);
+        }
+
+        #cover {
+            position: absolute;
+            background-color: #CB3837;
+            width: 100%;
+            height: 100%;
+            bottom: 10%;
+            transition: all 1s;
+            box-shadow: 0 0 0 5px rgba(0, 0, 0, .1);
+        }
+
+        #text {
+            position: absolute;
+            bottom: 30%;
+            font-size: 2em;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.4;
+            font-weight: bold;
+        }
+
+        #detail {
+            position: absolute;
+            background: rgba(255, 255, 255, .1);
+            width: 100%;
+            height: 10px;
+            bottom: 0;
+        }
+
+        #handle {
+            position: absolute;
+            background: #ccc;
+            bottom: -2px;
+            box-shadow: 0 1px 0 1px rgba(0, 0, 0, .1);
+            height: 8px;
+            left: 50%;
+            margin-left: -15px;
+            width: 30px;
+            cursor: pointer;
+        }
+
+        #info {
+            left: 40px;
+            bottom: 20px;
+        }
+
+        #refresh {
+            right: 40px;
+            bottom: 20px;
+        }
+
+        #live2d {
+            cursor: grab;
+        }
+
+        #live2d:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body class="text-center">
+<form class="form-signin" th:action="@{/admin/login}" method="post">
+    <div id="stage">
+        <div id="inner">
+            <div id="cover">
+                <div id="text">
+                    <span style="color: cyan;">MIMI</span><span style="color: white">POWERED</span>
+                </div>
+                <div id="detail"></div>
+                <div id="handle"></div>
+            </div>
+            <canvas class="mb-4" id="live2d" width="300" height="300"></canvas>
+        </div>
+        <a id="info" href="javascript:info()"><i class="fa fa-lg fa-info"></i></a>
+        <a id="refresh" href="javascript:refresh()"><i class="fa fa-lg fa-refresh"></i></a>
+    </div>
+    <h1 class="h3 mb-3 font-weight-normal">后台管理登录平台</h1>
+    <label for="room" class="sr-only">用户名</label>
+    <input type="text" name="room" class="form-control" placeholder="用户名" required autofocus>
+    <label for="pass" class="sr-only">密码</label>
+    <input type="password" name="pass" class="form-control" placeholder="密码" required autofocus>
+    <label for="pass" class="sr-only">验证码</label>
+    <input type="text" name="verifyCode" class="form-control" placeholder="请输入验证码" required autofocus>
+    <div class="checkbox mb-3">
+        <div class="col-6">
+            <img alt="单击图片刷新！" class="pointer" th:src="@{/common/kaptcha}"
+                 onclick="this.src='/common/kaptcha?d='+new Date()*1">
+        </div>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    <p class="mt-5 mb-3 text-muted">Copyleft &copy; Mimi 2019</p>
+</form>
+<script th:src="@{/admin/dist/js/login.js}"></script>
+</body>
+</html>

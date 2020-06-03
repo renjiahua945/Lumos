@@ -52,7 +52,10 @@
             <th:block th:text="${configurations.get('yourName')}"></th:block>
         </a>
     </div>
-    <div class="blog-text-center" th:text="${configurations.get('footerICP')}">冀 xxxxxx</div>
+    <div class="blog-text-center">
+        <a target="_blank" href="http://www.beian.miit.gov.cn/" th:text="${configurations.get('footerICP')}">冀
+            xxxxxx</a>
+    </div>
     <div class="am-modal am-modal-no-btn am-modal-out" tabindex="-1" id="am-wechat"
          style="display: none; margin-top: -159px;color: black">
         <div class="am-modal-dialog">

@@ -1,6 +1,7 @@
 package club.javafan.blog.configs.tomcat;
 
 import org.apache.catalina.Context;
+import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.Http11NioProtocol;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
@@ -41,20 +42,20 @@ public class TomcatConfig {
             }
         };
         //设置端口号
-        tomcat.setPort(httpPort);
+        //tomcat.setPort(httpPort);
         //factory这个对象中还有很多的Spring容器级别的参数可以设置，例如我们前几篇文章中讲到的Initializers、Listeners、Tomcat日志等
         //设置Tomcat连接池...
-        //这是以java8的做法来实现的，事实上就是编写一个内部类，不熟悉Java8的读者可以借鉴下面的实现方式
-        tomcat.addConnectorCustomizers((connector -> {
-            Http11NioProtocol protocol = (Http11NioProtocol) connector.getProtocolHandler();
-            protocol.setMaxThreads(300);
-            protocol.setMaxConnections(1000);
-            //监听到http的端口号后转向到的https的端口号
-            connector.setRedirectPort(httpsPort);
-            connector.setScheme("http");
-            //Connector监听的http的端口号
-            connector.setSecure(false);
-        }));
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        Http11NioProtocol protocolHandler = (Http11NioProtocol) connector.getProtocolHandler();
+        protocolHandler.setMaxThreads(300);
+        protocolHandler.setMaxConnections(1000);
+        connector.setScheme("http");
+        connector.setPort(httpPort);
+        connector.setSecure(false);
+        connector.setRedirectPort(httpsPort);
+        tomcat.addAdditionalTomcatConnectors(connector);
         return tomcat;
     }
+
+
 }

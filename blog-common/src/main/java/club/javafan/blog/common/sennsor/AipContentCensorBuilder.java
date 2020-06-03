@@ -20,11 +20,10 @@ import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ZERO;
 @Component
 public class AipContentCensorBuilder {
     private static final Logger logger = LoggerFactory.getLogger(AipContentCensorBuilder.class);
-    /**
-     * appId，appKey，apiToken需要在百度云创建敏感词引用申请
-     */
-    private static AipContentCensor client = new AipContentCensor("181323231202", "DSDDSDSD"
-            , "DSDSDSDSD");
+
+
+    private static AipContentCensor client = new AipContentCensor("18131202", "T1TAQcoANVtGgibseCATCblY"
+            , "HmgAhWXV3Ao1GRHtBsqKI4PAswlQzMim");
 
     public static AipContentCensor getInstance() {
         return client;

@@ -1,5 +1,6 @@
 package club.javafan.blog.web.aop;
 
+import club.javafan.blog.common.mail.MailService;
 import club.javafan.blog.common.util.RedisUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.aspectj.lang.JoinPoint;
@@ -8,6 +9,7 @@ import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,10 +39,29 @@ public class LoggerExceptionAop {
     @Autowired
     private RedisUtil redisUtil;
     /**
+     * 邮件发送工具类
+     */
+    @Autowired
+    private MailService mailService;
+    /**
      * 日志
      */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    /**
+     * 记录的存在时间
+     */
     private static final Long EXIST_TIME = 31 * 24 * 60 * 60L;
+    /**
+     * 收件人
+     */
+    @Value("${spring.mail.to}")
+    private String mailTo;
+    /**
+     * 抄送人
+     */
+    @Value("#{'${spring.mail.cc}'.split(',')}")
+    private String[] cc;
+
     @Pointcut(value = "execution(public * club.javafan.blog.service.impl.*.*(..))")
     private void servicePointCut() {
     }
@@ -59,6 +80,17 @@ public class LoggerExceptionAop {
 
     @Before(value = "controllerPoint()||servicePointCut()||commonPointCut()||workerPointCut()")
     public void before(JoinPoint joinPoint) {
+        String s = printParams(joinPoint);
+        logger.info(s);
+    }
+
+    /**
+     * 打印参数
+     *
+     * @author 敲代码的长腿毛欧巴
+     * @createDate 2020/5/27
+     */
+    private String printParams(JoinPoint joinPoint) {
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = joinPoint.getSignature().getName();
         StringBuilder log = new StringBuilder();
@@ -71,8 +103,8 @@ public class LoggerExceptionAop {
                 .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse))
                         && !(arg instanceof MultipartFile))
                 .collect(Collectors.toList());
-        log.append(JSONObject.toJSONString(logArgs)).toString();
-        logger.info(log.toString());
+        log.append(JSONObject.toJSONString(logArgs));
+        return log.toString();
     }
 
     @AfterReturning(value = "controllerPoint()||servicePointCut()||workerPointCut()", returning = "returnObj")
@@ -88,6 +120,8 @@ public class LoggerExceptionAop {
         //统计今日异常数
         recordTodayCount(EXCEPTION_AMOUNT);
         logger.error("club.javafan.blog error : {}", e);
+        //发送报错邮件
+        mailService.sendSimpleMail(mailTo, "Warning,您的博客出现了异常！", JSONObject.toJSONString(e), cc);
     }
 
     /**
@@ -115,6 +149,8 @@ public class LoggerExceptionAop {
         try {
             result = proceedingJoinPoint.proceed();
         } catch (Throwable e) {
+            //打印报错信息的入参
+            logger.error(printParams(proceedingJoinPoint));
             throw e;
         }
         Long end = System.currentTimeMillis();
