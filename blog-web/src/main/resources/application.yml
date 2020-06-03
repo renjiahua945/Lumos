@@ -21,7 +21,7 @@ spring:
   #设置redis
   #设置连接池
   datasource:
-    #配置多数据源
+    #配置多数据源 下面是我本地的数据url
     slave:
       jdbc-url: jdbc:mysql://localhost:3306/my_blog_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
       username: root
@@ -79,13 +79,14 @@ spring:
   #邮件发送设置
   mail:
     default-encoding: utf-8
-    to: 1406628376@qq.com
+    #收件人
+    to: xx@qq.com
     #抄送列表 ,分隔
-    cc: 1067861305@qq.com,35673847@qq.com
-    subject: 博客日报
+    cc: xx@qq.com,xx@qq.com
+    subject: 博客日报 #博客主题
     host: smtp.exmail.qq.com
-    username: coder@javafan.club
-    password: FnGUpdKFUEg8uAEj
+    username: xx@javafan.club
+    password: dadasa #邮箱授权码  需要在邮箱中申请
     properties:
       mail.smtp.auth: true
       mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory

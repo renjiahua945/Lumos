@@ -23,7 +23,18 @@
 
 
 > 目前我们的release分支即 master，肯定会有很多小问题，不要运行不起来就跑过来吐槽什么代码开源不完整之类的，多找找自己的原因。同时建议下载最新 release 版本的代码。
+## 项目特点
 
+1. 基于Spring Boot 部署简单。
+2. 支持主库备库动态切换。
+3. 支持博客异常邮件提醒。
+4. 支持发送每天博客方法调用量。
+5. 高性能，使用Guava缓存。
+6. 支持项目的缓存命中率监控。``````
+7. 前端页面对手机端进行了适配，能够兼容移动端显示。
+8. 代码注释清晰，符合阿里巴巴代码开发规范。
+9. 项目使用maven多模块管理依赖。
+10. 日志使用AOP管理，和代码解耦。
 ## 快速开始
 
 ### 拉取最新的Lumos代码
@@ -79,5 +90,4 @@ Lumos交流学习群：
 ![](https://i.imgur.com/voFA2EL.png)
 ## 感谢
 **JetBrain** <br>
-点击图标进入JetBrain
 <a href="https://www.jetbrains.com/?from=Lumos" target="_blank"><img src="https://i.imgur.com/Hkpdwjc.png" width="100" height="100"/></a>
