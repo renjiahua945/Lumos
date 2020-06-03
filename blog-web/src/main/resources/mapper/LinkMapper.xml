@@ -9,6 +9,7 @@
     <result column="link_name" jdbcType="VARCHAR" property="linkName" />
     <result column="link_url" jdbcType="VARCHAR" property="linkUrl" />
     <result column="link_description" jdbcType="VARCHAR" property="linkDescription" />
+    <result column="link_logo" jdbcType="VARCHAR" property="linkLogo"/>
     <result column="link_rank" jdbcType="INTEGER" property="linkRank" />
     <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    link_id, link_type, link_name, link_url, link_description, link_rank, is_deleted, 
+    link_id, link_type, link_name, link_url, link_description,link_logo,link_rank, is_deleted,
     create_time
   </sql>
   <select id="selectByExample" parameterType="club.javafan.blog.domain.example.LinkExample" resultMap="BaseResultMap">
@@ -95,7 +96,7 @@
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
+    select
     <include refid="Base_Column_List" />
     from tb_link
     where link_id = #{linkId,jdbcType=INTEGER}
@@ -114,12 +115,13 @@
   </delete>
   <insert id="insert" keyColumn="link_id" keyProperty="linkId" parameterType="club.javafan.blog.domain.BlogLink" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into tb_link (link_type, link_name, link_url, 
-      link_description, link_rank, is_deleted, 
-      create_time)
-    values (#{linkType,jdbcType=TINYINT}, #{linkName,jdbcType=VARCHAR}, #{linkUrl,jdbcType=VARCHAR}, 
-      #{linkDescription,jdbcType=VARCHAR}, #{linkRank,jdbcType=INTEGER}, #{isDeleted,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    insert into tb_link (link_type, link_name, link_url,
+    link_description,link_logo,link_rank, is_deleted,
+    create_time)
+    values (#{linkType,jdbcType=TINYINT}, #{linkName,jdbcType=VARCHAR}, #{linkUrl,jdbcType=VARCHAR},
+    #{linkDescription,jdbcType=VARCHAR},#{linkLogo,jdbcType=VARCHAR}, #{linkRank,jdbcType=INTEGER},
+    #{isDeleted,jdbcType=TINYINT},
+    #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="link_id" keyProperty="linkId" parameterType="club.javafan.blog.domain.BlogLink" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -136,6 +138,9 @@
       </if>
       <if test="linkDescription != null">
         link_description,
+      </if>
+      <if test="linkLogo != null">
+        link_logo,
       </if>
       <if test="linkRank != null">
         link_rank,
@@ -159,6 +164,9 @@
       </if>
       <if test="linkDescription != null">
         #{linkDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="linkLogo != null">
+        #{linkLogo,jdbcType=VARCHAR},
       </if>
       <if test="linkRank != null">
         #{linkRank,jdbcType=INTEGER},
@@ -197,6 +205,9 @@
       <if test="record.linkDescription != null">
         link_description = #{record.linkDescription,jdbcType=VARCHAR},
       </if>
+      <if test="linkLogo != null">
+        link_logo = #{linkLogo,jdbcType=VARCHAR},
+      </if>
       <if test="record.linkRank != null">
         link_rank = #{record.linkRank,jdbcType=INTEGER},
       </if>
@@ -215,13 +226,14 @@
     <!--@mbg.generated-->
     update tb_link
     set link_id = #{record.linkId,jdbcType=INTEGER},
-      link_type = #{record.linkType,jdbcType=TINYINT},
-      link_name = #{record.linkName,jdbcType=VARCHAR},
-      link_url = #{record.linkUrl,jdbcType=VARCHAR},
-      link_description = #{record.linkDescription,jdbcType=VARCHAR},
-      link_rank = #{record.linkRank,jdbcType=INTEGER},
-      is_deleted = #{record.isDeleted,jdbcType=TINYINT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    link_type = #{record.linkType,jdbcType=TINYINT},
+    link_name = #{record.linkName,jdbcType=VARCHAR},
+    link_url = #{record.linkUrl,jdbcType=VARCHAR},
+    link_description = #{record.linkDescription,jdbcType=VARCHAR},
+    link_logo = #{record.linkLogo,jdbcType=VARCHAR},
+    link_rank = #{record.linkRank,jdbcType=INTEGER},
+    is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -242,6 +254,9 @@
       <if test="linkDescription != null">
         link_description = #{linkDescription,jdbcType=VARCHAR},
       </if>
+      <if test="linkLogo != null">
+        link_logo = #{linkLogo,jdbcType=VARCHAR},
+      </if>
       <if test="linkRank != null">
         link_rank = #{linkRank,jdbcType=INTEGER},
       </if>
@@ -258,12 +273,13 @@
     <!--@mbg.generated-->
     update tb_link
     set link_type = #{linkType,jdbcType=TINYINT},
-      link_name = #{linkName,jdbcType=VARCHAR},
-      link_url = #{linkUrl,jdbcType=VARCHAR},
-      link_description = #{linkDescription,jdbcType=VARCHAR},
-      link_rank = #{linkRank,jdbcType=INTEGER},
-      is_deleted = #{isDeleted,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+    link_name = #{linkName,jdbcType=VARCHAR},
+    link_url = #{linkUrl,jdbcType=VARCHAR},
+    link_description = #{linkDescription,jdbcType=VARCHAR},
+    link_logo = #{linkLogo,jdbcType=VARCHAR},
+    link_rank = #{linkRank,jdbcType=INTEGER},
+    is_deleted = #{isDeleted,jdbcType=TINYINT},
+    create_time = #{createTime,jdbcType=TIMESTAMP}
     where link_id = #{linkId,jdbcType=INTEGER}
   </update>
   <select id="findLinkList" parameterType="Map" resultMap="BaseResultMap">

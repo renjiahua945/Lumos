@@ -7,6 +7,7 @@ $(function () {
             {label: '网站名称', name: 'linkName', index: 'linkName', width: 100},
             {label: '网站链接', name: 'linkUrl', index: 'linkUrl', width: 120},
             {label: '网站描述', name: 'linkDescription', index: 'linkDescription', width: 120},
+            {label: '网站Logo', name: 'linkLogo', index: 'linkLogo', width: 120, formatter: coverImageFormatter},
             {label: '排序值', name: 'linkRank', index: 'linkRank', width: 30},
             {label: '添加时间', name: 'createTime', index: 'createTime', width: 100}
         ],
@@ -63,6 +64,7 @@ $('#saveButton').click(function () {
     var linkName = $("#linkName").val();
     var linkUrl = $("#linkUrl").val();
     var linkDescription = $("#linkDescription").val();
+    var linkLogo = $("#linkLogo").val();
     var linkRank = $("#linkRank").val();
     if (!validCN_ENString2_18(linkName)) {
         $('#edit-error-msg').css("display", "block");
@@ -77,6 +79,11 @@ $('#saveButton').click(function () {
     if (!validCN_ENString2_100(linkDescription)) {
         $('#edit-error-msg').css("display", "block");
         $('#edit-error-msg').html("请输入符合规范的描述！");
+        return;
+    }
+    if (!isURL(linkLogo)) {
+        $('#edit-error-msg').css("display", "block");
+        $('#edit-error-msg').html("请输入符合规范的logo网址！");
         return;
     }
     if (isNull(linkRank) || linkRank < 0) {
@@ -131,6 +138,7 @@ function linkEdit() {
             $("#linkName").val(r.data.linkName);
             $("#linkUrl").val(r.data.linkUrl);
             $("#linkDescription").val(r.data.linkDescription);
+            $("#linkLogo").val(r.data.linkLogo);
             $("#linkRank").val(r.data.linkRank);
             //根据原linkType值设置select选择器为选中状态
             if (r.data.linkType == 1) {
@@ -186,7 +194,12 @@ function reset() {
     $("#linkName").val('');
     $("#linkUrl").val('');
     $("#linkDescription").val('');
+    $("#linkLogo").val('');
     $("#linkRank").val(0);
     $('#edit-error-msg').css("display", "none");
     $("#linkType option:first").prop("selected", 'selected');
+}
+
+function coverImageFormatter(cellvalue) {
+    return "<img src='" + cellvalue + "' height=\"120\" width=\"160\" alt='coverImage'/>";
 }

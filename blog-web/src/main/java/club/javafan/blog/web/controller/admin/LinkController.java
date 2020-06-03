@@ -48,12 +48,13 @@ public class LinkController {
     @RequestMapping(value = "/links/save", method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult save(@RequestParam("linkType") Integer linkType,
-                       @RequestParam("linkName") String linkName,
-                       @RequestParam("linkUrl") String linkUrl,
-                       @RequestParam("linkRank") Integer linkRank,
-                       @RequestParam("linkDescription") String linkDescription) {
+                               @RequestParam("linkName") String linkName,
+                               @RequestParam("linkUrl") String linkUrl,
+                               @RequestParam("linkRank") Integer linkRank,
+                               @RequestParam("linkDescription") String linkDescription, @RequestParam String linkLogo) {
         if (isNull(linkType) || linkType < 0 || linkRank == null || linkRank < 0 || StringUtils.isEmpty(linkName)
-                || StringUtils.isEmpty(linkName) || StringUtils.isEmpty(linkUrl) || StringUtils.isEmpty(linkDescription)) {
+                || StringUtils.isEmpty(linkName) || StringUtils.isEmpty(linkUrl) || StringUtils.isEmpty(linkDescription)
+                || StringUtils.isEmpty(linkLogo)) {
             return ResponseResult.failResult("参数异常！");
         }
         BlogLink link = new BlogLink();
@@ -62,6 +63,7 @@ public class LinkController {
         link.setLinkName(linkName);
         link.setLinkUrl(linkUrl);
         link.setLinkDescription(linkDescription);
+        link.setLinkLogo(linkLogo);
         Boolean aBoolean = linkService.saveLink(link);
         return ResponseResult.successResult().setData(aBoolean);
     }
@@ -82,17 +84,18 @@ public class LinkController {
     @RequestMapping(value = "/links/update", method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult update(@RequestParam("linkId") Integer linkId,
-                       @RequestParam("linkType") Integer linkType,
-                       @RequestParam("linkName") String linkName,
-                       @RequestParam("linkUrl") String linkUrl,
-                       @RequestParam("linkRank") Integer linkRank,
-                       @RequestParam("linkDescription") String linkDescription) {
+                                 @RequestParam("linkType") Integer linkType,
+                                 @RequestParam("linkName") String linkName,
+                                 @RequestParam("linkUrl") String linkUrl,
+                                 @RequestParam("linkRank") Integer linkRank,
+                                 @RequestParam("linkDescription") String linkDescription, @RequestParam String linkLogo) {
         BlogLink tempLink = linkService.selectById(linkId);
         if (tempLink == null) {
             return ResponseResult.failResult("无数据！");
         }
         if (linkType == null || linkType < 0 || linkRank == null || linkRank < 0 || StringUtils.isEmpty(linkName)
-                || StringUtils.isEmpty(linkName) || StringUtils.isEmpty(linkUrl) || StringUtils.isEmpty(linkDescription)) {
+                || StringUtils.isEmpty(linkName) || StringUtils.isEmpty(linkUrl) || StringUtils.isEmpty(linkDescription)
+                || StringUtils.isEmpty(linkLogo)) {
             return ResponseResult.failResult("参数异常！");
         }
         tempLink.setLinkType(linkType.byteValue());
@@ -100,6 +103,8 @@ public class LinkController {
         tempLink.setLinkName(linkName);
         tempLink.setLinkUrl(linkUrl);
         tempLink.setLinkDescription(linkDescription);
+        tempLink.setLinkLogo(linkLogo);
+        linkService.updateLink(tempLink);
         return ResponseResult.successResult().setData(tempLink);
     }
 
