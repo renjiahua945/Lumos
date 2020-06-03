@@ -134,14 +134,12 @@ thread:
 #文件上传路径
 file:
   file-path: /opt/deploy/upload/
-#百度文本审核
-baidu:
-  content:
-    sensor:
-      app: 18131202
-      apikey: T1TAQcoANVtGgibseCATCblY
-      secretkey: HmgAhWXV3Ao1GRHtBsqKI4PAswlQzMim
 #guava 设置
 guava:
   time: 1
   max-size: 100
+  #配置日志级别
+logging:
+  level:
+    #设置项目的日志打印级别 map类型 root为全路径  后面为级别
+    root: error
